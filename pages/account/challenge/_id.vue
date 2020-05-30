@@ -67,10 +67,14 @@ export default {
   },
   created() {
     if (this.challengeId) {
-      this.$axios.$get(process.env.API_URL + '/api/v1/challenge/' + this.challengeId).then(res => {
-        this.challenge = res
+      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/detail', {
+        'id': this.challengeId.trim()
+      }).then(res => {
+        if (res.message[0]) {
+          this.challenge = res.message[0]
+        }
       }).catch(error => {
-        console.log(error)
+        console.log(error.config)
       })
     }
   },
@@ -95,7 +99,7 @@ export default {
     },
     'challenge.duration': function() {
       if (this.challenge.duration.trim() !== '') {
-        if (this.challenge.duration.trim().length > 7) {
+        if (this.challenge.duration.trim().length > 3) {
           this.errors.duration = false
         } else {
           this.errors.duration = true
@@ -122,7 +126,7 @@ export default {
 
       if (Object.values(this.errors).every(isValidForm) === true) {
         if (this.challengeId) {
-          this.$axios.$put(process.env.API_URL + '/api/v1/challenge/', {
+          this.$axios.$put(process.env.API_URL + '/api/v1/challenge/detail', {
             'id': this.challengeId.trim(),
             'title': this.challenge.title.trim(),
             'duration': this.challenge.duration.trim(),

@@ -5,7 +5,7 @@
       <span class="flex justify-betweeen">
         <h3 class="w-full md:w-8/12 text-xl font-bold">{{ challenge.title }}</h3>
         <p class="w-full text-right">
-          <button type="button" @click="deleteEntry(challenge._id)" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Subscribe</button>
+          <button type="button" @click="toggleSubscribe(challenge._id)" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Subscribe</button>
         </p>
       </span>
       <p class="text-sm mb-1">{{ challenge.duration }}</p>
@@ -39,8 +39,14 @@ export default {
     generateLink(id) {
       return `/account/challenge/${id}`
     },
-    deleteEntry(id) {
-      alert('Not implemented yet')
+    toggleSubscribe(id) {
+      this.$axios.$put(process.env.API_URL + '/api/v1/challenge/user', {
+        id: id
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }

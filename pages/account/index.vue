@@ -8,7 +8,8 @@
   </div>
   <ul class="flex justify-center">
     <div v-for="challenge in challenges">
-      <div class="max-w-sm rounded overflow-hidden shadow-lg" v-if="challenges[showing]._id === challenge._id || showall">
+      <div class="max-w-sm rounded overflow-hidden shadow-lg m-2" v-if="challenges[showing]._id === challenge._id || showall">
+        <img class="w-full" src="https://images.unsplash.com/photo-1590589195374-163308c534ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="Forest">
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">{{ challenge.title }}</div>
           <p class="text-gray-700 text-base">
@@ -16,6 +17,9 @@
           </p>
         </div>
         <hr>
+        <div class="px-6 py-4">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">Duration: {{ challenge.duration / 3600 / 24}} days</span>
+        </div>
         <div class="px-6 py-4 flex" v-if="!showall">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 mr-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0" v-on:click="showing-=1">Previous</button>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1" v-on:click="showing+=1">Next</button>

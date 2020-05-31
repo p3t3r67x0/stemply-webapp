@@ -5,8 +5,7 @@
       <span class="flex justify-betweeen">
         <h3 class="w-full md:w-8/12 text-xl font-bold">{{ challenge.title }}</h3>
         <p class="w-full text-right">
-          <button type="button" @click="deleteEntry(challenge._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
-          <nuxt-link :to="generateLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
+          <button type="button" @click="deleteEntry(challenge._id)" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Subscribe</button>
         </p>
       </span>
       <p class="text-sm mb-1">{{ challenge.duration }}</p>
@@ -24,9 +23,8 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$post(process.env.API_URL + '/api/v1/challenge/user', {
-      id: this.userId.trim()
-    }).then(res => {
+    this.$axios.$get(process.env.API_URL + '/api/v1/challenge').then(res => {
+      console.log(res)
       this.challenges = res.message
     }).catch(error => {
       console.log(error)
@@ -34,7 +32,6 @@ export default {
   },
   computed: {
     userId() {
-      console.log(this.$store.state.userId)
       return this.$store.state.userId
     }
   },

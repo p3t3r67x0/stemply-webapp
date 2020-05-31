@@ -30,7 +30,7 @@
         <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
       </div>
       <p class="text-right">
-        <nuxt-link to="/account/edit" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
+        <nuxt-link to="/admin" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
           Back
         </nuxt-link>
         <button class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2" type="submit">
@@ -127,8 +127,8 @@ export default {
           this.$axios.$put(process.env.API_URL + '/api/v1/challenge/detail', {
             'id': this.challengeId.trim(),
             'title': this.challenge.title.trim(),
-            'duration': this.challenge.duration.trim(),
-            'content': this.challenge.content.trim()
+            'content': this.challenge.content.trim(),
+            'duration': this.challenge.duration
           }).then(res => {
             this.response = res.message
             this.showResponse = true

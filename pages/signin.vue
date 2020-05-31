@@ -70,6 +70,7 @@ export default {
       const isValidForm = (currentValue) => currentValue !== true
 
       Cookie.remove('USER_ID')
+      Cookie.remove('USER_ROLES')
       Cookie.remove('USER_ACCESS_TOKEN')
       Cookie.remove('USER_REFRESH_TOKEN')
 
@@ -91,9 +92,11 @@ export default {
           'password': this.password.trim()
         }).then(res => {
           this.$store.commit('updateUserId', res.user_id)
+          this.$store.commit('updateUserRoles', res.user_roles)
           this.$store.commit('updateAccessToken', res.access_token)
 
           Cookie.set('USER_ID', res.user_id)
+          Cookie.set('USER_ROLES', JSON.stringify(res.user_roles))
           Cookie.set('USER_ACCESS_TOKEN', res.access_token)
           Cookie.set('USER_REFRESH_TOKEN', res.refresh_token)
 

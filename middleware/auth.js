@@ -4,9 +4,11 @@ export default function({
   route
 }) {
   const userId = store.state.userId
-  const urlRequiresAuth = /^\/account(\/|$)/.test(route.fullPath)
+  const userRoles = store.state.userRoles
+  const urlRequiresAuth = /^\/admin|account(\/|$)/.test(route.fullPath)
   const urlRequiresNonAuth = /^\/signup|login|change|reset(\/|$)/.test(route.fullPath)
 
+  console.log(userRoles)
   if (!userId && urlRequiresAuth) {
     return redirect('/signin')
   }

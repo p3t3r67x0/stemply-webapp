@@ -30,6 +30,7 @@ export default {
       return this.$route.params.id
     }
   },
+  middleware: 'auth',
   methods: {}
 }
 </script>

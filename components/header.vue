@@ -24,17 +24,14 @@
           <li v-if="!userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link to="/signup" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Signup</nuxt-link>
           </li>
-          <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="userId && hasUserRole && !hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link to="/account" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Dashboard</nuxt-link>
           </li>
-          <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/account/show/challenges" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Challenges</nuxt-link>
+          <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+            <nuxt-link to="/admin/subscribtion" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Subscribtion</nuxt-link>
           </li>
-          <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/account/edit" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Edit Challenges</nuxt-link>
-          </li>
-          <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/account/edit/challenge" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">New Challenge</nuxt-link>
+          <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+            <nuxt-link to="/admin" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Overview</nuxt-link>
           </li>
           <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Logout</a>
@@ -58,6 +55,24 @@ export default {
   computed: {
     userId() {
       return this.$store.state.userId
+    },
+    hasAdminRole() {
+      const roles = this.$store.state.userRoles
+
+      if (Array.isArray(roles)) {
+        return roles.includes('admin')
+      }
+
+      return false
+    },
+    hasUserRole() {
+      const roles = this.$store.state.userRoles
+
+      if (Array.isArray(roles)) {
+        return roles.includes('user')
+      }
+
+      return false
     }
   },
   methods: {
@@ -69,10 +84,12 @@ export default {
     },
     logoutSubmit() {
       this.$store.commit('updateUserId', null)
+      this.$store.commit('updateUserRoles', null)
       this.$store.commit('updateAccessToken', null)
       this.$store.commit('updateRefreshToken', null)
 
       Cookie.remove('USER_ID')
+      Cookie.remove('USER_ROLES')
       Cookie.remove('USER_ACCESS_TOKEN')
       Cookie.remove('USER_REFRESH_TOKEN')
 

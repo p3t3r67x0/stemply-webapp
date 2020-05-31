@@ -27,7 +27,7 @@ export default {
       console.log(res)
       this.challenges = res.message
     }).catch(error => {
-      console.log(error)
+      console.log(error.response.data)
     })
   },
   computed: {

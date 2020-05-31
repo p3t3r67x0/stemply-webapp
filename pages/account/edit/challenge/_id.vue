@@ -74,7 +74,7 @@ export default {
           this.challenge = res.message[0]
         }
       }).catch(error => {
-        console.log(error.config)
+        console.log(error.response.data)
       })
     }
   },

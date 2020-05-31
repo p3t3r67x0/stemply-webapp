@@ -45,7 +45,7 @@ export default {
       }).then(res => {
         console.log(res)
       }).catch(error => {
-        console.log(error)
+        console.log(error.response.data)
       })
     }
   }

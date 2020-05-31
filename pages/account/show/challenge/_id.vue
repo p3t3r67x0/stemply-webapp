@@ -24,11 +24,19 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge').then(res => {
+    this.$axios.$post(process.env.API_URL + '/api/v1/challenge/user', {
+      id: this.userId.trim()
+    }).then(res => {
       this.challenges = res.message
     }).catch(error => {
       console.log(error)
     })
+  },
+  computed: {
+    userId() {
+      console.log(this.$store.state.userId)
+      return this.$store.state.userId
+    }
   },
   methods: {
     generateLink(id) {

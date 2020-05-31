@@ -30,7 +30,7 @@
         <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
       </div>
       <p class="text-right">
-        <nuxt-link to="/account" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
+        <nuxt-link to="/account/edit" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
           Back
         </nuxt-link>
         <button class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2" type="submit">
@@ -98,12 +98,10 @@ export default {
       }
     },
     'challenge.duration': function() {
-      if (this.challenge.duration.trim() !== '') {
-        if (this.challenge.duration.trim().length > 3) {
-          this.errors.duration = false
-        } else {
-          this.errors.duration = true
-        }
+      if (this.challenge.duration > 0) {
+        this.errors.duration = false
+      } else {
+        this.errors.duration = true
       }
     }
   },

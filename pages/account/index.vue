@@ -13,7 +13,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$post(process.env.API_URL + '/api/v1/challenge/user').then(res => {
+    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/user').then(res => {
       this.challenges = res.message
     }).catch(error => {
       console.log(error)

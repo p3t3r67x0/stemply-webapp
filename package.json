@@ -19,6 +19,7 @@
     "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
+    "tailwindcss-toggle": "github:TowelSoftware/tailwindcss-toggle",
     "v-click-outside": "^3.0.1"
   },
   "devDependencies": {

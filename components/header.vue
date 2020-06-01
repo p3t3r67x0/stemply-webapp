@@ -3,9 +3,13 @@
   <div class="container mx-auto">
     <header class="flex flex-wrap items-center">
       <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">
-        <nuxt-link to="/" class="text-blue-100 hover:text-white focus:outline-none text-lg font-bold">
-          <fa :icon="['fas', 'graduation-cap']" class="inline text-gray-400 text-3xl w-10 mt-1 mr-3" />
-          <span class="text-2xl text-gray-400 font-light">Education</span>
+        <nuxt-link v-if="!userId" to="/" class="focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline text-gray-300 text-3xl w-10 mt-1 mr-3" />
+          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
+        </nuxt-link>
+        <nuxt-link v-if="userId" to="/account" class="focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline text-green-400 text-3xl w-10 mt-1 mr-3" />
+          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
       </div>
 

@@ -114,9 +114,9 @@ export default {
           const name = this.hasAdminRole ? 'admin' : 'account'
           console.log(name)
 
-          this.$router.push({
+          this.$router.push(this.localePath({
             name: name
-          })
+          }))
         }).catch(error => {
           this.showResponse = true
 

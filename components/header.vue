@@ -3,15 +3,15 @@
   <div class="container mx-auto">
     <header class="flex flex-wrap items-center">
       <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">
-        <nuxt-link v-if="!userId" to="/" class="focus:outline-none text-lg font-bold">
+        <nuxt-link v-if="!userId" :to="localePath('/')" class="focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline text-gray-300 text-3xl w-10 mt-1 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
-        <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" to="/account" class="focus:outline-none text-lg font-bold">
+        <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" :to="localePath('/account')" class="focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline text-green-400 text-3xl w-10 mt-1 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
-        <nuxt-link v-if="userId && hasAdminRole" to="/admin" class="focus:outline-none text-lg font-bold">
+        <nuxt-link v-if="userId && hasAdminRole" :to="localePath('/admin')" class="focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline text-orange-400 text-3xl w-10 mt-1 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
@@ -27,19 +27,19 @@
       <div v-bind:class="[showNav ? 'block z-50' : 'hidden']" class="w-full border-t lg:border-0 border-gray-800 mt-2 lg:mt-0 lg:flex lg:items-center lg:w-auto">
         <ul class="lg:flex items-center justify-between text-base text-white pt-0 lg:pt-0">
           <li v-if="!userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/signin" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signin') }}</nuxt-link>
+            <nuxt-link :to="localePath('/signin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signin') }}</nuxt-link>
           </li>
           <li v-if="!userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/signup" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signup') }}</nuxt-link>
+            <nuxt-link :to="localePath('/signup')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signup') }}</nuxt-link>
           </li>
           <li v-if="userId && hasUserRole && !hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/account" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.dashboard') }}</nuxt-link>
+            <nuxt-link :to="localePath('/account')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.dashboard') }}</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/admin/subscribtion" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.subscription') }}</nuxt-link>
+            <nuxt-link :to="localePath('/admin/subscribtion')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.subscription') }}</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link to="/admin" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.overview') }}</nuxt-link>
+            <nuxt-link :to="localePath('/admin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.overview') }}</nuxt-link>
           </li>
 
           <li v-click-outside="hideDropdown" class="relative border-b lg:border-b-2 border-gray-800">
@@ -126,9 +126,9 @@ export default {
       Cookie.remove('USER_ACCESS_TOKEN')
       Cookie.remove('USER_REFRESH_TOKEN')
 
-      this.$router.push({
+      this.$router.push(this.localePath({
         name: 'signin'
-      })
+      }))
     }
   }
 }

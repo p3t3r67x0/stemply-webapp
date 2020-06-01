@@ -62,6 +62,12 @@ export default {
           iso: 'en-GB',
           file: 'en-GB.js'
         },
+        {
+          name: 'Français',
+          code: 'fr',
+          iso: 'fr-CH',
+          file: 'fr-CH.js'
+        },
       ],
       langDir: 'lang/',
       lazy: true,

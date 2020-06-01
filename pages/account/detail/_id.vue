@@ -1,6 +1,15 @@
 <template>
 <div class="container mx-auto rounded-lg bg-white p-3 mt-3">
-  tbd.
+  <div class="m-8 mb-16">
+    <div class="flex">
+      <h1 class="text-2xl font-bold mb-2 justify-content-left">{{ challenge.title }}</h1>
+      <a href="/account" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto justify-content-right">All challenges</a>
+    </div>
+    <hr style="width: 365px">
+  </div>
+  <div class="mx-8 mb-8">
+    <p>{{ challenge.content }}</p>
+  </div>
 </div>
 </template>
 
@@ -8,7 +17,7 @@
 export default {
   data() {
     return {
-      challenge: null
+      challenge: {}
     }
   },
   created() {
@@ -21,7 +30,7 @@ export default {
           this.challenge = res.message[0]
         }
       }).catch(error => {
-        console.log(error.response.data)
+        console.log(error)
       })
     }
   },

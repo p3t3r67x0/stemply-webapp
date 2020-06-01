@@ -6,7 +6,7 @@ export default {
   entervalidmail: 'Veuillez entrer une adresse mail valide',
   fillfield: 'Veuillez remplir ce champ de saisie',
   duration: 'Durée',
-  currentchallenges: 'Tâche actuel | Tâches actuels',
+  currentchallenges: 'Tâche actuelle | Tâches actuelles',
   days: 'Jour | Jours',
   next: 'Prochaine',
   previous: 'Précédente',

@@ -7,8 +7,12 @@
           <fa :icon="['fas', 'graduation-cap']" class="inline text-gray-300 text-3xl w-10 mt-1 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
-        <nuxt-link v-if="userId" to="/account" class="focus:outline-none text-lg font-bold">
+        <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" to="/account" class="focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline text-green-400 text-3xl w-10 mt-1 mr-3" />
+          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
+        </nuxt-link>
+        <nuxt-link v-if="userId && hasAdminRole" to="/admin" class="focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline text-orange-400 text-3xl w-10 mt-1 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
       </div>

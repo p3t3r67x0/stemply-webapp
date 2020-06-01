@@ -11,7 +11,7 @@
       <div class="flex justify-between">
         <h2 class="text-xl font-semibold mb-3">Challenge</h2>
         <p>
-          <nuxt-link to="/admin/task" class="inline-block bg-orange-500 hover:bg-orange-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Add task</nuxt-link>
+          <nuxt-link :to="generateTaskAddLink(challenge._id)" class="inline-block bg-orange-500 hover:bg-orange-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Add task</nuxt-link>
         </p>
       </div>
       <div class="bg-gray-200 rounded-lg p-2">
@@ -19,7 +19,7 @@
           <h3 class="w-full md:w-8/12 text-xl font-bold">{{ challenge.title }}</h3>
           <p class="w-full text-right">
             <button type="button" @click="deleteChallenge(challenge._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
-            <nuxt-link :to="generateLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
+            <nuxt-link :to="generateChallangeLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
           </p>
         </span>
         <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(challenge.duration) }}</span>
@@ -31,8 +31,8 @@
           <span class="flex justify-betweeen mb-1">
             <h3 class="w-full md:w-8/12 text-lg font-bold">{{ task.title }}</h3>
             <p class="w-full text-right">
-              <button type="button" @click="deleteTask(challenge._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
-              <nuxt-link :to="generateLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
+              <button type="button" @click="deleteTask(task._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
+              <nuxt-link :to="generateTaskEditLink(task._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
           <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(task.duration) }}</span>
@@ -60,8 +60,14 @@ export default {
   },
   middleware: 'auth',
   methods: {
-    generateLink(id) {
+    generateChallangeLink(id) {
       return `/admin/challenge/${id}`
+    },
+    generateTaskAddLink(id) {
+      return `/admin/task/add/${id}`
+    },
+    generateTaskEditLink(id) {
+      return `/admin/task/edit/${id}`
     },
     deleteTask(id) {
       alert('Not implemented yet')

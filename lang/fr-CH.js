@@ -14,6 +14,6 @@ export default {
     signup: 'S\'inscrire',
     subscription: 'Abonnements',
     overview: 'Aperçu',
-    logout: 'Se deconnecter'
+    logout: 'Se déconnecter'
   },
 }

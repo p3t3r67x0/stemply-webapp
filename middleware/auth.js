@@ -8,7 +8,6 @@ export default function({
   const urlRequiresAuth = /^\/admin|account(\/|$)/.test(route.fullPath)
   const urlRequiresNonAuth = /^\/signup|login|change|reset(\/|$)/.test(route.fullPath)
 
-  console.log(userRoles)
   if (!userId && urlRequiresAuth) {
     return redirect('/signin')
   }

@@ -8,6 +8,9 @@ export default {
   duration: 'Durée',
   currentchallenges: 'Tâche actuel | Tâches actuels',
   days: 'Jour | Jours',
+  next: 'Prochaine',
+  previous: 'Précédente',
+  showall: 'Afficher tous les tâches',
   navigation: {
     dashboard: 'Dashboard',
     signin: 'Se connecter',

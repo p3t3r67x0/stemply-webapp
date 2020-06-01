@@ -7,6 +7,9 @@ export default {
   fillfield: 'Please fill out this field.',
   duration: 'Duration',
   currentchallenges: 'Your current challenge | Your current challenges',
+  next: 'Next',
+  previous: 'Previous',
+  showall: 'Show all challenges',
   navigation: {
     dashboard: 'Dashboard',
     signin: 'Sign in',

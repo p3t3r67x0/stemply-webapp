@@ -41,13 +41,22 @@
           <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link to="/admin" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.overview') }}</nuxt-link>
           </li>
-          <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.logout')}}</a>
-          </li>
-        </ul>
-        <ul class="lg:flex items-end justify-end text-base text-white pt-0 lg:pt-0">
-          <li v-on:click="toggleNav" v-for="locale in availableLocales" class="border-b -mr-32 lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ locale.name }}</a>
+
+          <li v-click-outside="hideDropdown" class="relative border-b lg:border-b-2 border-gray-800">
+            <button v-on:click="toggleDropdown" class="hidden lg:flex items-center cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">
+              <span class="pr-1 flex-1">Settings</span>
+              <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </button>
+            <ul v-bind:class="[showDropdown ? 'block z-50' : 'lg:hidden']" class="relative lg:absolute top right-0 lg:bg-gray-700 shadow w-full mr-4">
+              <li v-on:click="toggleNav" v-for="locale in availableLocales" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+                <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ locale.name }}</a>
+              </li>
+              <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+                <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.logout')}}</a>
+              </li>
+            </ul>
           </li>
 
         </ul>
@@ -64,6 +73,7 @@ export default {
   data() {
     return {
       showNav: false,
+      showDropdown: false
     }
   },
   computed: {
@@ -88,16 +98,22 @@ export default {
 
       return false
     },
-    availableLocales () {
-        return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
-      }
+    availableLocales() {
+      return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
+    }
   },
   methods: {
     hideNav() {
       return this.showNav = false
     },
+    hideDropdown() {
+      return this.showDropdown = false
+    },
     toggleNav() {
       return this.showNav = !this.showNav
+    },
+    toggleDropdown() {
+      return this.showDropdown = !this.showDropdown
     },
     logoutSubmit() {
       this.$store.commit('updateUserId', null)

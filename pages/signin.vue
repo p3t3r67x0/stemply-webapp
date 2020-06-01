@@ -111,8 +111,11 @@ export default {
           Cookie.set('USER_ACCESS_TOKEN', res.access_token)
           Cookie.set('USER_REFRESH_TOKEN', res.refresh_token)
 
+          const name = this.hasAdminRole ? 'admin' : 'account'
+          console.log(name)
+
           this.$router.push({
-            name: this.hasAdminRole ? 'admin' : 'account'
+            name: name
           })
         }).catch(error => {
           this.showResponse = true

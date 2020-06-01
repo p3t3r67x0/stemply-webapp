@@ -70,9 +70,7 @@ export default {
       this.$axios.$post(process.env.API_URL + '/api/v1/challenge/detail', {
         'id': this.challengeId.trim()
       }).then(res => {
-        if (res.message[0]) {
-          this.challenge = res.message[0]
-        }
+        this.challenge = res.message
       }).catch(error => {
         console.log(error.response.data)
       })

@@ -62,9 +62,7 @@ export default {
       this.$axios.$post(process.env.API_URL + '/api/v1/challenge/' + this.target + '/detail', {
         'id': this.objectId.trim()
       }).then(res => {
-        if (res.message[0]) {
-          this.object = res.message[0]
-        }
+        this.object = res.message
       }).catch(error => {
         console.log(error.response.data)
       })
@@ -91,12 +89,10 @@ export default {
   computed: {
     objectId() {
       if (this.challengeId) {
-        console.log(this.challengeId)
         return this.challengeId
       }
 
       if (this.taskId) {
-        console.log(this.taskId)
         return this.taskId
       }
     }

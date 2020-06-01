@@ -49,7 +49,24 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    'nuxt-i18n',
+    ['nuxt-i18n', {
+      locales: [{
+          name: 'Deutsch',
+          code: 'de',
+          iso: 'de-CH',
+          file: 'de-CH.js'
+        },
+        {
+          name: 'English',
+          code: 'en',
+          iso: 'en-GB',
+          file: 'en-GB.js'
+        },
+      ],
+      langDir: 'lang/',
+      lazy: true,
+      defaultLocale: 'de',
+    }],
     ['nuxt-fontawesome', {
       component: 'fa',
       imports: [{
@@ -63,24 +80,7 @@ export default {
       ]
     }]
   ],
-  i18n: {
-    locales: ['en', 'fr', 'es'],
-    defaultLocale: 'en',
-    vueI18n: {
-      fallbackLocale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome'
-        },
-        fr: {
-          welcome: 'Bienvenue'
-        },
-        es: {
-          welcome: 'Bienvenido'
-        }
-      }
-    }
-  },
+
   build: {
     extend(config, ctx) {}
   }

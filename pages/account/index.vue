@@ -1,10 +1,9 @@
 <template>
 <div class="container mx-auto bg-white rounded-lg p-12 mt-3">
-  <h1 class="text-2xl font-bold mb-2">Personal Dashboard</h1>
+  <h1 class="text-2xl font-bold mb-2">{{ $t('navigation.dashboard')}}</h1>
   <hr style="width: 365px">
   <div>
-    <h2 v-if="challenges.length == 1" class="text-xl font-bold mb-2 text-center my-4">Your current challenge:</h2>
-    <h2 v-if="challenges.length > 1" class="text-xl font-bold mb-2 text-center my-4">Your current challenges:</h2>
+    <h2 class="text-xl font-bold mb-2 text-center my-4">{{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:</h2>
     <hr style="width: 100px" class="mx-auto my-4">
   </div>
   <div class="container my-12 mx-auto px-4 md:px-12">
@@ -22,7 +21,7 @@
             </div>
             <hr>
             <div class="px-6 py-4">
-              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">Duration: {{ challenge.duration / 3600 / 24}} days</span>
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ challenge.duration / 3600 / 24}} {{ $tc('days', challenge.duration > 86400 ? 0 : 1)}}</span>
             </div>
           </a>
           <div class="px-6 py-4 flex" v-if="!showall">

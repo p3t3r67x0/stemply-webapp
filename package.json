@@ -1,5 +1,5 @@
 {
-  "name": "stemply-webapp",
+  "name": "zackig-webapp",
   "version": "1.0.0",
   "description": "",
   "author": "",
@@ -19,6 +19,7 @@
     "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
+    "nuxt-i18n": "^6.12.1",
     "tailwindcss-toggle": "github:TowelSoftware/tailwindcss-toggle",
     "v-click-outside": "^3.0.1"
   },

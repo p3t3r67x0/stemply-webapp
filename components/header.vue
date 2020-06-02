@@ -3,16 +3,16 @@
   <div class="container mx-auto">
     <header class="flex flex-wrap items-center">
       <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">
-        <nuxt-link v-if="!userId" :to="localePath('/')" class="focus:outline-none text-lg font-bold">
-          <fa :icon="['fas', 'graduation-cap']" class="inline text-gray-300 text-3xl w-10 mt-1 mr-3" />
+        <nuxt-link v-if="!userId" :to="localePath('/')" class="flex justify-between focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline-block text-gray-300 text-3xl w-10 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
-        <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" :to="localePath('/account')" class="focus:outline-none text-lg font-bold">
-          <fa :icon="['fas', 'graduation-cap']" class="inline text-green-400 text-3xl w-10 mt-1 mr-3" />
+        <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" :to="localePath('/account')" class="flex justify-between focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline-block text-green-400 text-3xl w-10 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
-        <nuxt-link v-if="userId && hasAdminRole" :to="localePath('/admin')" class="focus:outline-none text-lg font-bold">
-          <fa :icon="['fas', 'graduation-cap']" class="inline text-orange-400 text-3xl w-10 mt-1 mr-3" />
+        <nuxt-link v-if="userId && hasAdminRole" :to="localePath('/admin')" class="flex justify-between focus:outline-none text-lg font-bold">
+          <fa :icon="['fas', 'graduation-cap']" class="inline-block text-orange-400 text-3xl w-10 mr-3" />
           <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
         </nuxt-link>
       </div>

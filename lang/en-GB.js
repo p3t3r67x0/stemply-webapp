@@ -1,10 +1,12 @@
 export default {
   test: 'test en-GB',
   email: 'Email',
+  name: 'Name',
   password: 'password',
   forgotpw: 'Forgot Password',
   entervalidmail: 'Please enter a valid email.',
   fillfield: 'Please fill out this field.',
+  entername: 'Please enter your name.',
   duration: 'Duration',
   currentchallenges: 'Your current challenge | Your current challenges',
   next: 'Next',
@@ -16,6 +18,7 @@ export default {
     signup: 'Sign up',
     subscription: 'Subscription',
     overview: 'Overview',
-    logout: 'Logout'
+    logout: 'Logout',
+    settings: 'Settings',
   },
 }

@@ -1,34 +1,34 @@
 <template>
 <div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
   <form @submit.prevent="signupSubmit" class="bg-white rounded-lg w-full max-w-sm p-3">
-    <h1 class="text-2xl lg:text-4xl font-medium mb-3">Signup</h1>
+    <h1 class="text-2xl lg:text-4xl font-medium mb-3">{{ $t('navigation.signup') }}</h1>
     <p v-if="showResponse" v-bind:class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-        Name
+        {{ $t('name') }}
       </label>
       <input name="name" v-model="name" v-bind:class="{'border-red-500': errors.name}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="name" type="text" placeholder="Jane Doe">
-      <p v-if="errors.name" class="text-red-500 text-xs italic">Please enter your name.</p>
+      <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('entername') }}</p>
     </div>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
-        Email
+        {{ $t('email') }}
       </label>
       <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="email" type="text" placeholder="me@example.com">
-      <p v-if="errors.email" class="text-red-500 text-xs italic">Please enter a valid email.</p>
+      <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('entervalidmail') }}</p>
     </div>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
-        Password
+        {{ $t('password') }}
       </label>
       <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white" id="password"
         type="password" placeholder="••••••••">
-      <p v-if="errors.password" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
     </div>
     <p class="text-right">
-      <button class="cursor-pointer bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide p-2" type="submit">Signup</button>
+      <button class="cursor-pointer bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide p-2" type="submit">{{ $t('navigation.signup') }}</button>
     </p>
   </form>
 </div>

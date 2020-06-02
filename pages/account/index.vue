@@ -79,13 +79,21 @@ export default {
     this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
       this.user = res.message
     }).catch(error => {
-      console.log(error.response.data)
+      if (error.hasOwnProperty('response')) {
+        console.log(error.response.data.message)
+      } else {
+        console.log(error)
+      }
     })
 
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/subscription').then(res => {
       this.challenges = res.message
     }).catch(error => {
-      console.log(error.response.data)
+      if (error.hasOwnProperty('response')) {
+        console.log(error.response.data.message)
+      } else {
+        console.log(error)
+      }
     })
 
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task').then(res => {

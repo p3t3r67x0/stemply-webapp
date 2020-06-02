@@ -28,7 +28,11 @@ export default {
       }).then(res => {
         this.challenge = res.message
       }).catch(error => {
-        console.log(error)
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error)
+        }
       })
     }
   },

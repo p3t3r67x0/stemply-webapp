@@ -15,8 +15,9 @@
             <div class="px-6 py-4">
               <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
               <p class="text-gray-700 group-hover:text-gray-600 text-base">
-                <span v-if="challenge.content.length > excerptlength">{{ challenge.content.substring(0, excerptlength) }}...</span>
-                <span v-else>{{ challenge.content }}</span>
+                <span v-if="challenge.content.length > excerptlength">
+                  <vue-markdown-plus class="markdown" :source="challenge.content.substring(0, excerptlength)" />...</span>
+                <span v-else><vue-markdown-plus class="markdown" :source="challenge.content" /></span>
               </p>
             </div>
             <hr v-if="showall">
@@ -44,6 +45,8 @@
 </template>
 
 <script>
+import VueMarkdownPlus from 'vue-markdown-plus'
+
 export default {
   data() {
     return {
@@ -59,6 +62,9 @@ export default {
     }).catch(error => {
       console.log(error.response.data)
     })
+  },
+  components: {
+    VueMarkdownPlus
   },
   middleware: 'auth',
   methods: {}

@@ -21,7 +21,8 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.12.1",
     "tailwindcss-toggle": "github:TowelSoftware/tailwindcss-toggle",
-    "v-click-outside": "^3.0.1"
+    "v-click-outside": "^3.0.1",
+    "vue-markdown-plus": "^2.0.3"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0"

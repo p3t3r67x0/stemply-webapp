@@ -16,27 +16,27 @@
       </div>
       <div class="bg-gray-200 rounded-lg p-2">
         <span class="flex justify-betweeen mb-1">
-          <h3 class="w-full md:w-8/12 text-xl font-bold">{{ challenge.title }}</h3>
+          <h3 class="w-full lg:w-10/12 text-xl font-bold">{{ challenge.title }}</h3>
           <p class="w-full text-right">
             <button type="button" @click="deleteChallenge(challenge._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
             <nuxt-link :to="generateChallangeLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
           </p>
         </span>
         <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(challenge.duration) }}</span>
-        <p class="text-lg">{{ challenge.content }}</p>
+        <vue-markdown-plus class="markdown" :source="challenge.content" />
       </div>
       <h2 v-if="challenge.tasks.length > 0" class="text-xl font-semibold mt-6">Tasks</h2>
       <ul v-if="challenge.tasks.length > 0">
         <li v-for="task in challenge.tasks" class="bg-gray-200 rounded-lg p-2 mt-3">
           <span class="flex justify-betweeen mb-1">
-            <h3 class="w-full md:w-8/12 text-lg font-bold">{{ task.title }}</h3>
+            <h3 class="w-full lg:w-10/12 text-lg font-bold">{{ task.title }}</h3>
             <p class="w-full text-right">
               <button type="button" @click="deleteTask(task._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
               <nuxt-link :to="generateTaskEditLink(task._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
           <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(task.duration) }}</span>
-          <p class="text-lg">{{ task.content }}</p>
+          <vue-markdown-plus class="markdown" :source="task.content" />
         </li>
       </ul>
     </li>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import VueMarkdownPlus from 'vue-markdown-plus'
+
 export default {
   data() {
     return {
@@ -57,6 +59,9 @@ export default {
     }).catch(error => {
       console.log(error.response.data)
     })
+  },
+  components: {
+    VueMarkdownPlus
   },
   middleware: 'auth',
   methods: {

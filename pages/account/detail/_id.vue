@@ -7,12 +7,14 @@
     </div>
   </div>
   <div class="mx-8 mb-8">
-    <p>{{ challenge.content }}</p>
+    <vue-markdown-plus class="markdown" :source="challenge.content" />
   </div>
 </div>
 </template>
 
 <script>
+import VueMarkdownPlus from 'vue-markdown-plus'
+
 export default {
   data() {
     return {
@@ -29,6 +31,9 @@ export default {
         console.log(error)
       })
     }
+  },
+  components: {
+    VueMarkdownPlus
   },
   computed: {
     challengeId() {

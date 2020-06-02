@@ -23,7 +23,7 @@
                 </p>
               </div>
               <div class="px-6 py-4">
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ challenge.duration / 86400 }} {{ $tc('days', challenge.duration > 86400 ? 0 : 1)}}</span>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ Math.round(task.duration / 8640) / 10 }} {{ $tc('days', challenge.duration != 86400 ? 0 : 1)}}</span>
               </div>
             </nuxt-link>
           </div>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <hr>
-        <div v-if="!showall" class="flex justify-center m-3">
+        <div v-if="!showall && challenges.length > 1" class="flex justify-center m-3">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0" v-on:click="showing-=1">{{ $t('previous') }}</button>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
             v-on:click="showing+=1">{{ $t('next') }}</button>
@@ -54,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-2" v-if="challenges.length > 0">
+  <div class="mb-2" v-if="challenges.length > 1">
     <div class="form-switch inline-block align-right ml-auto">
       <input type="checkbox" name="showallswitch" v-model="showall" id="showallswitch" class="form-switch-checkbox" />
       <label class="form-switch-label" for="showallswitch">{{ $t('showall') }}</label>

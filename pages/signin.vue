@@ -112,7 +112,6 @@ export default {
           Cookie.set('USER_REFRESH_TOKEN', res.refresh_token)
 
           const name = this.hasAdminRole ? 'admin' : 'account'
-          console.log(name)
 
           this.$router.push(this.localePath({
             name: name

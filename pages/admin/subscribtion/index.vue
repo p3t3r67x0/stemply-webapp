@@ -56,7 +56,7 @@ export default {
       })
     },
     fetchUsers() {
-      this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
+      this.$axios.$get(process.env.API_URL + '/api/v1/user/list').then(res => {
         this.users = res.message
       }).catch(error => {
         console.log(error.response.data)

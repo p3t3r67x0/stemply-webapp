@@ -31,8 +31,8 @@
             <ul :key="tasksLoaded">
               <li v-for="task in challenge.tasks" :key="task._id" class="flex justify-between hover:shadow-lg px-2 py-3 m-2">
                 <div class="flex justify-between mr-3">
-                  <span>
-                    <input type="checkbox" @click="toggleProgressStatus(challenge._id, task._id)" :checked="[ task.progress === 'done' ? true : false]" class="inline-block text-2xl w-5 mr-3" />
+                  <span :key="progressChanged">
+                    <fa :icon="['fas', 'check-square']" @click="toggleProgressStatus(challenge._id, task._id)" :class="[  task.progress == 'done' ? 'text-green-500' : 'text-gray-500']" class="inline-block cursor-pointer text-2xl w-5 mr-3" />
                   </span>
                   <div class="">{{ task.content.substring(0, excerptlength / 4 ) }}<span v-if="task.content.length > excerptlength / 3">...</span></div>
                 </div>
@@ -65,14 +65,23 @@ import VueMarkdownPlus from 'vue-markdown-plus'
 export default {
   data() {
     return {
+      user: {},
+      tasks: [],
       challenges: [],
       showing: 0,
       showall: false,
       excerptlength: 200,
-      tasksLoaded: 0
+      tasksLoaded: 0,
+      progressChanged: false
     }
   },
   mounted() {
+    this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
+      this.user = res.message
+    }).catch(error => {
+      console.log(error.response.data)
+    })
+
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/subscription').then(res => {
       this.challenges = res.message
     }).catch(error => {
@@ -80,10 +89,25 @@ export default {
     })
 
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task').then(res => {
-      res.message.forEach(task => {
-        let index = this.challenges.findIndex(challenge => challenge._id === task._id)
-        this.challenges[index]['tasks'] = task.tasks
-        this.tasksLoaded += 1
+      this.tasks = res.message
+
+      res.message.forEach(challenge => {
+        const challengeIndex = this.challenges.findIndex(c => c._id === challenge._id)
+
+        if (challengeIndex >= 0) {
+          this.challenges[challengeIndex]['tasks'] = challenge.tasks
+          this.tasksLoaded += 1
+        }
+
+        challenge.tasks.forEach((task, index) => {
+          if (this.user.hasOwnProperty('progress')) {
+            const filter = this.user.progress.filter(progress => progress.tid === task._id)
+
+            if (filter.length > 0) {
+              this.challenges[challengeIndex].tasks[index].progress = 'done'
+            }
+          }
+        })
       })
     }).catch(error => {
       console.log(error)
@@ -108,9 +132,8 @@ export default {
           let task = this.challenges[challengeIndex].tasks[taskIndex]
           task['progress'] = res.progress
 
-          // this should update the task progress but it does not
           this.$set(this.challenges[challengeIndex].tasks, taskIndex, task)
-          console.log(this.challenges[challengeIndex].tasks[taskIndex])
+          this.progressChanged = !this.progressChanged
         }
       }).catch(error => {
         console.log(error)

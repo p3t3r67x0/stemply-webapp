@@ -131,7 +131,7 @@ export default {
         challenge_id: challengeId,
         task_id: taskId
       }).then(res => {
-        console.log(res)
+        console.log(this.$t(res.message))
 
         const challengeIndex = this.challenges.findIndex(challenge => challenge._id === challengeId)
         const taskIndex = this.challenges[challengeIndex].tasks.findIndex(task => task._id === taskId)

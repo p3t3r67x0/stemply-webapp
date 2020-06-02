@@ -1,7 +1,8 @@
 export default {
   test: 'test de-CH',
   email: 'E-Mail',
-  'test space': 'Working',
+  nochallenge: 'Ihnen wurde noch keine Challenge zugeordnet',
+  nochallengesupport: 'Bitte melden Sie sich beim Support, damit Ihnen eine Challenge zugeteilt werden kann',
   name: 'Name',
   password: 'Passwort',
   forgotpw: 'Passwort vergessen',

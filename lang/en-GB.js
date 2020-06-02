@@ -2,6 +2,8 @@ export default {
   test: 'test en-GB',
   email: 'Email',
   name: 'Name',
+  nochallenge: 'No challenge has been assigned to you',
+  nochallengesupport: 'Please contact the support so that we can assign you a challenge',
   password: 'password',
   forgotpw: 'Forgot Password',
   entervalidmail: 'Please enter a valid email.',

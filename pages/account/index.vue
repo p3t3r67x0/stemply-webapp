@@ -1,6 +1,10 @@
 <template>
 <div class="container mx-auto">
-  <h2 class="text-2xl font-bold mb-2">{{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:</h2>
+  <div class="mt-32 pb-8 text-center border-b-2 border-gray-500" v-if="challenges.length === 0">
+    <h3 class="text-5xl">{{ $t('nochallenge') }}</h3>
+    <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
+  </div>
+  <h2 class="text-2xl font-bold mb-2" v-if="challenges.length > 0">{{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:</h2>
   <div class="container mx-auto">
     <div class="flex flex-wrap" :class="{ 'flex justify-center' : !showall }">
       <div v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="bg-white rounded overflow-hidden shadow-lg border mb-6">
@@ -50,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-2">
+  <div class="mb-2" v-if="challenges.length > 0">
     <div class="form-switch inline-block align-right ml-auto">
       <input type="checkbox" name="showallswitch" v-model="showall" id="showallswitch" class="form-switch-checkbox" />
       <label class="form-switch-label" for="showallswitch">{{ $t('showall') }}</label>

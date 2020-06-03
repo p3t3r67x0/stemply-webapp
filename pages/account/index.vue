@@ -1,12 +1,18 @@
 <template>
 <div class="container mx-auto">
-  <div class="mt-32 pb-8 text-center border-b-2 border-gray-500" v-if="challenges.length === 0">
-    <h3 class="text-5xl">{{ $t('nochallenge') }}</h3>
+  <div v-if="!landing && challenges.length === 0" class="text-center">
+    <h3 class="text-2xl mb-2">{{ $t('nochallenge') }}</h3>
     <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
   </div>
-  <h2 class="text-2xl font-bold mb-2" v-if="challenges.length > 0">{{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:</h2>
+  <div v-if="landing && challenges.length === 0">
+    <h3 class="text-2xl mb-2">{{ landing.title }}</h3>
+    <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
+  </div>
+  <h2 class="text-2xl font-bold mb-2" v-if="challenges.length > 0">
+    {{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:
+  </h2>
   <div class="container mx-auto">
-    <div class="flex flex-wrap" :class="{ 'flex justify-center' : !showall }">
+    <div :class="{ 'flex justify-center' : !showall }" class="flex flex-wrap">
       <div v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="bg-white rounded overflow-hidden shadow-lg border mb-6">
         <div class="flex">
           <div class="container hover:border hover:shadow-2xl w-1/3 border-r cursor-pointer">
@@ -75,11 +81,26 @@ export default {
       showing: 0,
       showall: false,
       excerptlength: 200,
+      progressChanged: false,
       tasksLoaded: 0,
-      progressChanged: false
+      landing: {}
     }
   },
   mounted() {
+    if (this.challenges.length === 0) {
+      this.$axios.$get(process.env.API_URL + '/api/v1/landing').then(res => {
+        if (res.message.hasOwnProperty('content')) {
+          this.landing = res.message
+        }
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error)
+        }
+      })
+    }
+
     this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
       this.user = res.message
     }).catch(error => {

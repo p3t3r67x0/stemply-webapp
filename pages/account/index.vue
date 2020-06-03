@@ -25,7 +25,7 @@
                   <vue-markdown-plus class="markdown" :source="challenge.content" />
                 </span>
               </p>
-              <span class="inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ $t('duration') }}: {{ secondsToDays(challenge.duration) }} {{ $tc('days', secondsToDays(challenge.duration) != 1 ? 0 : 1)}}</span>
+              <span class="inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ $t('duration') }}: {{ challenge.duration }} {{ $tc('days', challenge.duration != 1 ? 0 : 1)}}</span>
             </nuxt-link>
           </div>
           <div class="w-full lg:w-2/3 p-4">
@@ -42,12 +42,12 @@
                       {{ task.title.substring(0, excerptLength / 4 ) }}<span v-if="task.title.length > excerptLength / 4">...</span>
                     </nuxt-link>
                     <span class="lg:hidden text-gray-600">
-                      ({{ $t('duration') }}: {{ secondsToDays(task.duration) }} {{ $tc('days', secondsToDays(task.duration) != 1 ? 0 : 1)}})
+                      ({{ $t('duration') }}: {{ task.duration }} {{ $tc('days', task.duration != 1 ? 0 : 1)}})
                     </span>
                   </span>
                 </div>
-                <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ secondsToDays(task.duration) }}
-                  {{ $tc('days', secondsToDays(task.duration) != 1 ? 0 : 1)}}</span>
+                <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ task.duration }}
+                  {{ $tc('days', task.duration != 1 ? 0 : 1)}}</span>
               </li>
             </ul>
           </div>
@@ -87,7 +87,7 @@ export default {
       landing: {}
     }
   },
-  mounted() {
+  created() {
     if (this.challenges.length === 0) {
       this.$axios.$get(process.env.API_URL + '/api/v1/landing').then(res => {
         if (res.message.hasOwnProperty('content')) {
@@ -113,7 +113,16 @@ export default {
     })
 
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/subscription').then(res => {
-      this.challenges = res.message
+      res.message.forEach(challenge => {
+        this.challenges.push({
+          _id: challenge._id,
+          toDate: challenge.to,
+          fromDate: challenge.from,
+          duration: challenge.duration,
+          content: challenge.content,
+          title: challenge.title
+        })
+      })
     }).catch(error => {
       if (error.hasOwnProperty('response')) {
         console.log(error.response.data.message)
@@ -129,7 +138,19 @@ export default {
         const challengeIndex = this.challenges.findIndex(c => c._id === challenge._id)
 
         if (challengeIndex >= 0) {
-          this.challenges[challengeIndex]['tasks'] = challenge.tasks
+          const tasks = []
+
+          challenge.tasks.forEach(task => {
+            tasks.push({
+              _id: task._id,
+              toDate: task.to,
+              fromDate: task.from,
+              duration: task.duration,
+              title: task.title
+            })
+          })
+
+          this.challenges[challengeIndex]['tasks'] = tasks
           this.tasksLoaded += 1
         }
 
@@ -172,9 +193,6 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-    },
-    secondsToDays(seconds) {
-      return Math.round(seconds / 3600 / 24)
     }
   }
 }

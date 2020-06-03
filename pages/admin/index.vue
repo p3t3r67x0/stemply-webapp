@@ -22,7 +22,10 @@
             <nuxt-link :to="generateChallangeLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
           </p>
         </span>
-        <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(challenge.duration) }}</span>
+        <span class="flex">
+          <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3 mr-4">From {{ challenge.fromDate }}</span>
+          <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">To {{ challenge.toDate }}</span>
+        </span>
         <vue-markdown-plus class="markdown" :source="challenge.content" />
       </div>
       <h2 v-if="challenge.tasks.length > 0" class="text-xl font-semibold mt-6">Tasks</h2>
@@ -35,7 +38,10 @@
               <nuxt-link :to="generateTaskEditLink(task._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
-          <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">{{ secondsToDays(task.duration) }}</span>
+          <span class="flex">
+            <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3 mr-4">From {{ task.fromDate }}</span>
+            <span class="inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-lg px-3 py-1 mb-3">To {{ task.toDate }}</span>
+          </span>
           <vue-markdown-plus class="markdown" :source="task.content" />
         </li>
       </ul>
@@ -50,12 +56,34 @@ import VueMarkdownPlus from 'vue-markdown-plus'
 export default {
   data() {
     return {
-      challenges: null
+      challenges: []
     }
   },
   created() {
     this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task').then(res => {
-      this.challenges = res.message
+      res.message.forEach(challenge => {
+        const tasks = []
+
+        challenge.tasks.forEach(task => {
+          tasks.push({
+            _id: task._id,
+            toDate: task.to,
+            fromDate: task.from,
+            content: task.content,
+            title: task.title
+          })
+        })
+
+        this.challenges.push({
+          _id: challenge._id,
+          toDate: challenge.to,
+          fromDate: challenge.from,
+          content: challenge.content,
+          title: challenge.title,
+          tasks: tasks
+
+        })
+      })
     }).catch(error => {
       console.log(error.response.data)
     })

@@ -3,3 +3,26 @@
 @import 'tailwindcss/components';
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
+
+.mx-input:hover {
+  border-color: #edf2f7 !important;
+  background-color: #edf2f7 !important;
+}
+
+.mx-input:focus {
+  border-color: #edf2f7 !important;
+  background-color: #fff !important;
+}
+
+.mx-input {
+  font-size: 1rem !important;
+  color: #4a5568 !important;
+  background-color: #edf2f7 !important;
+  border: 1px solid #edf2f7 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.mx-datepicker {
+  width: 100% !important;
+}

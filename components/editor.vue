@@ -1,6 +1,6 @@
 <template>
 <div>
-  <p v-if="showResponse" class="text-green-500 lg:text-lg mb-3">{{ response }}</p>
+  <p v-if="showResponse" :class="[ responseError ? 'text-red-500' : 'text-green-500']" class="lg:text-lg mb-3">{{ response }}</p>
   <form ref="contactForm" @submit.prevent="submitForm" class="w-full">
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="title">
@@ -10,19 +10,31 @@
         type="text" placeholder="Learn to use the new media">
       <p v-if="errors.title" class="text-red-500 text-xs italic">Please fill out this field.</p>
     </div>
-    <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="duration">
-        Duration
-      </label>
-      <input name="duration" v-model="object.duration" v-bind:class="{'border-red-500': errors.duration}"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="duration" type="duration" placeholder="Valid for three weeks">
-      <p v-if="errors.duration" class="text-red-500 text-xs italic">Please fill out this field.</p>
+    <div class="sm:flex w-full mb-6">
+      <div class="sm:w-1/2 md:w-1/3 lg:w-1/4 mb-6 md:mb-0 sm:mr-4">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="fromDate">
+          From
+        </label>
+        <client-only>
+          <date-picker v-model="object.fromDate" format="DD-MM-YYYY" valueType="DD-MM-YYYY" :disabled-date="notBeforeToday" class="w-full focus:outline-none" placeholder="DD-MM-YYYY"></date-picker>
+        </client-only>
+        <p v-if="errors.fromDate" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      </div>
+      <div class="sm:w-1/2 md:w-1/3 lg:w-1/4">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="toDate">
+          To
+        </label>
+        <client-only>
+          <date-picker v-model="object.toDate" format="DD-MM-YYYY" valueType="DD-MM-YYYY" :disabled-date="notBeforeToday" class="w-full focus:outline-none" placeholder="DD-MM-YYYY"></date-picker>
+        </client-only>
+        <p v-if="errors.toDate" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      </div>
     </div>
     <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="duration">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="content">
         Content
       </label>
-      <textarea name="duration" v-model="object.content" v-bind:class="{'border-red-500': errors.content}"
+      <textarea name="content" v-model="object.content" v-bind:class="{'border-red-500': errors.content}"
         class="h-64 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="content" type="content"
         placeholder="Describe your chalenge here"></textarea>
       <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
@@ -43,16 +55,21 @@
 export default {
   data() {
     return {
-      response: '',
+      toDate: null,
+      fromDate: null,
       showResponse: false,
+      responseError: false,
+      response: '',
       object: {
         title: '',
-        duration: '',
+        toDate: '',
+        fromDate: '',
         content: ''
       },
       errors: {
         title: false,
-        duration: false,
+        toDate: false,
+        fromDate: false,
         content: false
       }
     }
@@ -62,7 +79,11 @@ export default {
       this.$axios.$post(process.env.API_URL + '/api/v1/challenge/' + this.target + '/detail', {
         'id': this.objectId.trim()
       }).then(res => {
-        this.object = res.message
+        this.object['_id'] = res.message._id
+        this.object['toDate'] = res.message.to
+        this.object['fromDate'] = res.message.from
+        this.object['content'] = res.message.content
+        this.object['title'] = res.message.title
       }).catch(error => {
         console.log(error.response.data)
       })
@@ -87,6 +108,13 @@ export default {
     }
   },
   computed: {
+    yesterday() {
+      const today = new Date()
+      const yesterday = new Date(today)
+      yesterday.setDate(yesterday.getDate() - 1)
+
+      return yesterday
+    },
     objectId() {
       if (this.challengeId) {
         return this.challengeId
@@ -116,15 +144,25 @@ export default {
         }
       }
     },
-    'object.duration': function() {
-      if (this.object.duration > 0) {
-        this.errors.duration = false
+    'object.fromDate': function() {
+      if (this.object.fromDate) {
+        this.errors.fromDate = false
       } else {
-        this.errors.duration = true
+        this.errors.fromDate = true
+      }
+    },
+    'object.toDate': function() {
+      if (this.object.toDate) {
+        this.errors.toDate = false
+      } else {
+        this.errors.toDate = true
       }
     }
   },
   methods: {
+    notBeforeToday(date) {
+      return date < this.yesterday
+    },
     submitForm: function(e) {
       const isValidForm = (currentValue) => currentValue !== true
 
@@ -136,8 +174,12 @@ export default {
         this.errors.title = true
       }
 
-      if (!this.object.duration) {
-        this.errors.duration = true
+      if (!this.object.fromDate) {
+        this.errors.fromDate = true
+      }
+
+      if (!this.object.toDate) {
+        this.errors.toDate = true
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
@@ -146,13 +188,17 @@ export default {
             'id': this.objectId.trim(),
             'title': this.object.title.trim(),
             'content': this.object.content.trim(),
-            'duration': this.object.duration
+            'from_date': this.object.fromDate,
+            'to_date': this.object.toDate
           }).then(res => {
             this.response = res.message
+            this.responseError = false
             this.showResponse = true
           }).catch(error => {
             if (error.hasOwnProperty('response')) {
-              console.log(error.response.data)
+              this.response = error.response.data.message
+              this.responseError = true
+              this.showResponse = true
             } else {
               console.log(error.message)
             }
@@ -161,14 +207,18 @@ export default {
           this.$axios.post(process.env.API_URL + '/api/v1/challenge/' + this.target, {
             'id': this.objectId.trim(),
             'title': this.object.title.trim(),
-            'duration': this.object.duration.trim(),
-            'content': this.object.content.trim()
+            'content': this.object.content.trim(),
+            'from_date': this.object.fromDate,
+            'to_date': this.object.toDate
           }).then(res => {
             this.response = res.data.message
+            this.responseError = false
             this.showResponse = true
           }).catch(error => {
             if (error.hasOwnProperty('response')) {
-              console.log(error.response.data)
+              this.response = error.response.data.message
+              this.responseError = true
+              this.showResponse = true
             } else {
               console.log(error.message)
             }

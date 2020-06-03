@@ -1,7 +1,7 @@
 <template>
 <div class="bg-gray-300 flex flex-col min-h-screen">
   <header-component />
-  <main class="mt-24 flex-grow">
+  <main class="mt-16 lg:mt-24 flex-grow">
     <nuxt />
   </main>
   <footer-component />

@@ -10,7 +10,7 @@ export default {
   fillfield: 'Bitte füllen Sie dieses Feld aus',
   entername: 'Bitte geben Sie Ihren Namen ein',
   duration: 'Dauer',
-  currentchallenges: 'Aktuelle Aufgabe | Aktuelle Aufgaben',
+  currentTasks: 'Aktuelle Aufgabe | Aktuelle Aufgaben',
   days: 'Tag | Tage',
   next: 'Weiter',
   previous: 'Zurück',

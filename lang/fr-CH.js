@@ -8,7 +8,7 @@ export default {
   fillfield: 'Veuillez remplir ce champ de saisie',
   entername: 'Veuillez entrer votre nom',
   duration: 'Durée',
-  currentchallenges: 'Tâche actuelle | Tâches actuelles',
+  currentTasks: 'Tâche actuelle | Tâches actuelles',
   days: 'Jour | Jours',
   next: 'Prochaine',
   previous: 'Précédente',

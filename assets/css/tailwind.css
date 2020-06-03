@@ -4,6 +4,7 @@
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
 
+/* purgecss start ignore */
 .markdown {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -180,11 +181,6 @@
   font-size: 12px;
 }
 
-.markdown p {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
 .markdown blockquote {
   margin: 0;
 }
@@ -284,8 +280,8 @@
 .markdown pre,
 .markdown table,
 .markdown ul {
-  margin-top: 0;
-  margin-bottom: 2px;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .markdown hr {
@@ -471,3 +467,23 @@
   background-color: initial;
   border: 0;
 }
+
+.markdown>.video {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.markdown>.video iframe,
+.markdown>.video object,
+.markdown>.video embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* purgecss end ignore */

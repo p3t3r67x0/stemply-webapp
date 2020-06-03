@@ -1,52 +1,53 @@
 <template>
 <div class="container mx-auto">
-  <div v-if="!landing && challenges.length === 0" class="text-center">
-    <h3 class="text-2xl mb-2">{{ $t('nochallenge') }}</h3>
-    <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
-  </div>
-  <div v-if="landing && challenges.length === 0">
-    <h3 class="text-2xl mb-2">{{ landing.title }}</h3>
-    <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
-  </div>
-  <h2 class="text-2xl font-bold mb-2" v-if="challenges.length > 0">
-    {{ $tc('currentchallenges', challenges.length > 1 ? 0 : 1)}}:
-  </h2>
-  <div class="container mx-auto">
-    <div :class="{ 'flex justify-center' : !showall }" class="flex flex-wrap">
-      <div v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="bg-white rounded overflow-hidden shadow-lg border mb-6">
-        <div class="flex">
-          <div class="container hover:border hover:shadow-2xl w-1/3 border-r cursor-pointer">
-            <nuxt-link :to="'account/detail/' + challenge._id" class="group">
-              <img class="w-full group-hover:opacity-75" src="https://images.unsplash.com/photo-1590589195374-163308c534ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="Forest">
-              <div class="px-6 py-4">
-                <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
-                <p class="text-gray-700 group-hover:text-gray-600 text-base">
-                  <span v-if="challenge.content.length > excerptlength">
-                    <vue-markdown-plus class="markdown" :source="challenge.content.substring(0, excerptlength)" />...</span>
-                  <span v-else>
-                    <vue-markdown-plus class="markdown" :source="challenge.content" />
-                  </span>
-                </p>
-              </div>
-              <div class="px-6 py-4">
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ Math.round(task.duration / 8640) / 10 }} {{ $tc('days', challenge.duration != 86400 ? 0 : 1)}}</span>
-              </div>
+  <div class="mx-3 lg:mx-0">
+    <div v-if="!landing && challenges.length === 0" class="text-center">
+      <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
+      <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
+    </div>
+    <div v-if="landing && challenges.length === 0">
+      <h3 class="text-xl lg:text-2xl mb-2">{{ landing.title }}</h3>
+      <div class="bg-white rounded-lg p-3">
+        <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
+      </div>
+    </div>
+    <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
+    <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
+      <li v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="bg-white rounded overflow-hidden shadow border mb-6">
+        <div class="lg:flex">
+          <div class="w-full lg:w-1/3 border-r">
+            <nuxt-link :to="'account/detail/' + challenge._id" class="block group p-4">
+              <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
+              <p class="text-gray-700 group-hover:text-gray-600 text-base mb-4">
+                <span v-if="challenge.content.length > excerptLength">
+                  <vue-markdown-plus class="markdown" :source="challenge.content.substring(0, excerptLength * 2)" />...</span>
+                <span v-else>
+                  <vue-markdown-plus class="markdown" :source="challenge.content" />
+                </span>
+              </p>
+              <span class="inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ $t('duration') }}: {{ secondsToDays(challenge.duration) }} {{ $tc('days', secondsToDays(challenge.duration) != 1 ? 0 : 1)}}</span>
             </nuxt-link>
           </div>
-          <div class="container w-2/3 py-2 px-6">
-            <div class="mb-8">
-              <h2 class="text-xl text-center font-bold">Tasks</h2>
-              <hr>
-            </div>
+          <div class="w-full lg:w-2/3 p-4">
+            <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 0 : 1)}}</h2>
             <ul :key="tasksLoaded">
-              <li v-for="task in challenge.tasks" :key="task._id" class="flex justify-between hover:shadow-lg px-2 py-3 m-2">
-                <div class="flex justify-between mr-3">
+              <li v-for="task in challenge.tasks" :key="task._id" class="lg:flex justify-between w-full odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
+                <div class="flex justify-between mr-3 mb-3 lg:mb-0">
                   <span :key="progressChanged">
-                    <fa :icon="['fas', 'check-square']" @click="toggleProgressStatus(challenge._id, task._id)" :class="[  task.progress == 'done' ? 'text-green-500' : 'text-gray-500']" class="inline-block cursor-pointer text-2xl w-5 mr-3" />
+                    <fa :icon="['fas', 'check-square']" @click="toggleProgressStatus(challenge._id, task._id)" :class="[  task.progress == 'done' ? 'text-green-500' : 'text-gray-500']"
+                      class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3" />
                   </span>
-                  <div class="">{{ task.content.substring(0, excerptlength / 4 ) }}<span v-if="task.content.length > excerptlength / 3">...</span></div>
+                  <span>
+                    <nuxt-link :to="'account/detail/' + task._id" class="text-blue-600 hover:text-blue-800">
+                      {{ task.title.substring(0, excerptLength / 4 ) }}<span v-if="task.title.length > excerptLength / 4">...</span>
+                    </nuxt-link>
+                    <span class="lg:hidden text-gray-600">
+                      ({{ $t('duration') }}: {{ secondsToDays(task.duration) }} {{ $tc('days', secondsToDays(task.duration) != 1 ? 0 : 1)}})
+                    </span>
+                  </span>
                 </div>
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ Math.round(task.duration / 8640) / 10 }} {{ $tc('days', task.duration != 86400 ? 0 : 1)}}</span>
+                <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ secondsToDays(task.duration) }}
+                  {{ $tc('days', secondsToDays(task.duration) != 1 ? 0 : 1)}}</span>
               </li>
             </ul>
           </div>
@@ -57,13 +58,13 @@
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
             v-on:click="showing+=1">{{ $t('next') }}</button>
         </div>
+      </li>
+    </ul>
+    <div v-if="challenges.length > 1" class="mb-2">
+      <div class="form-switch inline-block align-right ml-auto">
+        <input v-model="showall" id="showallswitch" type="checkbox" name="showallswitch" class="form-switch-checkbox" />
+        <label for="showallswitch" class="form-switch-label">{{ $t('showall') }}</label>
       </div>
-    </div>
-  </div>
-  <div class="mb-2" v-if="challenges.length > 1">
-    <div class="form-switch inline-block align-right ml-auto">
-      <input type="checkbox" name="showallswitch" v-model="showall" id="showallswitch" class="form-switch-checkbox" />
-      <label class="form-switch-label" for="showallswitch">{{ $t('showall') }}</label>
     </div>
   </div>
 </div>
@@ -80,7 +81,7 @@ export default {
       challenges: [],
       showing: 0,
       showall: false,
-      excerptlength: 200,
+      excerptLength: 165,
       progressChanged: false,
       tasksLoaded: 0,
       landing: {}
@@ -171,6 +172,9 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    secondsToDays(seconds) {
+      return Math.round(seconds / 3600 / 24)
     }
   }
 }

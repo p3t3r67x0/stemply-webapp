@@ -10,7 +10,7 @@ export default {
   fillfield: 'Please fill out this field.',
   entername: 'Please enter your name.',
   duration: 'Duration',
-  currentchallenges: 'Your current challenge | Your current challenges',
+  currentTasks: 'Current challenge | Current challenges',
   next: 'Next',
   previous: 'Previous',
   showall: 'Show all challenges',

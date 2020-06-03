@@ -412,7 +412,7 @@
 }
 
 .markdown img {
-  max-width: 100%;
+  width: 100%;
   box-sizing: initial;
   background-color: #fff;
 }

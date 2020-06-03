@@ -13,7 +13,7 @@
     </div>
     <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
     <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
-      <li v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="bg-white rounded overflow-hidden shadow border mb-6">
+      <li v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
             <nuxt-link :to="'account/detail/' + challenge._id" class="block group p-4">

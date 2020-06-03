@@ -1,7 +1,14 @@
 module.exports = {
-  purge: [
-    './**/*.vue',
-  ],
+  purge: {
+    content: [
+      './components/**/*.vue',
+      './layouts/**/*.vue',
+      './pages/**/*.vue'
+    ],
+    options: {
+      whitelist: ['markdown']
+    }
+  },
   theme: {},
   variants: {
     backgroundColor: ['responsive', 'odd', 'even', 'hover', 'focus', 'group-hover'],

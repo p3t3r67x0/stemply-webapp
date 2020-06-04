@@ -16,7 +16,7 @@
       <li v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
-            <nuxt-link :to="'account/detail/' + challenge._id" class="block group p-4">
+            <nuxt-link :to="'/account/challenge/' + challenge._id" class="block group p-4">
               <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
               <p class="text-gray-700 group-hover:text-gray-600 text-base mb-4">
                 <span v-if="challenge.content.length > excerptLength">
@@ -38,7 +38,7 @@
                       class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3" />
                   </span>
                   <span>
-                    <nuxt-link :to="'account/detail/' + task._id" class="text-blue-600 hover:text-blue-800">
+                    <nuxt-link :to="'/account/task/' + task._id" class="text-blue-600 hover:text-blue-800">
                       {{ task.title.substring(0, excerptLength / 4 ) }}<span v-if="task.title.length > excerptLength / 4">...</span>
                     </nuxt-link>
                     <span class="lg:hidden text-gray-600">

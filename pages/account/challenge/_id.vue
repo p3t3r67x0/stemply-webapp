@@ -1,13 +1,15 @@
 <template>
-<div class="container mx-auto rounded-lg bg-white p-3 mt-3">
-  <div class="m-8 mb-16">
-    <div class="flex">
-      <h1 class="text-2xl font-bold mb-2 justify-content-left">{{ challenge.title }}</h1>
-      <a href="/account" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto justify-content-right">All challenges</a>
+<div class="container mx-auto mt-3 lg:mt-0">
+  <div class="mx-3 lg:mx-0">
+    <div class="bg-white rounded-lg p-3">
+      <div class="flex justify-between mb-3">
+        <h1 class="text-2xl font-bold">{{ challenge.title }}</h1>
+        <span>
+          <nuxt-link :to="'/account'" class="inline-block bg-green-500 hover:bg-green-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Dashboard</nuxt-link>
+        </span>
+      </div>
+      <vue-markdown-plus class="markdown" :source="challenge.content" />
     </div>
-  </div>
-  <div class="mx-8 mb-8">
-    <vue-markdown-plus class="markdown" :source="challenge.content" />
   </div>
 </div>
 </template>

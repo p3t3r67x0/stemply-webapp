@@ -1,6 +1,6 @@
 <template>
 <div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
-  <form @submit.prevent="loginSubmit" class="bg-white rounded-lg w-full max-w-sm p-3">
+  <form @submit.prevent="resetPasswordSubmit" class="bg-white rounded-lg w-full max-w-sm p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-3">Reset password</h1>
     <p v-if="showResponse" v-bind:class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>
     <div class="w-full mb-6">
@@ -45,7 +45,7 @@ export default {
   },
   middleware: 'auth',
   methods: {
-    loginSubmit() {
+    resetPasswordSubmit() {
       const isValidForm = (currentValue) => currentValue !== true
 
       if (!this.email) {

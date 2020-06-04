@@ -7,16 +7,16 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
         New password
       </label>
-      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="password" type="password" placeholder="password">
+      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password" type="password" placeholder="password">
       <p v-if="errors.password" class="text-red-500 text-xs italic">Please enter a valid password.</p>
     </div>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="confirmPassword">
         Confirm password
       </label>
-      <input name="confirmPassword" v-model="confirmPassword" v-bind:class="{'border-red-500': errors.confirmPassword}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="confirmPassword" type="password" placeholder="password">
+      <input name="confirmPassword" v-model="confirmPassword" v-bind:class="{'border-red-500': errors.confirmPassword}"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="confirmPassword" type="password" placeholder="password">
       <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">Please enter a valid password.</p>
     </div>
     <p class="text-right">
@@ -87,9 +87,10 @@ export default {
           'password': this.password.trim()
         }).then(res => {
           console.log(res)
-          this.$router.push({
-            name: 'login'
-          })
+
+          this.$router.push(this.localePath({
+            name: 'signin'
+          }))
         }).catch(error => {
           this.showResponse = true
 

@@ -1,24 +1,28 @@
 <template>
-<ul class="container mx-auto mt-3">
-  <h1 class="text-2xl font-bold mb-6">Subscription</h1>
-  <li v-for="challenge in challenges" class="bg-white rounded-lg p-3 mb-6">
-    <h3 class="w-full md:w-8/12 text-xl font-bold mb-2">{{ challenge.title }}</h3>
-    <h4 class="w-full md:w-8/12 text-xl mb-1">Manage user subscription</h4>
+<div class="container mx-auto">
+  <div class="mx-3 lg:mx-0">
+    <h1 class="text-xl lg:text-2xl font-semibold mb-4">Subscription</h1>
     <ul>
-      <li v-for="user in users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
-        <div class="flex justify-between">
-          <div>
-            {{ user.email }}
-          </div>
-          <div class="text-right">
-            <button type="button" @click="toggleSubscribe(challenge._id, user._id)" :class="[matchChallenge(challenge._id, user) ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600']"
-              class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id, user) ? 'Unsubscribe' : 'Subscribe'}}</button>
-          </div>
-        </div>
+      <li v-for="challenge in challenges" class="bg-white rounded-lg p-3 mb-6">
+        <h3 class="w-full md:w-8/12 text-lg lg:text-xl font-bold mb-2">{{ challenge.title }}</h3>
+        <h4 class="w-full md:w-8/12 text-lg lg:text-xl mb-1">Manage user subscription</h4>
+        <ul>
+          <li v-for="user in users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
+            <div class="flex justify-between">
+              <div>
+                {{ user.email }}
+              </div>
+              <div class="text-right">
+                <button type="button" @click="toggleSubscribe(challenge._id, user._id)" :class="[matchChallenge(challenge._id, user) ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600']"
+                  class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id, user) ? 'Unsubscribe' : 'Subscribe'}}</button>
+              </div>
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
-  </li>
-</ul>
+  </div>
+</div>
 </template>
 
 <script>

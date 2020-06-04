@@ -34,7 +34,7 @@
           <span class="flex justify-betweeen mb-1">
             <h3 class="w-full lg:w-10/12 text-lg font-bold">{{ task.title }}</h3>
             <p class="w-full text-right">
-              <button ref="deleteTask" type="button" @click="deleteTask(task._id, indexTask)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
+              <button ref="deleteTask" type="button" @click="deleteTask(task._id, indexChallenge, indexTask)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
               <nuxt-link :to="generateTaskEditLink(task._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
@@ -102,8 +102,20 @@ export default {
     generateTaskEditLink(id) {
       return `/admin/task/edit/${id}`
     },
-    deleteTask(id) {
-      alert('Not implemented yet')
+    deleteTask(id, indexChallenge, indexTask) {
+      this.$refs.deleteTask[indexTask].blur()
+
+      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/task/' + id).then((res) => {
+        this.challenges[indexChallenge].tasks.splice(indexTask, 1)
+
+        console.log(res.message)
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error.message)
+        }
+      })
     },
     deleteChallenge(id, indexChallenge) {
       this.$refs.deleteChallenge[indexChallenge].blur()

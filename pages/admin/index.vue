@@ -2,12 +2,12 @@
 <div class="container mx-auto mt-3">
   <div class="flex justify-between">
     <h1 class="text-2xl font-bold mb-6">Overview</h1>
-    <p>
+    <span>
       <nuxt-link to="/admin/challenge" class="inline-block bg-green-500 hover:bg-green-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">New challenge</nuxt-link>
-    </p>
+    </span>
   </div>
   <ul>
-    <li v-for="challenge in challenges" class="bg-white rounded-lg p-3 mb-6">
+    <li v-for="(challenge, indexChallenge) in challenges" class="bg-white rounded-lg p-3 mb-6">
       <div class="flex justify-between">
         <h2 class="text-xl font-semibold mb-3">Challenge</h2>
         <p>
@@ -18,7 +18,7 @@
         <span class="flex justify-betweeen mb-1">
           <h3 class="w-full lg:w-10/12 text-xl font-bold">{{ challenge.title }}</h3>
           <p class="w-full text-right">
-            <button type="button" @click="deleteChallenge(challenge._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
+            <button ref="deleteChallenge" type="button" @click="deleteChallenge(challenge._id, indexChallenge)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
             <nuxt-link :to="generateChallangeLink(challenge._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
           </p>
         </span>
@@ -30,11 +30,11 @@
       </div>
       <h2 v-if="challenge.tasks.length > 0" class="text-xl font-semibold mt-6">Tasks</h2>
       <ul v-if="challenge.tasks.length > 0">
-        <li v-for="task in challenge.tasks" class="bg-gray-200 rounded-lg p-2 mt-3">
+        <li v-for="(task, indexTask) in challenge.tasks" :key="task._id" class="bg-gray-200 rounded-lg p-2 mt-3">
           <span class="flex justify-betweeen mb-1">
             <h3 class="w-full lg:w-10/12 text-lg font-bold">{{ task.title }}</h3>
             <p class="w-full text-right">
-              <button type="button" @click="deleteTask(task._id)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
+              <button ref="deleteTask" type="button" @click="deleteTask(task._id, indexTask)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
               <nuxt-link :to="generateTaskEditLink(task._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
@@ -105,8 +105,20 @@ export default {
     deleteTask(id) {
       alert('Not implemented yet')
     },
-    deleteChallenge(id) {
-      alert('Not implemented yet')
+    deleteChallenge(id, indexChallenge) {
+      this.$refs.deleteChallenge[indexChallenge].blur()
+
+      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/' + id).then((res) => {
+        this.challenges.splice(indexChallenge, 1)
+
+        console.log(res.message)
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error.message)
+        }
+      })
     },
     secondsToDays(seconds) {
       const days = Math.round(seconds / 3600 / 24)

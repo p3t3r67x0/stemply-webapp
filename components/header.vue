@@ -54,6 +54,9 @@
                 <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ locale.name }}</a>
               </li>
               <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Users</nuxt-link>
+              </li>
+              <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <nuxt-link :to="localePath('/admin/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.settings') }}</nuxt-link>
               </li>
               <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">

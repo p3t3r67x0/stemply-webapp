@@ -13,8 +13,15 @@ export default ({
     function(config) {
       // store.commit('store/updateLoadingIndicator', true)
       // console.log('updateLoadingIndicator: ' + store.state.loading)
+      let url = null
 
-      if (config.url.includes('/api/v1/token/refresh')) {
+      if (config.url.hasOwnProperty('url')) {
+        url = config.url['url']
+      } else {
+        url = config.url
+      }
+
+      if (url.includes('/api/v1/token/refresh')) {
         const refreshToken = Cookie.get('USER_REFRESH_TOKEN')
 
         if (refreshToken) {

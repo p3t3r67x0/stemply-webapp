@@ -3,7 +3,7 @@
   <p v-if="showResponse" class="text-green-500 lg:text-lg mb-3">{{ response }}</p>
   <div class="w-full mb-6">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="subject">
-      Title
+      Subject
     </label>
     <input name="subject" v-model="template.subject" v-bind:class="{'border-red-500': errors.subject}" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white" id="subject"
       type="text" placeholder="Learn to use the new media">
@@ -11,7 +11,7 @@
   </div>
   <div class="w-full mb-6">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="duration">
-      Content
+      Message
     </label>
     <textarea name="duration" v-model="template.message" v-bind:class="{'border-red-500': errors.message}"
       class="h-64 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="message" type="message"

@@ -2,9 +2,12 @@ const cookieparser = process.server ? require('cookieparser') : undefined
 
 export const state = () => ({
   userId: null,
+  loading: false,
   userRoles: null,
   accessToken: null,
-  refreshToken: null
+  refreshToken: null,
+  historyBack: null,
+  userAvatar: null
 })
 
 export const mutations = {
@@ -19,6 +22,15 @@ export const mutations = {
   },
   updateRefreshToken(state, refreshToken) {
     state.refreshToken = refreshToken
+  },
+  updateUserAvatar(state, avatar) {
+    state.userAvatar = avatar
+  },
+  updateLoadingIndicator(state, loading) {
+    state.loading = loading
+  },
+  updateHistoryBack(state, path) {
+    state.historyBack = path
   }
 }
 

@@ -60,6 +60,9 @@
                 <nuxt-link :to="localePath('/admin/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.settings') }}</nuxt-link>
               </li>
               <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+                <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Manage Profile</nuxt-link>
+              </li>
+              <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.logout')}}</a>
               </li>
             </ul>

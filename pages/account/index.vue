@@ -77,8 +77,8 @@
 
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
-import VueTailwindModal from 'vue-tailwind-modal'
 import challengeModal from '@/components/challengeModal'
+
 export default {
   data() {
     return {
@@ -89,8 +89,8 @@ export default {
       showall: false,
       excerptLength: 165,
       progressChanged: false,
-      tasksLoaded: 0,
       showChallengeModal: true,
+      tasksLoaded: 0,
       landing: {}
     }
   },

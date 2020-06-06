@@ -192,7 +192,7 @@ export default {
         const challengeIndex = this.challenges.findIndex(challenge => challenge._id === challengeId)
         const taskIndex = this.challenges[challengeIndex].tasks.findIndex(task => task._id === taskId)
 
-        if (taskIndex) {
+        if (taskIndex >= 0) {
           let task = this.challenges[challengeIndex].tasks[taskIndex]
           task['progress'] = res.progress
 

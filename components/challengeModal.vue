@@ -1,5 +1,5 @@
 <template>
-  <div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center justify-center" style="overflow: scroll">
+  <div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" @click="closeModal"></div>
 
     <div class="modal-container bg-white mx-16 rounded shadow-lg z-50">
@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="flex" v-if="challenge">
-          <div v-if="challenge" class="w-auto border-r-2 p-4 m-4" style="overflow: scroll">
+          <div v-if="challenge" class="w-auto border-r-2 p-4 m-4">
             <vue-markdown-plus class="markdown" :source="challenge.content" />
           </div>
           <div v-if="challenge" class="w-full p-4 m-4 w-2/3 p-4">
@@ -64,7 +64,6 @@ import VueMarkdownPlus from 'vue-markdown-plus'
 export default {
   data() {
     return {
-      text: "Hello",
       statusClass: ""
     }
   },

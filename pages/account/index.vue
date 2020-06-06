@@ -59,8 +59,8 @@
         </div>
         <hr>
         <div v-if="!showall && challenges.length > 1" class="flex justify-center m-3">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0" v-on:click="showing-=1">{{ $t('previous') }}</button>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
+          <button v-if="!showChallengeModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end z-0" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0" v-on:click="showing-=1">{{ $t('previous') }}</button>
+          <button v-if="!showChallengeModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
             v-on:click="showing+=1">{{ $t('next') }}</button>
         </div>
       </li>
@@ -90,7 +90,7 @@ export default {
       modalChallenge: [],
       excerptLength: 165,
       progressChanged: false,
-      showChallengeModal: true,
+      showChallengeModal: false,
       tasksLoaded: 0,
       landing: {}
     }
@@ -216,9 +216,5 @@ export default {
 <style>
   .modal {
     transition: opacity 0.25s ease;
-  }
-  body.modal-active {
-    overflow-x: hidden;
-    overflow-y: visible !important;
   }
 </style>

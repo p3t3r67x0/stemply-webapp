@@ -4,10 +4,10 @@
   <small class="block text-center ">Pro Account</small>
   <h1 class="text-md text-center mb-4">{{ userName }}</h1>
   <form enctype="multipart/form-data" class="flex justify-center items-center">
-    <button type="button" class="w-48 h-12 bg-gray-700 hover:bg-gray-800 rounded focus:outline-none focus:shadow-outline relative cursor-pointer">
-      <input @change="setImage" ref="file" type="file" class="w-48 h-12 overflow-hidden opacity-0 absolte cursor-pointer" accept="image/*">
-      <span class="pointer-events-none absolute top-0 left-0 z-20 w-48 h-12 text-white font-medium leading-tight text-center cursor-pointer p-3">Upoad avatar</span>
-    </button>
+    <label class="w-48 h-12 flex flex-col items-center rounded bg-gray-700 hover:bg-gray-800 text-white cursor-pointer">
+      <span class="mt-3 text-base leading-normal">Upoad avatar</span>
+      <input @change="setImage" ref="file" type="file" accept="image/*" class="hidden">
+    </label>
   </form>
   <hr class="my-8 border-b border-gray-400">
 </div>

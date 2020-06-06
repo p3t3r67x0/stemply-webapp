@@ -86,6 +86,7 @@ export default {
       Cookie.remove('USER_REFRESH_TOKEN')
 
       this.$store.commit('updateUserId', null)
+      this.$store.commit('updateUserAvatar', null)
       this.$store.commit('updateAccessToken', null)
       this.$store.commit('updateRefreshToken', null)
 
@@ -102,12 +103,16 @@ export default {
           'email': this.email.trim(),
           'password': this.password.trim()
         }).then(res => {
-          this.$store.commit('updateUserId', res.user_id)
-          this.$store.commit('updateUserRoles', res.user_roles)
+          this.$store.commit('updateUserId', res.id)
+          this.$store.commit('updateUserName', res.name)
+          this.$store.commit('updateUserRoles', res.roles)
+          this.$store.commit('updateUserAvatarUrl', res.avatar)
           this.$store.commit('updateAccessToken', res.access_token)
 
-          Cookie.set('USER_ID', res.user_id)
-          Cookie.set('USER_ROLES', JSON.stringify(res.user_roles))
+          Cookie.set('USER_ID', res.id)
+          Cookie.set('USER_NAME', res.name)
+          Cookie.set('USER_AVATAR_URL', res.avatar)
+          Cookie.set('USER_ROLES', JSON.stringify(res.roles))
           Cookie.set('USER_ACCESS_TOKEN', res.access_token)
           Cookie.set('USER_REFRESH_TOKEN', res.refresh_token)
 

@@ -7,7 +7,9 @@ export const state = () => ({
   accessToken: null,
   refreshToken: null,
   historyBack: null,
-  userAvatar: null
+  userAvatarUrl: null,
+  userAvatar: null,
+  userName: null
 })
 
 export const mutations = {
@@ -23,6 +25,9 @@ export const mutations = {
   updateRefreshToken(state, refreshToken) {
     state.refreshToken = refreshToken
   },
+  updateUserAvatarUrl(state, avatarUrl) {
+    state.userAvatarUrl = avatarUrl
+  },
   updateUserAvatar(state, avatar) {
     state.userAvatar = avatar
   },
@@ -31,6 +36,9 @@ export const mutations = {
   },
   updateHistoryBack(state, path) {
     state.historyBack = path
+  },
+  updateUserName(state, name) {
+    state.userName = name
   }
 }
 
@@ -45,6 +53,8 @@ export const actions = {
 
       try {
         commit('updateUserId', parsed.USER_ID)
+        commit('updateUserName', parsed.USER_NAME)
+        commit('updateUserAvatarUrl', parsed.USER_AVATAR_URL)
         commit('updateUserRoles', JSON.parse(parsed.USER_ROLES))
         commit('updateAccessToken', parsed.USER_ACCESS_TOKEN)
         commit('updateRefreshToken', parsed.USER_REFRESH_TOKEN)

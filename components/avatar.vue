@@ -1,8 +1,8 @@
 <template>
 <div class="pt-5">
-  <img ref="profile" class="bg-white text-center w-48 h-48 mx-auto leading-6 border border-gray-200 rounded-full mb-5" :src="userAvatar" alt="Avatar">
-  <h1 class="text-md text-center">{{ userName }}</h1>
-  <small class="block text-center mb-4">Pro Account</small>
+  <img ref="avatar" class="bg-white text-center w-48 h-48 mx-auto leading-6 border border-gray-200 rounded-full mb-5" :src="userAvatar" alt="Avatar">
+  <small class="block text-center ">Pro Account</small>
+  <h1 class="text-md text-center mb-4">{{ userName }}</h1>
   <form enctype="multipart/form-data" class="flex justify-center items-center">
     <button type="button" class="w-48 h-12 bg-gray-700 hover:bg-gray-800 rounded focus:outline-none focus:shadow-outline relative cursor-pointer">
       <input @change="setImage" ref="file" type="file" class="w-48 h-12 overflow-hidden opacity-0 absolte cursor-pointer" accept="image/*">
@@ -33,21 +33,35 @@ export default {
     userName() {
       return this.$store.state.userName
     },
-    userAvatar: {
-      get() {
-        return this.$store.state.userAvatar
-      },
-      set(userAvatar) {
-        this.$store.commit('updateUserAvatar', userAvatar)
-        Cookie.set('USER_AVATAR', userAvatar)
-      }
+    userAvatar() {
+      return this.$store.state.userAvatar
+    },
+    userAvatarUrl() {
+      return this.$store.state.userAvatarUrl
     }
   },
+  created() {
+    console.log('wurde aufgerufen')
+    this.getAvatar()
+  },
   methods: {
-    getImgUrl(image) {
-      return this.publicPath + image
+    getAvatar() {
+      this.$axios.$get(process.env.API_URL + '/static/' + this.userAvatarUrl, {
+        responseType: 'blob'
+      }).then(res => {
+        console.log(res)
+        const vm = this
+        let reader = new window.FileReader()
+        reader.readAsDataURL(res)
+        reader.onload = function() {
+          vm.$refs.avatar.src = reader.result
+          vm.$store.commit('updateUserAvatar', reader.result)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
     },
-    setImage: function(e) {
+    setImage(e) {
       const images = 'files' in e.target ? e.target.files : 'dataTransfer' in e ? e.dataTransfer.files : []
       let i
 
@@ -61,18 +75,17 @@ export default {
           image.onload = function(e) {
             const avatarUrl = process.env.API_URL + '/api/v1/user/avatar/' + vm.userId
             const imageResized = ImageHandler.resizeCrop(e.target, 800, 800).toDataURL('image/png')
-            vm.$refs.profile.src = imageResized
+            vm.$refs.avatar.src = imageResized
             const data = new FormData()
             data.append('file', ImageHandler.dataURItoBlob(imageResized))
 
-            console.log(data)
             vm.$axios.$post(avatarUrl, data, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
             }).then((res) => {
-              console.log(res.message)
-              vm.userAvatar = process.env.URL + '/' + response.data.file
+              console.log(res)
+              vm.$store.commit('updateUserAvatarUrl', res.avatar)
             }).catch((error) => {
               console.log(error)
             })

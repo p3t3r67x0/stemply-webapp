@@ -126,12 +126,16 @@ export default {
     },
     logoutSubmit() {
       this.$store.commit('updateUserId', null)
+      this.$store.commit('updateUserName', null)
       this.$store.commit('updateUserRoles', null)
-      this.$store.commit('updateAccessToken', null)
+      this.$store.commit('updateUserAvatar', null)
+      this.$store.commit('updateUserAvatarUrl', null)
       this.$store.commit('updateRefreshToken', null)
+      this.$store.commit('updateAccessToken', null)
 
       Cookie.remove('USER_ID')
       Cookie.remove('USER_ROLES')
+      Cookie.remove('USER_AVATAR_URL')
       Cookie.remove('USER_ACCESS_TOKEN')
       Cookie.remove('USER_REFRESH_TOKEN')
 

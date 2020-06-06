@@ -11,7 +11,7 @@
               <a :class="tabs.showProfileTab ? 'text-white' : 'text-gray-700'" @click="handleTabs('showProfileTab')" class="block p-4 hover:text-white">Profile</a>
             </li>
             <li :class="{ 'bg-blue-500' : tabs.showNotificationsTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
-              <a :class="[ tabs.showNotificationsTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showNotificationsTab')" class="block p-4 hover:text-white">Email Notifications</a>
+              <a :class="[ tabs.showNotificationsTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showNotificationsTab')" class="block p-4 hover:text-white">Notifications</a>
             </li>
             <li :class="{ 'bg-blue-500' : tabs.showBillingTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
               <a :class="[ tabs.showBillingTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showBillingTab')" class="block p-4 hover:text-white">Billing Details</a>
@@ -20,7 +20,7 @@
               <a :class="[ tabs.showLastseenTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showLastseenTab')" class="block p-4 hover:text-white">Last Logins</a>
             </li>
             <li :class="{ 'bg-blue-500' : tabs.showPasswordTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
-              <a :class="[ tabs.showPasswordTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showPasswordTab')" href="#" class="block p-4 hover:text-white">Password</a>
+              <a :class="[ tabs.showPasswordTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showPasswordTab')" href="#" class="block p-4 hover:text-white">Reset Password</a>
             </li>
             <li :class="{ 'bg-red-500' : tabs.showAccountTab }" class="cursor-pointer border-b border-white hover:bg-red-500">
               <a :class="[ tabs.showAccountTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showAccountTab')" href="#" class="block p-4 hover:text-white">Delete Account</a>

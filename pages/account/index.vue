@@ -2,7 +2,7 @@
 <div class="container mx-auto">
 
 
-<challengeModal v-if="showChallengeModal" v-on:clicked="toggleChallengeModal" />
+<challengeModal v-if="showChallengeModal && tasksLoaded" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge"/>
 
 
   <div class="mx-3 lg:mx-0">
@@ -18,10 +18,10 @@
     </div>
     <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
     <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
-      <li v-for="challenge in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
+      <li v-for="challenge, key in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
-            <nuxt-link :to="'/account/challenge/' + challenge._id" class="block group p-4">
+            <div class="block group p-4" v-on:click="showChallenge(key)">
               <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
               <p class="text-gray-700 group-hover:text-gray-600 text-base mb-4">
                 <span v-if="challenge.content.length > excerptLength">
@@ -31,7 +31,7 @@
                 </span>
               </p>
               <span class="inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ $t('duration') }}: {{ challenge.duration }} {{ $tc('days', challenge.duration != 1 ? 0 : 1)}}</span>
-            </nuxt-link>
+            </div>
           </div>
           <div class="w-full lg:w-2/3 p-4">
             <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 0 : 1)}}</h2>
@@ -87,6 +87,7 @@ export default {
       challenges: [],
       showing: 0,
       showall: false,
+      modalChallenge: [],
       excerptLength: 165,
       progressChanged: false,
       showChallengeModal: true,
@@ -204,6 +205,10 @@ export default {
     },
     toggleChallengeModal() {
       this.showChallengeModal = !this.showChallengeModal
+    },
+    showChallenge(key) {
+      this.modalChallenge = this.challenges[key]
+      this.showChallengeModal = true
     }
   }
 }

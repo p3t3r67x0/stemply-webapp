@@ -1,5 +1,10 @@
 <template>
 <div class="container mx-auto">
+
+
+<challengeModal v-if="showChallengeModal" v-on:clicked="toggleChallengeModal" />
+
+
   <div class="mx-3 lg:mx-0">
     <div v-if="!landing && challenges.length === 0" class="text-center">
       <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
@@ -72,7 +77,8 @@
 
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
-
+import VueTailwindModal from 'vue-tailwind-modal'
+import challengeModal from '@/components/challengeModal'
 export default {
   data() {
     return {
@@ -84,6 +90,7 @@ export default {
       excerptLength: 165,
       progressChanged: false,
       tasksLoaded: 0,
+      showChallengeModal: true,
       landing: {}
     }
   },
@@ -169,7 +176,8 @@ export default {
     })
   },
   components: {
-    VueMarkdownPlus
+    VueMarkdownPlus,
+    challengeModal
   },
   middleware: 'auth',
   methods: {
@@ -193,7 +201,19 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    toggleChallengeModal() {
+      this.showChallengeModal = !this.showChallengeModal
     }
   }
 }
 </script>
+<style>
+  .modal {
+    transition: opacity 0.25s ease;
+  }
+  body.modal-active {
+    overflow-x: hidden;
+    overflow-y: visible !important;
+  }
+</style>

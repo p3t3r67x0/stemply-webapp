@@ -14,17 +14,12 @@
 </template>
 
 <script>
+const Cookie = process.client ? require('js-cookie') : undefined
 import ImageHandler from '@/plugins/imageHandler'
 
-const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   data() {
-    return {
-      statusCode: null,
-      infoMessage: null,
-      showImages: false,
-      showModal: false
-    }
+    return {}
   },
   computed: {
     userId() {
@@ -41,7 +36,6 @@ export default {
     }
   },
   created() {
-    console.log('wurde aufgerufen')
     this.getAvatar()
   },
   methods: {
@@ -49,7 +43,6 @@ export default {
       this.$axios.$get(process.env.API_URL + '/static/' + this.userAvatarUrl, {
         responseType: 'blob'
       }).then(res => {
-        console.log(res)
         const vm = this
         let reader = new window.FileReader()
         reader.readAsDataURL(res)

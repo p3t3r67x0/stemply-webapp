@@ -1,7 +1,7 @@
 <template>
 <div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
   <div class="bg-white rounded-lg w-full max-w-sm p-3">
-    <h1 class="text-2xl lg:text-4xl font-medium">Confirm Account</h1>
+    <h1 class="text-2xl lg:text-4xl font-medium">{{ $t('confirmaccount') }}</h1>
     <p v-if="showResponse" class="text-red-500 lg:text-lg mb-3">{{ response }}</p>
     <p class="mt-6">
       <nuxt-link to="/reset" class="inline-block cursor-pointer bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide p-2">Resend link</nuxt-link>

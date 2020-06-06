@@ -13,9 +13,9 @@
         <table class="table table-fixed w-full text-md text-gray-800 rounded-lg">
           <tbody>
             <tr class="border-b bg-gray-800 text-white">
-              <th class="lg:w-3/12 text-left p-3 px-5">Name</th>
-              <th class="lg:w-4/12 text-left p-3 px-5">Email</th>
-              <th class="lg:w-3/12 text-left p-3 px-5">Roles</th>
+              <th class="lg:w-3/12 text-left p-3 px-5">{{ $t('name') }}</th>
+              <th class="lg:w-4/12 text-left p-3 px-5">{{ $t('email') }}</th>
+              <th class="lg:w-3/12 text-left p-3 px-5">{{ $t('roles') }}</th>
               <th class="lg:w-2/12"></th>
             </tr>
             <tr v-for="(user, i) in users" :key="user._id" class="border-b bg-gray-100 hover:bg-gray-400">

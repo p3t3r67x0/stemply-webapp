@@ -5,6 +5,7 @@ export default {
   nochallenge: 'No challenge has been assigned to you',
   nochallengesupport: 'Please contact the support so that we can assign you a challenge',
   password: 'password',
+  confirmaccount: 'Confirm Account',
   forgotpw: 'Forgot Password',
   entervalidmail: 'Please enter a valid email.',
   fillfield: 'Please fill out this field.',

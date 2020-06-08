@@ -8,11 +8,11 @@
         <h4 class="w-full md:w-8/12 text-lg lg:text-xl mb-1">Manage user subscription</h4>
         <ul>
           <li v-for="user in users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
-            <div class="flex justify-between">
-              <div>
+            <div class="lg:flex justify-between">
+              <div class="break-all mb-2 lg:mb-0">
                 {{ user.email }}
               </div>
-              <div class="text-right">
+              <div class="lg:text-right">
                 <button type="button" @click="toggleSubscribe(challenge._id, user._id)" :class="[matchChallenge(challenge._id, user) ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600']"
                   class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id, user) ? 'Unsubscribe' : 'Subscribe'}}</button>
               </div>

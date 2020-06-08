@@ -1,9 +1,6 @@
 <template>
 <div class="container mx-auto">
-
-
-<challengeModal v-if="showChallengeModal && tasksLoaded" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge"/>
-
+  <challengeModal v-if="showModal" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
 
   <div class="mx-3 lg:mx-0">
     <div v-if="!landing && challenges.length === 0" class="text-center">
@@ -21,7 +18,7 @@
       <li v-for="challenge, key in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
-            <div class="block group p-4" v-on:click="showChallenge(key)">
+            <div class="block group p-4" @click="showChallenge(key)">
               <div class="group-hover:text-gray-700 font-bold text-xl mb-2">{{ challenge.title }}</div>
               <p class="text-gray-700 group-hover:text-gray-600 text-base mb-4">
                 <span v-if="challenge.content.length > excerptLength">
@@ -35,7 +32,7 @@
           </div>
           <div class="w-full lg:w-2/3 p-4">
             <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 0 : 1)}}</h2>
-            <ul :key="tasksLoaded">
+            <ul>
               <li v-for="task in challenge.tasks" :key="task._id" class="lg:flex justify-between w-full odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
                 <div class="flex justify-between mr-3 mb-3 lg:mb-0">
                   <span :key="progressChanged">
@@ -59,8 +56,9 @@
         </div>
         <hr>
         <div v-if="!showall && challenges.length > 1" class="flex justify-center m-3">
-          <button v-if="!showChallengeModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end z-0" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0" v-on:click="showing-=1">{{ $t('previous') }}</button>
-          <button v-if="!showChallengeModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
+          <button v-if="!showModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end z-0" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0"
+            v-on:click="showing-=1">{{ $t('previous') }}</button>
+          <button v-if="!showModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
             v-on:click="showing+=1">{{ $t('next') }}</button>
         </div>
       </li>
@@ -90,13 +88,31 @@ export default {
       modalChallenge: [],
       excerptLength: 165,
       progressChanged: false,
-      showChallengeModal: false,
-      tasksLoaded: 0,
+      showModal: false,
       landing: {}
     }
   },
   created() {
-    if (this.challenges.length === 0) {
+    this.$axios.$get(process.env.API_URL + '/api/v1/user/challenge').then(res => {
+      console.log(res.message)
+      this.challenges = res.message
+    }).catch(error => {
+      this.fetchLandingPage()
+
+      if (error.hasOwnProperty('response')) {
+        console.log(error.response.data.message)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+  components: {
+    VueMarkdownPlus,
+    challengeModal
+  },
+  middleware: 'auth',
+  methods: {
+    fetchLandingPage() {
       this.$axios.$get(process.env.API_URL + '/api/v1/landing').then(res => {
         if (res.message.hasOwnProperty('content')) {
           this.landing = res.message
@@ -108,80 +124,7 @@ export default {
           console.log(error)
         }
       })
-    }
-
-    this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
-      this.user = res.message
-    }).catch(error => {
-      if (error.hasOwnProperty('response')) {
-        console.log(error.response.data.message)
-      } else {
-        console.log(error)
-      }
-    })
-
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/subscription').then(res => {
-      res.message.forEach(challenge => {
-        this.challenges.push({
-          _id: challenge._id,
-          toDate: challenge.to,
-          fromDate: challenge.from,
-          duration: challenge.duration,
-          content: challenge.content,
-          title: challenge.title
-        })
-      })
-    }).catch(error => {
-      if (error.hasOwnProperty('response')) {
-        console.log(error.response.data.message)
-      } else {
-        console.log(error)
-      }
-    })
-
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task').then(res => {
-      this.tasks = res.message
-
-      res.message.forEach(challenge => {
-        const challengeIndex = this.challenges.findIndex(c => c._id === challenge._id)
-
-        if (challengeIndex >= 0) {
-          const tasks = []
-
-          challenge.tasks.forEach(task => {
-            tasks.push({
-              _id: task._id,
-              toDate: task.to,
-              fromDate: task.from,
-              duration: task.duration,
-              title: task.title
-            })
-          })
-
-          this.challenges[challengeIndex]['tasks'] = tasks
-          this.tasksLoaded += 1
-        }
-
-        challenge.tasks.forEach((task, index) => {
-          if (this.user.hasOwnProperty('progress')) {
-            const filter = this.user.progress.filter(progress => progress.tid === task._id)
-
-            if (filter.length > 0) {
-              this.challenges[challengeIndex].tasks[index].progress = 'done'
-            }
-          }
-        })
-      })
-    }).catch(error => {
-      console.log(error)
-    })
-  },
-  components: {
-    VueMarkdownPlus,
-    challengeModal
-  },
-  middleware: 'auth',
-  methods: {
+    },
     toggleProgressStatus(challengeId, taskId) {
       this.$axios.$put(process.env.API_URL + '/api/v1/challenge/task/progress', {
         challenge_id: challengeId,
@@ -204,17 +147,18 @@ export default {
       })
     },
     toggleChallengeModal() {
-      this.showChallengeModal = !this.showChallengeModal
+      this.showModal = !this.showModal
     },
     showChallenge(key) {
       this.modalChallenge = this.challenges[key]
-      this.showChallengeModal = true
+      this.showModal = true
     }
   }
 }
 </script>
+
 <style>
-  .modal {
-    transition: opacity 0.25s ease;
-  }
+.modal {
+  transition: opacity 0.25s ease;
+}
 </style>

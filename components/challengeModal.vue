@@ -2,7 +2,7 @@
 <div class="modal modal-active fixed w-full h-screen top-0 left-0 flex items-center justify-center">
   <div class="modal-overlay absolute w-full h-screen bg-gray-900 opacity-50" @click="closeModal"></div>
 
-  <div class="modal-container bg-white mx-16 rounded shadow-lg z-50">
+  <div class="modal-container bg-white lg:mx-16 sm:mx-2 md:mx-5 rounded shadow-lg z-50">
     <div class="modal-content py-4 text-left px-6" style="height: 95vh">
       <div class="flex justify-between items-center pb-3">
         <p class="text-2xl font-bold" v-if="challenge">{{ challenge.title }}</p>
@@ -13,15 +13,15 @@
         </div>
       </div>
       <div class="xl:flex" v-if="challenge">
-        <div v-if="challenge" class="w-auto border-r-2 p-4 m-4 overflow-scroll modal-text">
+        <div v-if="challenge" class="w-auto border-r-2 p-4 m-4 overflow-scroll" :class="[showtasks ? 'modal-text-small' : 'modal-text']">
           <vue-markdown-plus class="markdown" :source="challenge.content" />
         </div>
         <div v-if="challenge" class="w-full p-4 m-4 w-2/3 p-4">
           <div class="pb-3">
-            <h3 class="text-xl">Tasks</h3>
+            <h3 class="text-xl"><fa :icon="['fas', showtasks ? 'angle-up' : 'angle-down']" @click="toggleShowTasks" class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3 md:hidden" /> Tasks</h3>
             <hr>
           </div>
-          <div class="overflow-scroll modal-tasks">
+          <div class="overflow-scroll hidden md:block" :class="[ showtasks ? 'block-modal modal-text' : 'modal-text-small']">
             <ul :key="challenge.tasks.length">
               <li v-for="task in challenge.tasks" :key="task._id" class="lg:flex justify-between w-full odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
                 <div class="flex justify-between mr-3 mb-3 lg:mb-0">
@@ -57,8 +57,13 @@
 .modal-text {
   height: 40vh;
 }
-
-.modal-tasks {
+.modal-text-small {
+  height: 20vh;
+}
+.modal-tasks-small {
+  height: 40vh;
+}
+.modal-tasks-small {
   height: 20vh;
 }
 
@@ -72,6 +77,10 @@
     height: 35vh !important;
   }
 }
+
+.block-modal {
+  display: block !important;
+}
 </style>
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
@@ -80,7 +89,8 @@ export default {
   data() {
     return {
       statusClass: "",
-      progressChanged: 0
+      progressChanged: 0,
+      showtasks: false
     }
   },
   props: ['challenge', 'status'],
@@ -116,6 +126,9 @@ export default {
         console.log(error)
       })
     },
+    toggleShowTasks() {
+      this.showtasks = !this.showtasks
+    }
   },
   components: {
     VueMarkdownPlus

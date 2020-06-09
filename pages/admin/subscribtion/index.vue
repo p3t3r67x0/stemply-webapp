@@ -72,15 +72,6 @@ export default {
       }
 
       return user.challenges.includes(challengeId)
-    },
-    secondsToDays(seconds) {
-      const days = Math.round(seconds / 3600 / 24)
-
-      if (days <= 1 && days != 0) {
-        return `${days} day`
-      } else {
-        return `${days} days`
-      }
     }
   }
 }

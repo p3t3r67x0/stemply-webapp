@@ -83,11 +83,14 @@ export default {
           content: challenge.content,
           title: challenge.title,
           tasks: tasks
-
         })
       })
     }).catch(error => {
-      console.log(error.response.data)
+      if (error.hasOwnProperty('response')) {
+        console.log(error.response.data.message)
+      } else {
+        console.log(error.message)
+      }
     })
   },
   components: {
@@ -133,15 +136,6 @@ export default {
           console.log(error.message)
         }
       })
-    },
-    secondsToDays(seconds) {
-      const days = Math.round(seconds / 3600 / 24)
-
-      if (days <= 1 && days != 0) {
-        return `${days} day`
-      } else {
-        return `${days} days`
-      }
     }
   }
 }

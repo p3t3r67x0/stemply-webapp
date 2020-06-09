@@ -5,50 +5,72 @@
 @import 'tailwindcss/utilities';
 
 .mx-input:hover {
-  border-color: #edf2f7 !important;
+  border: 0;
   background-color: #edf2f7 !important;
 }
 
 .mx-input:focus {
-  border-color: #edf2f7 !important;
-  background-color: #fff !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .mx-input {
   font-size: 1rem !important;
   color: #4a5568 !important;
-  background-color: #edf2f7 !important;
-  border: 1px solid #edf2f7 !important;
-  border-radius: 2px !important;
+  background-color: inherit !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
+  border: none !important;
+  height: 40px !important;
 }
 
 .mx-datepicker {
   width: 100% !important;
+  position: static !important;
+}
+
+.mx-input-wrapper {
+  position: static !important;
+  background-color: #edf2f7;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mx-icon-calendar, .mx-icon-clear {
+  position: static !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+  margin-left: -32px;
+  margin-right: 6px;
 }
 
 @media screen and (max-width: 640px) {
-  table {
+  .table {
     border: 0;
   }
 
-  table tr:first-of-type {
+  .table tr:first-of-type {
     display: none;
   }
 
-  table tr {
+  .table tr {
     display: block;
   }
 
-  table td {
+  .table td {
     display: block;
   }
 
-  table td:last-child {
+  .table td:last-child {
     border-bottom: 0;
   }
 
-  table td:before {
+  .table td:before {
     content: attr(data-label);
     font-weight: bold;
     display: block;

@@ -16,7 +16,7 @@
         <div v-if="challenge" class="w-auto border-r-2 p-4 m-4 overflow-scroll" :class="[showtasks ? 'modal-text-small' : 'modal-text']">
           <vue-markdown-plus class="markdown" :source="challenge.content" />
         </div>
-        <div v-if="challenge" class="w-full p-4 m-4 w-2/3 p-4">
+        <div v-if="challenge && challenge.tasks" class="w-full p-4 m-4 w-2/3 p-4">
           <div class="pb-3">
             <h3 class="text-xl"><fa :icon="['fas', showtasks ? 'angle-up' : 'angle-down']" @click="toggleShowTasks" class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3 md:hidden" /> Tasks</h3>
             <hr>

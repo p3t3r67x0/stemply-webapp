@@ -1,7 +1,7 @@
 <template>
 <div class="container mx-auto">
   <challengeModal v-if="showModal" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
-
+  <requestChallenge v-if="showRequestModal" v-on:clicked="toggleRequestModal" v-bind:userchallenges="challenges" />
   <div class="mx-3 lg:mx-0">
     <div v-if="!landing && challenges.length === 0" class="text-center">
       <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
@@ -76,6 +76,7 @@
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
 import challengeModal from '@/components/challengeModal'
+import requestChallenge from '@/components/requestChallenge'
 
 export default {
   data() {
@@ -89,6 +90,7 @@ export default {
       excerptLength: 165,
       progressChanged: false,
       showModal: false,
+      showRequestModal: false,
       landing: {}
     }
   },
@@ -108,7 +110,8 @@ export default {
   },
   components: {
     VueMarkdownPlus,
-    challengeModal
+    challengeModal,
+    requestChallenge
   },
   middleware: 'auth',
   methods: {
@@ -148,6 +151,9 @@ export default {
     },
     toggleChallengeModal() {
       this.showModal = !this.showModal
+    },
+    toggleRequestModal() {
+      this.showRequestModal = !this.showRequestModal
     },
     showChallenge(key) {
       this.modalChallenge = this.challenges[key]

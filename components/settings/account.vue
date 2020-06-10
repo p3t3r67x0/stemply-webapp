@@ -7,30 +7,46 @@
 </div>
 </template>
 
-
 <script>
+const Cookie = require('js-cookie')
+
 export default {
   data() {
     return {}
   },
-  computed: {
-    userId() {
-      return this.$store.state.userId
-    }
-  },
   methods: {
     deleteAccount() {
-      this.$axios.$put(process.env.API_URL + '/api/v1/user/delete/' + this.userId).then(res => {
-        console.log(res)
-      }).catch(error => {
-        if (error.hasOwnProperty('response')) {
-          this.response = error.response.data.message
-          this.responseError = true
-          this.showResponse = true
-        } else {
-          console.log(error)
-        }
-      })
+      if (confirm('Are you sure to delete your account?')) {
+        this.$axios.$post(process.env.API_URL + '/api/v1/user/delete/account').then(res => {
+          console.log(res)
+
+          this.$store.commit('updateUserId', null)
+          this.$store.commit('updateUserName', null)
+          this.$store.commit('updateUserRoles', null)
+          this.$store.commit('updateUserAvatar', null)
+          this.$store.commit('updateUserAvatarUrl', null)
+          this.$store.commit('updateRefreshToken', null)
+          this.$store.commit('updateAccessToken', null)
+
+          Cookie.remove('USER_ID')
+          Cookie.remove('USER_ROLES')
+          Cookie.remove('USER_AVATAR_URL')
+          Cookie.remove('USER_ACCESS_TOKEN')
+          Cookie.remove('USER_REFRESH_TOKEN')
+
+          this.$router.push(this.localePath({
+            name: 'signup'
+          }))
+        }).catch(error => {
+          if (error.hasOwnProperty('response')) {
+            this.response = error.response.data.message
+            this.responseError = true
+            this.showResponse = true
+          } else {
+            console.log(error)
+          }
+        })
+      }
     }
   }
 }

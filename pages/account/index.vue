@@ -1,7 +1,7 @@
 <template>
 <div class="container mx-auto">
   <challengeModal v-if="showModal" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
-  <requestChallenge v-if="showRequestModal" v-on:clicked="toggleRequestModal" v-bind:userchallenges="challenges" />
+  <requestChallenge v-if="showRequestModal" v-on:clicked="toggleRequestModal" v-bind:userchallenges="userchallenges" />
   <div class="mx-3 lg:mx-0">
     <div v-if="!landing && challenges.length === 0" class="text-center">
       <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
@@ -13,7 +13,10 @@
         <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
       </div>
     </div>
-    <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
+    <div class="md:flex justify-between">
+      <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
+      <button v-on:click="toggleRequestModal" class="lg:text-xl text-lg lg:font-semibold mb-3 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Request access to another challenge</button>
+    </div>
     <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
       <li v-for="challenge, key in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
@@ -91,7 +94,8 @@ export default {
       progressChanged: false,
       showModal: false,
       showRequestModal: false,
-      landing: {}
+      landing: {},
+      requests: []
     }
   },
   created() {
@@ -106,6 +110,9 @@ export default {
       } else {
         console.log(error)
       }
+    })
+    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/requests').then(res => {
+      res.message.forEach(request => this.requests.push({_id: request.cid}))
     })
   },
   components: {
@@ -153,11 +160,22 @@ export default {
       this.showModal = !this.showModal
     },
     toggleRequestModal() {
+      if(this.showRequestModal) {
+        this.requests = []
+        this.$axios.$get(process.env.API_URL + '/api/v1/challenge/requests').then(res => {
+          res.message.forEach(request => this.requests.push({_id: request.cid}))
+        })
+      }
       this.showRequestModal = !this.showRequestModal
     },
     showChallenge(key) {
       this.modalChallenge = this.challenges[key]
       this.showModal = true
+    }
+  },
+  computed: {
+    userchallenges: function() {
+      return this.challenges.concat(this.requests)
     }
   }
 }

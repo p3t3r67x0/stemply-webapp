@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="flex justify-end pt-2">
-        <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400" v-on:click="closeModal">Close</button>
+        <button class="modal-close px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400" v-on:click="closeModal">Close</button>
       </div>
 
     </div>

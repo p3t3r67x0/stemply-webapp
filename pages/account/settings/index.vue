@@ -22,6 +22,9 @@
             <li :class="{ 'bg-blue-500' : tabs.showPasswordTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
               <a :class="[ tabs.showPasswordTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showPasswordTab')" href="#" class="block p-4 hover:text-white">Reset Password</a>
             </li>
+            <li :class="{ 'bg-blue-500' : tabs.showChallengeRequestsTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
+              <a :class="[ tabs.showChallengeRequestsTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showChallengeRequestsTab')" href="#" class="block p-4 hover:text-white">Challenge Requests</a>
+            </li>
             <li :class="{ 'bg-red-500' : tabs.showAccountTab }" class="cursor-pointer border-b border-white hover:bg-red-500">
               <a :class="[ tabs.showAccountTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showAccountTab')" href="#" class="block p-4 hover:text-white">Delete Account</a>
             </li>
@@ -34,6 +37,7 @@
           <lastseen-component v-if="tabs.showLastseenTab" />
           <notifications-component v-if="tabs.showNotificationsTab" />
           <password-component v-if="tabs.showPasswordTab" />
+          <challenge-requests-component v-if="tabs.showChallengeRequestsTab" />
         </div>
       </div>
     </div>
@@ -49,6 +53,7 @@ import AccountComponent from '@/components/settings/account.vue'
 import LastseenComponent from '@/components/settings/lastseen.vue'
 import NotificationsComponent from '@/components/settings/notifications.vue'
 import PasswordComponent from '@/components/settings/password.vue'
+import ChallengeRequestsComponent from '@/components/settings/challengerequests.vue'
 
 export default {
   data() {
@@ -59,6 +64,7 @@ export default {
         showLastseenTab: false,
         showNotificationsTab: false,
         showPasswordTab: false,
+        showChallengeRequestsTab: false
       }
     }
   },
@@ -69,7 +75,8 @@ export default {
     AccountComponent,
     LastseenComponent,
     NotificationsComponent,
-    PasswordComponent
+    PasswordComponent,
+    ChallengeRequestsComponent
   },
   middleware: 'auth',
   methods: {

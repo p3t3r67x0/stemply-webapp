@@ -5,7 +5,6 @@
   <div class="modal-container bg-white lg:mx-16 sm:mx-2 md:mx-5 rounded shadow-lg z-50">
     <div class="modal-content py-4 text-left px-6" style="height: 95vh">
       <div class="flex justify-between items-center pb-3">
-        <p class="text-2xl font-bold" v-if="challenge">{{ challenge.title }}</p>
         <div class="modal-close cursor-pointer z-50" v-on:click="closeModal">
           <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -14,7 +13,7 @@
       </div>
       <h3 class="text-center text-2xl m-1 mb-3">Request access to challenges</h3>
       <hr>
-      <div class="xl:flex mt-5 m-2">
+      <div class="xl:flex mt-5 m-2" v-if="challenges.length > uclist.length">
         <ul>
           <li v-for="challenge, key in challenges" v-if="uclist.includes(challenge._id) == false":key="challenge._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
             <div class="flex justify-between mr-3 mb-3 lg:mb-0">
@@ -33,8 +32,11 @@
           </li>
         </ul>
       </div>
+      <div v-else>
+        <h3 class="text-center mt-16 text-xl m-1 mb-3">You are already subscribed to all available challenges</h3>
+      </div>
       <div class="flex justify-end mt-32 pt-2">
-        <button class="modal-button-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400" v-on:click="closeModal">Close</button>
+        <button class="modal-button-close px-4 bg-blue-700 p-3 rounded-lg text-white hover:bg-blue-400" v-on:click="closeModal">Close</button>
       </div>
 
     </div>
@@ -71,9 +73,8 @@ export default {
     return {
       statusClass: "",
       progressChanged: 0,
-      challenges: [],
-      userchallenges: []
-    }
+      challenges: []
+      }
   },
   props: ['userchallenges'],
   computed: {},
@@ -99,10 +100,11 @@ export default {
     closeModal() {
       this.$emit('clicked', false)
     },
-    requestAccess(challengeid) {
+    requestAccess(challengeid, key) {
       this.$axios.$post(process.env.API_URL + '/api/v1/challenge/request', {
         id: challengeid
-      })
+      }).then(this.challenges.splice(key,1))
+
     }
   },
   computed: {

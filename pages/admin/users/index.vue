@@ -3,9 +3,14 @@
   <div class="mx-3 lg:mx-0">
     <div class="flex justify-between mb-3">
       <h1 class="text-xl lg:text-2xl font-semibold">Users</h1>
-      <span>
-        <button @click="exportUsers" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export</button>
-      </span>
+      <div>
+        <span class="mr-1">
+          <button @click="exportChallenges" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export challenges</button>
+        </span>
+        <span>
+          <button @click="exportUsers" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export users</button>
+        </span>
+      </div>
     </div>
     <div class="bg-white rounded-lg p-3">
       <p v-if="showResponse" :class="[ responseError ? 'text-red-500' : 'text-green-500']" class="lg:text-lg mb-3">{{ response }}</p>
@@ -118,7 +123,28 @@ export default {
         const link = document.createElement('a')
 
         link.href = url
-        link.setAttribute('download', 'export.csv')
+        link.setAttribute('download', 'users.csv')
+        document.body.appendChild(link)
+        link.click()
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          this.response = error.response.data.message
+          this.responseError = true
+          this.showResponse = true
+        } else {
+          console.log(error)
+        }
+      })
+    },
+    exportChallenges() {
+      this.$axios.$get(process.env.API_URL + '/api/v1/challenge/export', {
+        responseType: 'blob'
+      }).then(res => {
+        const url = URL.createObjectURL(new Blob([res]))
+        const link = document.createElement('a')
+
+        link.href = url
+        link.setAttribute('download', 'challenges.csv')
         document.body.appendChild(link)
         link.click()
       }).catch(error => {

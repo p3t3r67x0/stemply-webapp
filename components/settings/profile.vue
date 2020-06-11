@@ -80,7 +80,7 @@ export default {
     this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
       this.loadUserSettings(res.message)
     }).catch((error) => {
-      this.$store.dispatch('store/handleError', error)
+      console.log(error)
     })
   },
   methods: {

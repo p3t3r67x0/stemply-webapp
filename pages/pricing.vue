@@ -100,7 +100,6 @@ export default {
   methods: {
     togglePlan(plan) {
       this.currentPlan = plan
-      console.log(plan)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
 <div>
   <h2 class="text-2xl mb-4">Requested Challenges</h2>
-  <li v-for="request in requests" :key="request._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3" v-if="loaded">
+  <li v-for="request in requests" :key="request._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3" v-if="loaded && challenges[request._id]">
     <div class="flex justify-between mr-3 mb-3 lg:mb-0">
       <span>
           {{ challenges[request._id].title }}

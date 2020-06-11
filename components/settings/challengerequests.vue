@@ -1,7 +1,7 @@
 <template>
 <div>
   <h2 class="text-2xl mb-4">Requested Challenges</h2>
-  <li v-for="request in requests" :key="request._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
+  <li v-for="request in requests" :key="request._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3" v-if="loaded">
     <div class="flex justify-between mr-3 mb-3 lg:mb-0">
       <span>
           {{ challenges[request._id].title }}
@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       requests: [],
-      challenges: {}
+      challenges: {},
+      loaded: false
     }
   },
   components: {},
@@ -33,7 +34,8 @@ export default {
       this.requests = res.message
       this.requests.forEach(request => {
         this.$axios.$post(process.env.API_URL + '/api/v1/challenge/detail', { id: request.cid }).then(res => {
-          this.challenges[request._id] = res.message
+          this.challenges[request._id] = res.message,
+          this.loaded = true
         })
       })
     })

@@ -2,7 +2,7 @@
 <div class="container mx-auto mt-3">
   <div class="mx-3 lg:mx-0">
     <div class="flex justify-between">
-      <h1 class="text-2xl font-bold mb-6">{{ $t('navigation.overview') }}</h1>
+      <h1 class="text-2xl font-medium mb-3">Challenges</h1>
       <span>
         <nuxt-link to="/admin/challenge" class="inline-block bg-green-500 hover:bg-green-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">New challenge</nuxt-link>
       </span>

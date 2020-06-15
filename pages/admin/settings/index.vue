@@ -35,7 +35,7 @@ export default {
     TemplateComponent
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/template/list').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/template/list`).then(res => {
       this.templateConfirm = res.message.filter(e => e.type === 'confirm')
       this.templateReset = res.message.filter(e => e.type === 'reset')
       console.log(this.templateReset)

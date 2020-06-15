@@ -25,9 +25,7 @@ export default {
   },
   created() {
     if (this.taskId) {
-      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/task/detail', {
-        'id': this.taskId.trim()
-      }).then(res => {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/detail/${this.taskId}`).then(res => {
         this.task = res.message
       }).catch(error => {
         if (error.hasOwnProperty('response')) {

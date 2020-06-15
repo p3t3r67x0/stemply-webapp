@@ -62,7 +62,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task`).then(res => {
       res.message.forEach(challenge => {
         const tasks = []
 
@@ -110,7 +110,7 @@ export default {
     deleteTask(id, indexChallenge, indexTask) {
       this.$refs.deleteTask[indexTask].blur()
 
-      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/task/' + id).then((res) => {
+      this.$axios.$delete(`${process.env.API_URL}/api/v1/challenge/task/${id}`).then((res) => {
         this.challenges[indexChallenge].tasks.splice(indexTask, 1)
 
         console.log(res.message)
@@ -125,7 +125,7 @@ export default {
     deleteChallenge(id, indexChallenge) {
       this.$refs.deleteChallenge[indexChallenge].blur()
 
-      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/' + id).then((res) => {
+      this.$axios.$delete(`${process.env.API_URL}/api/v1/challenge/${id}`).then((res) => {
         this.challenges.splice(indexChallenge, 1)
 
         console.log(res.message)

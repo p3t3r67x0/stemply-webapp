@@ -90,7 +90,7 @@ export default {
   },
   created() {
     if (this.challengeId) {
-      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/detail', {
+      this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/detail`, {
         'id': this.challengeId.trim()
       }).then(res => {
         this.challenge['_id'] = res.message._id
@@ -163,7 +163,7 @@ export default {
 
       if (Object.values(this.errors).every(isValidForm) === true) {
         if (this.challengeId) {
-          this.$axios.$put(process.env.API_URL + '/api/v1/challenge/detail', {
+          this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/detail`, {
             id: this.challengeId.trim(),
             title: this.challenge.title.trim(),
             content: this.challenge.content.trim(),
@@ -180,7 +180,7 @@ export default {
             }
           })
         } else {
-          this.$axios.post(process.env.API_URL + '/api/v1/challenge', {
+          this.$axios.post(`${process.env.API_URL}/api/v1/challenge`, {
             title: this.challenge.title.trim(),
             content: this.challenge.content.trim(),
             from_date: this.challenge.fromDate.trim(),

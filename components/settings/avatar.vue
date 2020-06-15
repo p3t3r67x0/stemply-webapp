@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getAvatar() {
-      this.$axios.$get(process.env.API_URL + '/static/' + this.userAvatarUrl, {
+      this.$axios.$get(`${process.env.API_URL}/static/${this.userAvatarUrl}`, {
         responseType: 'blob'
       }).then(res => {
         const vm = this
@@ -66,7 +66,7 @@ export default {
 
           image.src = ImageHandler.createObjectURL(images[i])
           image.onload = function(e) {
-            const avatarUrl = process.env.API_URL + '/api/v1/user/avatar/' + vm.userId
+            const avatarUrl = `${process.env.API_URL}/api/v1/user/avatar/${vm.userId}`
             const imageResized = ImageHandler.resizeCrop(e.target, 800, 800).toDataURL('image/png')
             vm.$refs.avatar.src = imageResized
             const data = new FormData()

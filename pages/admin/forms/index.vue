@@ -52,7 +52,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task/form/list').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/form/list`).then(res => {
       console.log(res)
       this.forms = res.message
     }).catch(error => {
@@ -77,7 +77,7 @@ export default {
     deleteForm(id, indexForm) {
       this.$refs.deleteForm[indexForm].blur()
 
-      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/task/form/' + id).then(res => {
+      this.$axios.$delete(`${process.env.API_URL}/api/v1/challenge/task/form/${id}`).then(res => {
         this.forms.splice(indexForm, 1)
 
         console.log(res.message)

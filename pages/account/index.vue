@@ -99,7 +99,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/user/challenge').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/user/challenge`).then(res => {
       console.log(res.message)
       this.challenges = res.message
     }).catch(error => {
@@ -111,7 +111,7 @@ export default {
         console.log(error)
       }
     })
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/requests').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
       res.message.forEach(request => this.requests.push({_id: request.cid}))
     })
   },
@@ -123,7 +123,7 @@ export default {
   middleware: 'auth',
   methods: {
     fetchLandingPage() {
-      this.$axios.$get(process.env.API_URL + '/api/v1/landing').then(res => {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/landing`).then(res => {
         if (res.message.hasOwnProperty('content')) {
           this.landing = res.message
         }
@@ -136,7 +136,7 @@ export default {
       })
     },
     toggleProgressStatus(challengeId, taskId) {
-      this.$axios.$put(process.env.API_URL + '/api/v1/challenge/task/progress', {
+      this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/task/progress`, {
         challenge_id: challengeId,
         task_id: taskId
       }).then(res => {
@@ -162,7 +162,7 @@ export default {
     toggleRequestModal() {
       if(this.showRequestModal) {
         this.requests = []
-        this.$axios.$get(process.env.API_URL + '/api/v1/challenge/requests').then(res => {
+        this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
           res.message.forEach(request => this.requests.push({_id: request.cid}))
         })
       }

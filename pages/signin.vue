@@ -99,7 +99,7 @@ export default {
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
-        this.$axios.$post(process.env.API_URL + '/api/v1/signin', {
+        this.$axios.$post(`${process.env.API_URL}/api/v1/signin`, {
           'email': this.email.trim(),
           'password': this.password.trim()
         }).then(res => {

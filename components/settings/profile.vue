@@ -77,7 +77,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/user').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/user`).then(res => {
       this.loadUserSettings(res.message)
     }).catch((error) => {
       console.log(error)
@@ -106,7 +106,7 @@ export default {
       }
     },
     updateUserSettings() {
-      this.$axios.$put(process.env.API_URL + '/api/v1/user/profile/' + this.userId, {
+      this.$axios.$put(`${process.env.API_URL}/api/v1/user/profile/${this.userId}`, {
         name: this.serializeString(this.settings.name),
         username: this.serializeString(this.settings.username),
         location: this.serializeString(this.settings.location),

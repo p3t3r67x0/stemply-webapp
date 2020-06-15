@@ -53,7 +53,7 @@ export default ({
     },
     function(error) {
       if (error.config && error.response && error.response.status === 401) {
-        const refreshUrl = process.env.API_URL + '/api/v1/token/refresh'
+        const refreshUrl = `${process.env.API_URL}/api/v1/token/refresh`
         const refreshToken = Cookie.get('USER_REFRESH_TOKEN')
 
         if (refreshToken) {

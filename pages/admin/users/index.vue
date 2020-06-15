@@ -57,7 +57,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/user/list').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/user/list`).then(res => {
       this.users = res.message
     }).catch(error => {
       if (error.hasOwnProperty('response')) {
@@ -79,7 +79,7 @@ export default {
         roles = this.users[index].roles.join(',')
       }
 
-      this.$axios.$put(process.env.API_URL + '/api/v1/user', {
+      this.$axios.$put(`${process.env.API_URL}/api/v1/user`, {
         id: id,
         roles: roles,
         name: this.users[index].name,
@@ -100,7 +100,7 @@ export default {
     },
     deleteUser(index, id) {
       this.$refs.delete[index].blur()
-      this.$axios.$delete(process.env.API_URL + '/api/v1/user/' + id).then((res) => {
+      this.$axios.$delete(`${process.env.API_URL}/api/v1/user/${id}`).then((res) => {
         this.response = res.message
         this.responseError = false
         this.showResponse = true
@@ -116,7 +116,7 @@ export default {
       })
     },
     exportUsers() {
-      this.$axios.$get(process.env.API_URL + '/api/v1/user/export', {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/user/export`, {
         responseType: 'blob'
       }).then(res => {
         const url = URL.createObjectURL(new Blob([res]))
@@ -137,7 +137,7 @@ export default {
       })
     },
     exportChallenges() {
-      this.$axios.$get(process.env.API_URL + '/api/v1/challenge/export', {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/export`, {
         responseType: 'blob'
       }).then(res => {
         const url = URL.createObjectURL(new Blob([res]))

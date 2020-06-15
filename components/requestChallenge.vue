@@ -79,7 +79,7 @@ export default {
   props: ['userchallenges'],
   computed: {},
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge`).then(res => {
       this.challenges = res.message
     }).catch(error => {
       if (error.hasOwnProperty('response')) {
@@ -101,7 +101,7 @@ export default {
       this.$emit('clicked', false)
     },
     requestAccess(challengeid, key) {
-      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/request', {
+      this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/request`, {
         id: challengeid
       }).then(this.challenges.splice(key,1))
 

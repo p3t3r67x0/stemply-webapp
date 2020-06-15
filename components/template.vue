@@ -100,7 +100,7 @@ export default {
       if (Object.values(this.errors).every(isValidForm) === true) {
         console.log(this.action)
         if (this.action == 'update') {
-          this.$axios.$put(process.env.API_URL + '/api/v1/template', {
+          this.$axios.$put(`${process.env.API_URL}/api/v1/template`, {
             'id': this.template._id,
             'subject': this.template.subject.trim(),
             'message': this.template.message.trim()
@@ -115,7 +115,7 @@ export default {
             }
           })
         } else {
-          this.$axios.$post(process.env.API_URL + '/api/v1/template', {
+          this.$axios.$post(`${process.env.API_URL}/api/v1/template`, {
             'type': this.target,
             'subject': this.template.subject.trim(),
             'message': this.template.message.trim()

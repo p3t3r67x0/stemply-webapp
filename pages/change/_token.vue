@@ -82,7 +82,7 @@ export default {
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
-        this.$axios.$put(process.env.API_URL + '/api/v1/change', {
+        this.$axios.$put(`${process.env.API_URL}/api/v1/change`, {
           'token': this.token.trim(),
           'password': this.password.trim()
         }).then(res => {

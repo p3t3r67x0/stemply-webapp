@@ -31,7 +31,7 @@ export default {
       }))
     }
 
-    this.$axios.$post(process.env.API_URL + '/api/v1/confirm', {
+    this.$axios.$post(`${process.env.API_URL}/api/v1/confirm`, {
       'token': this.token || null
     }).then(res => {
       console.log(res)

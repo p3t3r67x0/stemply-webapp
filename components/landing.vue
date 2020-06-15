@@ -64,7 +64,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/landing').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/landing`).then(res => {
       if (res.message.hasOwnProperty('content')) {
         this.landing = res.message
         this.action = 'update'
@@ -90,7 +90,7 @@ export default {
 
       if (Object.values(this.errors).every(isValidForm) === true) {
         if (this.action == 'update') {
-          this.$axios.$put(process.env.API_URL + '/api/v1/landing', {
+          this.$axios.$put(`${process.env.API_URL}/api/v1/landing`, {
             'id': this.landing._id,
             'title': this.landing.title.trim(),
             'content': this.landing.content.trim()
@@ -105,7 +105,7 @@ export default {
             }
           })
         } else if (this.action == 'insert') {
-          this.$axios.post(process.env.API_URL + '/api/v1/landing', {
+          this.$axios.post(`${process.env.API_URL}/api/v1/landing`, {
             'title': this.landing.title.trim(),
             'content': this.landing.content.trim()
           }).then(res => {

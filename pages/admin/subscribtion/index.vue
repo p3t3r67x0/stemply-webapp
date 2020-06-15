@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge`).then(res => {
       this.challenges = res.message
     }).catch(error => {
       console.log(error.response.data)
@@ -50,7 +50,7 @@ export default {
   middleware: 'auth',
   methods: {
     toggleSubscribe(challengeId, userId) {
-      this.$axios.$put(process.env.API_URL + '/api/v1/challenge/subscription', {
+      this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/subscription`, {
         challenge_id: challengeId,
         user_id: userId
       }).then(res => {
@@ -60,7 +60,7 @@ export default {
       })
     },
     fetchUsers() {
-      this.$axios.$get(process.env.API_URL + '/api/v1/user/list').then(res => {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/user/list`).then(res => {
         this.users = res.message
       }).catch(error => {
         console.log(error.response.data)

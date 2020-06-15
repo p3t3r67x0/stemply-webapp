@@ -31,9 +31,7 @@ export default {
       this.showModal = true
     },
     deleteAccount() {
-      this.$axios.$post(process.env.API_URL + '/api/v1/user/delete/account').then(res => {
-        console.log(res)
-
+      this.$axios.$post(`${process.env.API_URL}/api/v1/user/delete/account`).then(res => {
         this.$store.commit('updateUserId', null)
         this.$store.commit('updateUserName', null)
         this.$store.commit('updateUserRoles', null)

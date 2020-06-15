@@ -25,7 +25,7 @@ export default {
   },
   created() {
     if (this.challengeId) {
-      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/detail', {
+      this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/detail`, {
         'id': this.challengeId.trim()
       }).then(res => {
         this.challenge = res.message

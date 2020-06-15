@@ -72,7 +72,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task/form/' + this.formId).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/form/${this.formId}`).then(res => {
       this.question = res.message.question
       this.questionType = res.message.type
       this.questionId = res.message._id
@@ -87,7 +87,7 @@ export default {
   methods: {
     submitForm(query) {
       if (!this.formId) {
-        this.$axios.$post(process.env.API_URL + '/api/v1/challenge/task/form', {
+        this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/task/form`, {
           type: this.questionType,
           question: this.question,
           form: this.options
@@ -97,7 +97,7 @@ export default {
           console.log(error)
         })
       } else {
-        this.$axios.$put(process.env.API_URL + '/api/v1/challenge/task/form/' + this.formId, {
+        this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/task/form/${this.formId}`, {
           type: this.questionType,
           question: this.question,
           form: this.options

@@ -53,7 +53,7 @@ export default {
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
-        this.$axios.$post(process.env.API_URL + '/api/v1/reset', {
+        this.$axios.$post(`${process.env.API_URL}/api/v1/reset`, {
           'email': this.email.trim()
         }).then(res => {
           console.log(res)

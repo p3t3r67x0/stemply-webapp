@@ -107,7 +107,7 @@ export default {
       this.$emit('clicked', false)
     },
     toggleProgressStatus(challengeId, taskId) {
-      this.$axios.$put(process.env.API_URL + '/api/v1/challenge/task/progress', {
+      this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/task/progress`, {
         challenge_id: challengeId,
         task_id: taskId
       }).then(res => {

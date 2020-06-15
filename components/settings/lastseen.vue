@@ -34,8 +34,7 @@ export default {
   },
   components: {},
   created() {
-    this.$axios.$get(process.env.API_URL + '/api/v1/user/lastseen/' + this.userId).then(res => {
-      console.log(res)
+    this.$axios.$get(`${process.env.API_URL}/api/v1/user/lastseen/${this.userId}`).then(res => {
       this.logins = res.message
     })
   },

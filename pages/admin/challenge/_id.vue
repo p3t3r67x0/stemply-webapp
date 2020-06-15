@@ -2,7 +2,7 @@
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
     <div class="bg-white rounded-lg p-3">
-      <h1 class="text-2xl lg:text-4xl font-medium mb-2">Challenge</h1>
+      <h1 class="text-xl lg:text-2xl font-medium mb-3">Challenge</h1>
       <p v-if="showResponse" class="text-green-500 lg:text-lg mb-3">{{ response }}</p>
       <form ref="contactForm" @submit.prevent="submitForm" class="w-full">
         <div class="w-full mb-6">
@@ -43,7 +43,7 @@
           <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
         </div>
         <p class="text-right">
-          <nuxt-link to="/admin" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
+          <nuxt-link to="/admin" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-1">
             Back
           </nuxt-link>
           <button class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2" type="submit">

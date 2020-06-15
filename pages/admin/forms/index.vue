@@ -15,7 +15,7 @@
             <h3 class="w-full lg:w-10/12 text-xl font-medium">{{ form.question }}</h3>
             <p class="w-full lg:w-2/12 text-right">
               <button ref="deleteForm" type="button" @click="deleteForm(form._id, indexForm)" class="bg-red-500 hover:bg-red-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Delete</button>
-              <nuxt-link :to="generateChallangeLink(form._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
+              <nuxt-link :to="generateFormLink(form._id)" class="inline-block bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Edit</nuxt-link>
             </p>
           </span>
           <div v-if="form.type === 'text'">
@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import VueMarkdownPlus from 'vue-markdown-plus'
-
 export default {
   data() {
     return {
@@ -67,7 +65,7 @@ export default {
   },
   middleware: 'auth',
   methods: {
-    generateChallangeLink(id) {
+    generateFormLink(id) {
       return `/admin/form/${id}`
     },
     generateTaskAddLink(id) {

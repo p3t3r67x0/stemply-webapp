@@ -40,7 +40,7 @@
       <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
     </div>
     <p class="text-right">
-      <nuxt-link to="/admin" class="inline-block bg-gray-500 hover:bg-gray-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-2">
+      <nuxt-link to="/admin" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-1">
         Back
       </nuxt-link>
       <button class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2" type="submit">

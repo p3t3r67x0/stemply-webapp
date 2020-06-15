@@ -1,13 +1,9 @@
 <template>
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
-    <div class="flex justify-between">
-      <h1 class="text-xl lg:text-2xl font-medium mb-3">Fragenkatalog</h1>
-      <span>
-        <nuxt-link to="/admin/forms" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">All forms</nuxt-link>
-      </span>
-    </div>
-    <form class="bg-white rounded p-3" @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm" class="bg-white rounded p-3">
+      <h1 class="text-xl lg:text-2xl font-medium mb-3">Editor</h1>
+      <p v-if="showResponse" :class="[ responseError ? 'text-red-500' : 'text-green-500']" class="lg:text-lg mb-3">{{ response }}</p>
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="fromDate">
         Fragentyp
       </label>
@@ -29,19 +25,13 @@
         </label>
         <input type="text" class="w-full appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" v-model="question">
       </div>
-      <div v-if="questionType == 'text'" class="mb-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="fromDate">
-          Placeholder text
-        </label>
-        <input type="text" class="w-full appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" v-model="placeholder">
-      </div>
       <div v-if="questionType == 'select'" class="mb-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="fromDate">
           Auswahlfrage
         </label>
         <div v-for="option, index in options" :key="option.id" class="flex items-center mb-2">
           <input v-model="option.value" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mr-2">
-          <button type="button" @click="removeInput(index)" :disabled="index === 0" :class="[index === 0 ? 'bg-gray-500' : 'bg-gray-600 hover:bg-gray-700']" class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
+          <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-gray-600 hover:bg-gray-700']" class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
           <button type="button" @click="addInput(index)" class="bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium h-10 w-10">+</button>
         </div>
       </div>
@@ -51,11 +41,12 @@
         </label>
         <div v-for="option, index in options" :key="option.id" class="flex items-center mb-2">
           <input v-model="option.value" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mr-2">
-          <button type="button" @click="removeInput(index)" :disabled="index === 0" :class="[index === 0 ? 'bg-gray-500' : 'bg-gray-600 hover:bg-gray-700']" class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
+          <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-gray-600 hover:bg-gray-700']" class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
           <button type="button" @click="addInput(index)" class="bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium h-10 w-10">+</button>
         </div>
       </div>
       <div class="text-right">
+        <nuxt-link to="/admin/forms" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2 mr-1">Back</nuxt-link>
         <button type="submit" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Speichern</button>
       </div>
     </form>
@@ -68,33 +59,60 @@ export default {
   data() {
     return {
       question: null,
-      placeholder: null,
-      questionType: 'checkbox',
+      questionId: null,
+      showResponse: false,
+      responseError: false,
+      response: false,
       optionsCounter: 0,
+      questionType: 'checkbox',
       options: [{
         id: 'option0',
         value: null
       }]
     }
   },
-  asyncData(context) {
-    context.$axios.$get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
-      console.log(res)
+  created() {
+    this.$axios.$get(process.env.API_URL + '/api/v1/challenge/task/form/' + this.formId).then(res => {
+      this.question = res.message.question
+      this.questionType = res.message.type
+      this.questionId = res.message._id
+      this.options = res.message.form
     }).catch((error) => {
       console.log(error)
     })
   },
+  props: {
+    formId: String
+  },
   methods: {
     submitForm(query) {
-      this.$axios.$post(process.env.API_URL + '/api/v1/challenge/task/form', {
-        type: this.questionType,
-        question: this.question,
-        form: this.options
-      }).then(res => {
-        console.log(res)
-      }).catch((error) => {
-        console.log(error)
-      })
+      if (!this.formId) {
+        this.$axios.$post(process.env.API_URL + '/api/v1/challenge/task/form', {
+          type: this.questionType,
+          question: this.question,
+          form: this.options
+        }).then(res => {
+          console.log(res)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } else {
+        this.$axios.$put(process.env.API_URL + '/api/v1/challenge/task/form/' + this.formId, {
+          type: this.questionType,
+          question: this.question,
+          form: this.options
+        }).then(res => {
+          console.log(res)
+          this.showResponse = true
+          this.response = res.message
+          this.responseError = false
+        }).catch((error) => {
+          console.log(error)
+          this.showResponse = true
+          this.response = error
+          this.responseError = true
+        })
+      }
     },
     addInput(index) {
       this.options.splice(index + 1, 0, {

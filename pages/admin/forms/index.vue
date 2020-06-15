@@ -77,7 +77,7 @@ export default {
     deleteForm(id, indexForm) {
       this.$refs.deleteForm[indexForm].blur()
 
-      this.$axios.$delete(process.env.API_URL + '/api/v1/form/' + id).then((res) => {
+      this.$axios.$delete(process.env.API_URL + '/api/v1/challenge/task/form/' + id).then(res => {
         this.forms.splice(indexForm, 1)
 
         console.log(res.message)

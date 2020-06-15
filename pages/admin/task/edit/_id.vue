@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import EditorComponent from '@/components/editor.vue'
+import EditorComponent from '@/components/editors/task'
 
 export default {
   data() {

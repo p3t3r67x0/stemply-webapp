@@ -111,9 +111,7 @@ export default {
   },
   created() {
     if (this.action == 'update') {
-      this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/${this.target}/detail`, {
-        'id': this.objectId.trim()
-      }).then(res => {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/${this.target}/detail/${this.objectId}`).then(res => {
         this.object['_id'] = res.message._id
         this.object['toDate'] = res.message.to
         this.object['fromDate'] = res.message.from
@@ -241,8 +239,7 @@ export default {
 
       if (Object.values(this.errors).every(isValidForm) === true) {
         if (this.action == 'update') {
-          this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/${this.target}/detail`, {
-            'id': this.objectId.trim(),
+          this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/${this.target}/detail/${this.objectId}`, {
             'title': this.object.title.trim(),
             'content': this.object.content.trim(),
             'from_date': this.object.fromDate,

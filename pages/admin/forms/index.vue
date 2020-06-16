@@ -53,7 +53,6 @@ export default {
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/form/list`).then(res => {
-      console.log(res)
       this.forms = res.message
     }).catch(error => {
       if (error.hasOwnProperty('response')) {

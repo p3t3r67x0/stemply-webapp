@@ -13,14 +13,16 @@
                 <h3 class="w-full lg:w-10/12 text-xl font-medium">{{ form.question }}</h3>
               </span>
               <div v-if="form.type === 'text'">
-                <input v-model="task.forms[index].text" @focusout="submitForm(form._id, task._id, task.forms[index].text)" type="text" class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mb-1 leading-tight focus:outline-none">
+                <input v-model="task.forms[index].text" @focusout="submitForm(form._id, task._id, task.forms[index].text)" type="text"
+                  class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mb-1 leading-tight focus:outline-none">
               </div>
-              <div v-if="form.type == 'checkbox'" v-for="option in form.form" class="flex mb-1">
-                <fa :icon="['fas', 'check-square']" class="text-gray-500 inline-block text-xl lg:text-2xl w-5 mr-2" />
+              <div v-if="form.type == 'checkbox'" v-for="option, i in form.form" class="flex mb-1">
+                <fa @click="toggleCheckbox(form._id, task._id, i)" :class="[toggleCheckboxClass(form._id, task._id, i) ? 'text-green-500' : 'text-gray-500']" :icon="['fas', 'check-square']" class="inline-block text-xl lg:text-2xl w-5 mr-2" />
                 <span>{{ option.value }}</span>
               </div>
               <div v-if="form.type == 'select'" class="relative z-0">
-                <select v-model="task.forms[index].select" @change="submitForm(form._id, task._id, task.forms[index].select)" class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mb-1 leading-tight focus:outline-none">
+                <select v-model="task.forms[index].select" @change="submitForm(form._id, task._id, task.forms[index].select)"
+                  class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mb-1 leading-tight focus:outline-none">
                   <option v-for="option in form.form">{{ option.value }}</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -45,6 +47,7 @@ export default {
   data() {
     return {
       task: {},
+      checked: []
     }
   },
   created() {
@@ -70,6 +73,47 @@ export default {
   },
   middleware: 'auth',
   methods: {
+    toggleCheckboxClass(formId, taskId, index) {
+      let elementMatch = false
+      const elementId = `checkbox-${index}`
+      const object = {
+        formId: formId,
+        taskId: taskId,
+        elementId: elementId
+      }
+
+      this.checked.forEach(item => {
+        if (item.formId === object.formId && item.taskId === object.taskId && item.elementId === object.elementId) {
+          elementMatch = true
+        }
+      })
+
+      return elementMatch
+    },
+    toggleCheckbox(formId, taskId, index) {
+      let elementMatch = false
+      const elementId = `checkbox-${index}`
+      const object = {
+        formId: formId,
+        taskId: taskId,
+        elementId: elementId
+      }
+
+      this.checked.forEach(item => {
+        if (item.formId === object.formId && item.taskId === object.taskId && item.elementId === object.elementId) {
+          elementMatch = true
+        }
+      })
+
+      if (elementMatch) {
+        const elementMatchId = this.checked.findIndex(e => e.elementId === elementMatch.elementId)
+        this.checked.splice(elementMatchId, 1)
+      } else {
+        this.checked.push(object)
+      }
+
+      this.submitForm(formId, taskId, this.checked.map(e => e['elementId']))
+    },
     submitForm(formId, taskId, value) {
       this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/task/response`, {
         fid: formId,

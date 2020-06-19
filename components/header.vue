@@ -1,5 +1,5 @@
 <template>
-<div v-click-outside="hideNav" class="fixed w-full bg-gray-900 mb-3 lg:mb-8">
+<div v-click-outside="hideNav" class="fixed z-50 w-full bg-gray-900 mb-3 lg:mb-8">
   <div class="container mx-auto">
     <header class="flex flex-wrap items-center">
       <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">

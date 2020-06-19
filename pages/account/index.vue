@@ -1,8 +1,9 @@
 <template>
-<div class="container mx-auto">
-  <challengeModal v-if="showModal" v-on:clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
-  <requestChallenge v-if="showRequestModal" v-on:clicked="toggleRequestModal" v-bind:userchallenges="userchallenges" />
-  <div class="mx-3 lg:mx-0">
+<div class="container mx-auto relative">
+  <loading-component v-if="loadingIndicator" />
+  <challengeModal v-if="showModal" @clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
+  <requestChallenge v-if="showRequestModal" @clicked="toggleRequestModal" v-bind:userchallenges="userchallenges" />
+  <div v-if="!loadingIndicator" class="mx-3 lg:mx-0">
     <div v-if="!landing && challenges.length === 0" class="text-center">
       <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
       <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
@@ -13,9 +14,11 @@
         <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
       </div>
     </div>
-    <div class="md:flex justify-between">
-      <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-semibold mb-3">My challenges</h2>
-      <button v-on:click="toggleRequestModal" class="lg:text-xl text-lg lg:font-semibold mb-3 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Request access to another challenge</button>
+    <div class="flex justify-between mb-3">
+      <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-medium">Subscribed challenges</h2>
+      <span>
+        <button @click="toggleRequestModal" class="bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Other challenges</button>
+      </span>
     </div>
     <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
       <li v-for="challenge, key in challenges" :key="challenge._id" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
@@ -37,7 +40,7 @@
             <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 0 : 1)}}</h2>
             <ul>
               <li v-for="task in challenge.tasks" :key="task._id" class="lg:flex justify-between w-full odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
-                <div class="flex justify-between mr-3 mb-3 lg:mb-0">
+                <div class="lg:flex justify-between mr-3 mb-3 lg:mb-0">
                   <span :key="progressChanged">
                     <fa :icon="['fas', 'check-square']" @click="toggleProgressStatus(challenge._id, task._id)" :class="[  task.progress == 'done' ? 'text-green-500' : 'text-gray-500']"
                       class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3" />
@@ -65,8 +68,9 @@
 
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
-import challengeModal from '@/components/challengeModal'
+import LoadingComponent from '@/components/loading'
 import requestChallenge from '@/components/requestChallenge'
+import challengeModal from '@/components/challengeModal'
 
 export default {
   data() {
@@ -84,8 +88,11 @@ export default {
     }
   },
   created() {
+    this.$store.commit('updateLoadingIndicator', true)
+
     this.$axios.$get(`${process.env.API_URL}/api/v1/user/challenge`).then(res => {
       this.challenges = res.message
+      this.$store.commit('updateLoadingIndicator', false)
     }).catch(error => {
       this.fetchLandingPage()
 
@@ -97,13 +104,26 @@ export default {
     })
 
     this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
-      res.message.forEach(request => this.requests.push({_id: request.cid}))
+      res.message.forEach(request => {
+        this.requests.push({
+          _id: request.cid
+        })
+      })
     })
   },
   components: {
     VueMarkdownPlus,
+    LoadingComponent,
     requestChallenge,
     challengeModal
+  },
+  computed: {
+    loadingIndicator() {
+      return this.$store.state.loading
+    },
+    userchallenges() {
+      return this.challenges.concat(this.requests)
+    }
   },
   middleware: 'auth',
   methods: {
@@ -143,10 +163,12 @@ export default {
       this.showModal = !this.showModal
     },
     toggleRequestModal() {
-      if(this.showRequestModal) {
+      if (this.showRequestModal) {
         this.requests = []
         this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
-          res.message.forEach(request => this.requests.push({_id: request.cid}))
+          res.message.forEach(request => this.requests.push({
+            _id: request.cid
+          }))
         })
       }
       this.showRequestModal = !this.showRequestModal
@@ -154,11 +176,6 @@ export default {
     showChallenge(key) {
       this.modalChallenge = this.challenges[key]
       this.showModal = true
-    }
-  },
-  computed: {
-    userchallenges() {
-      return this.challenges.concat(this.requests)
     }
   }
 }

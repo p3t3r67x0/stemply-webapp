@@ -2,6 +2,8 @@
 <div class="container mx-auto mt-3 lg:mt-0">
   <div class="mx-3 lg:mx-0">
     <div class="bg-white rounded-lg p-3">
+      <loading-component v-if="loadingIndicator" />
+
       <div class="flex justify-between">
         <h1 class="text-xl lg:text-2xl font-bold mr-3">{{ task.title }}</h1>
         <span>
@@ -49,6 +51,7 @@
 
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
+import LoadingComponent from '@/components/loading'
 
 export default {
   data() {
@@ -57,11 +60,20 @@ export default {
       update: false
     }
   },
+  components: {
+    LoadingComponent,
+    VueMarkdownPlus
+  },
   created() {
     if (this.taskId) {
+      this.$store.commit('updateLoadingIndicator', true)
+
       this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/detail/${this.taskId}`).then(res => {
         this.task = res.message
+        this.$store.commit('updateLoadingIndicator', false)
       }).catch(error => {
+        this.$store.commit('updateLoadingIndicator', false)
+
         if (error.hasOwnProperty('response')) {
           console.log(error.response.data.message)
         } else {
@@ -70,12 +82,12 @@ export default {
       })
     }
   },
-  components: {
-    VueMarkdownPlus
-  },
   computed: {
     taskId() {
       return this.$route.params.id
+    },
+    loadingIndicator() {
+      return this.$store.state.loading
     }
   },
   middleware: 'auth',

@@ -11,8 +11,6 @@ export default ({
 
   app.$axios.interceptors.request.use(
     function(config) {
-      // store.commit('store/updateLoadingIndicator', true)
-      // console.log('updateLoadingIndicator: ' + store.state.loading)
       let url = null
 
       if (config.url.hasOwnProperty('url')) {
@@ -31,7 +29,7 @@ export default ({
         const accessToken = Cookie.get('USER_ACCESS_TOKEN')
 
         if (accessToken) {
-          store.commit('updateUserId', Cookie.get('USER_ID'))
+          // store.commit('updateUserId', Cookie.get('USER_ID'))
           config.headers.Authorization = 'Bearer ' + accessToken
         }
       }
@@ -39,48 +37,36 @@ export default ({
       return config
     },
     function(error) {
-      // store.commit('store/updateLoadingIndicator', false)
-      // console.log('updateLoadingIndicator: ' + store.state.loading)
       return Promise.reject(error)
     }
   )
 
   app.$axios.interceptors.response.use(
     function(response) {
-      // store.commit('store/updateLoadingIndicator', false)
-      // console.log('updateLoadingIndicator: ' + store.state.loading)
       return response
     },
     function(error) {
       if (error.config && error.response && error.response.status === 401) {
-        const refreshUrl = `${process.env.API_URL}/api/v1/token/refresh`
         const refreshToken = Cookie.get('USER_REFRESH_TOKEN')
 
         if (refreshToken) {
-          return app.$axios.post(refreshUrl, {}, {
-              headers: {
-                'Authorization': 'Bearer ' + refreshToken
-              }
-            }).then((response) => {
-              // store.commit('store/updateLoadingIndicator', false)
-              // console.log('updateLoadingIndicator: ' + store.state.loading)
+          return app.$axios.$post(`${process.env.API_URL}/api/v1/token/refresh`, {
+            headers: {
+              'Authorization': 'Bearer ' + refreshToken
+            }
+          }).then(res => {
+            console.log(res)
+            store.commit('updateAccessToken', res.access_token)
+            Cookie.set('USER_ACCESS_TOKEN', res.access_token)
 
-              store.commit('updateAccessToken', response.data.access_token)
-              Cookie.set('USER_ACCESS_TOKEN', response.data.access_token)
-
-              error.config.headers.Authorization = 'Bearer ' + response.data.access_token
-              return app.$axios.request(error.config)
-            })
-            .catch((error) => {
-              // store.commit('store/updateLoadingIndicator', false)
-              // console.log('updateLoadingIndicator: ' + store.state.loading)
-              return Promise.reject(error)
-            })
+            error.config.headers.Authorization = 'Bearer ' + res.access_token
+            return app.$axios.$request(error.config)
+          }).catch(error => {
+            return Promise.reject(error)
+          })
         }
       }
 
-      // store.commit('store/updateLoadingIndicator', false)
-      // console.log('updateLoadingIndicator: ' + store.state.loading)
       return Promise.reject(error)
     }
   )

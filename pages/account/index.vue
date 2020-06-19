@@ -85,8 +85,6 @@ export default {
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/api/v1/user/challenge`).then(res => {
-      console.log(res.message)
-      console.log(res.message.length)
       this.challenges = res.message
     }).catch(error => {
       this.fetchLandingPage()

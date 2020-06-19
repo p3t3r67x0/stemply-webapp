@@ -72,7 +72,7 @@ export default {
   middleware: 'auth',
   methods: {
     setCheckboxClass(formIndex, checkboxIndex) {
-      const elementId = `checkbox${checkboxIndex}`
+      const elementId = `option${checkboxIndex}`
       let elementMatch = false
 
       if (!Array.isArray(this.task.forms[formIndex].reply)) {
@@ -86,7 +86,7 @@ export default {
       return elementMatch
     },
     toggleCheckbox(formId, taskId, formIndex, checkboxIndex) {
-      const elementId = `checkbox${checkboxIndex}`
+      const elementId = `option${checkboxIndex}`
       let elementMatch = false
 
       if (this.task.forms[formIndex].reply.includes(elementId)) {

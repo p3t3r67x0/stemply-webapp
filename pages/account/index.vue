@@ -18,7 +18,7 @@
       <button v-on:click="toggleRequestModal" class="lg:text-xl text-lg lg:font-semibold mb-3 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Request access to another challenge</button>
     </div>
     <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
-      <li v-for="challenge, key in challenges" :key="challenge._id" v-if="challenges[showing]._id === challenge._id || showall" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
+      <li v-for="challenge, key in challenges" :key="challenge._id" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
             <div class="block group p-4" @click="showChallenge(key)">
@@ -57,21 +57,8 @@
             </ul>
           </div>
         </div>
-        <hr>
-        <div v-if="!showall && challenges.length > 1" class="flex justify-center m-3">
-          <button v-if="!showModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 justify-end z-0" :class="{ 'opacity-50 cursor-not-allowed': showing === 0}" :disabled="showing === 0"
-            v-on:click="showing-=1">{{ $t('previous') }}</button>
-          <button v-if="!showModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 ml-auto" :class="{ 'opacity-50 cursor-not-allowed': showing === challenges.length-1}" :disabled="showing === challenges.length-1"
-            v-on:click="showing+=1">{{ $t('next') }}</button>
-        </div>
       </li>
     </ul>
-    <div v-if="challenges.length > 1" class="mb-2">
-      <div class="form-switch inline-block align-right ml-auto">
-        <input v-model="showall" id="showallswitch" type="checkbox" name="showallswitch" class="form-switch-checkbox" />
-        <label for="showallswitch" class="form-switch-label">{{ $t('showall') }}</label>
-      </div>
-    </div>
   </div>
 </div>
 </template>
@@ -87,13 +74,11 @@ export default {
       user: {},
       tasks: [],
       challenges: [],
-      showing: 0,
-      showall: false,
       modalChallenge: [],
       excerptLength: 165,
       progressChanged: false,
-      showModal: false,
       showRequestModal: false,
+      showModal: false,
       landing: {},
       requests: []
     }
@@ -101,6 +86,7 @@ export default {
   created() {
     this.$axios.$get(`${process.env.API_URL}/api/v1/user/challenge`).then(res => {
       console.log(res.message)
+      console.log(res.message.length)
       this.challenges = res.message
     }).catch(error => {
       this.fetchLandingPage()
@@ -111,14 +97,15 @@ export default {
         console.log(error)
       }
     })
+
     this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
       res.message.forEach(request => this.requests.push({_id: request.cid}))
     })
   },
   components: {
     VueMarkdownPlus,
-    challengeModal,
-    requestChallenge
+    requestChallenge,
+    challengeModal
   },
   middleware: 'auth',
   methods: {
@@ -140,8 +127,6 @@ export default {
         challenge_id: challengeId,
         task_id: taskId
       }).then(res => {
-        console.log(this.$t(res.message))
-
         const challengeIndex = this.challenges.findIndex(challenge => challenge._id === challengeId)
         const taskIndex = this.challenges[challengeIndex].tasks.findIndex(task => task._id === taskId)
 
@@ -174,7 +159,7 @@ export default {
     }
   },
   computed: {
-    userchallenges: function() {
+    userchallenges() {
       return this.challenges.concat(this.requests)
     }
   }

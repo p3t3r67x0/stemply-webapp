@@ -2,7 +2,12 @@
 <div class="container mx-auto mt-3 lg:mt-0">
   <div class="mx-3 lg:mx-0">
     <div class="bg-white rounded-lg p-3">
-      <h1 class="text-xl lg:text-2xl font-bold">{{ task.title }}</h1>
+      <div class="flex justify-between">
+        <h1 class="text-xl lg:text-2xl font-bold mr-3">{{ task.title }}</h1>
+        <span>
+          <nuxt-link :to="'/account'" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Back</nuxt-link>
+        </span>
+      </div>
       <vue-markdown-plus class="markdown" :source="task.content" />
       <form v-if="task.forms" @submit.prevent class="mt-6">
         <h2 class="text-2xl font-medium mb-3">Kontrollfragen</h2>
@@ -15,7 +20,8 @@
                   class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mb-1 leading-tight focus:outline-none">
               </div>
               <div v-if="form.type == 'checkbox'" v-for="option, i in form.form" class="flex mb-1">
-                <fa :key="update" @click="toggleCheckbox(form._id, task._id, index, i)" :class="[setCheckboxClass(index, i) ? 'text-green-500' : 'text-gray-500']" :icon="['fas', 'check-square']" class="cursor-pointer inline-block text-xl lg:text-2xl w-5 mr-2" />
+                <fa :key="update" @click="toggleCheckbox(form._id, task._id, index, i)" :class="[setCheckboxClass(index, i) ? 'text-green-500' : 'text-gray-500']" :icon="['fas', 'check-square']"
+                  class="cursor-pointer inline-block text-xl lg:text-2xl w-5 mr-2" />
                 <span>{{ option.value }}</span>
               </div>
               <div v-if="form.type == 'select'" class="relative z-0">
@@ -33,6 +39,9 @@
           </li>
         </ul>
       </form>
+      <div class="text-right">
+        <nuxt-link :to="'/account'" class="focus:outline-none rounded text-blue-600 hover:text-blue-800">Back to challenges</nuxt-link>
+      </div>
     </div>
   </div>
 </div>

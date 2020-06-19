@@ -5,7 +5,7 @@
       <div class="flex justify-between mb-3">
         <h1 class="text-2xl font-bold">{{ challenge.title }}</h1>
         <span>
-          <nuxt-link :to="'/account'" class="inline-block bg-green-500 hover:bg-green-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Dashboard</nuxt-link>
+          <nuxt-link :to="'/account'" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Back</nuxt-link>
         </span>
       </div>
       <vue-markdown-plus class="markdown" :source="challenge.content" />

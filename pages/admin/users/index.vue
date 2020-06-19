@@ -8,6 +8,9 @@
           <button @click="exportForms" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export forms</button>
         </span>
         <span class="mr-1">
+          <button @click="exportResponses" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export responses</button>
+        </span>
+        <span class="mr-1">
           <button @click="exportChallenges" class="inline-block bg-teal-500 hover:bg-teal-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Export challenges</button>
         </span>
         <span>
@@ -162,6 +165,27 @@ export default {
     },
     exportForms() {
       this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/form/export`, {
+        responseType: 'blob'
+      }).then(res => {
+        const url = URL.createObjectURL(new Blob([res]))
+        const link = document.createElement('a')
+
+        link.href = url
+        link.setAttribute('download', 'forms.csv')
+        document.body.appendChild(link)
+        link.click()
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          this.response = error.response.data.message
+          this.responseError = true
+          this.showResponse = true
+        } else {
+          console.log(error)
+        }
+      })
+    },
+    exportResponses() {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/task/response/export`, {
         responseType: 'blob'
       }).then(res => {
         const url = URL.createObjectURL(new Blob([res]))

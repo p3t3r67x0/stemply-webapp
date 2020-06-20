@@ -4,23 +4,16 @@
   <challengeModal v-if="showModal" @clicked="toggleChallengeModal" v-bind:challenge="modalChallenge" />
   <requestChallenge v-if="showRequestModal" @clicked="toggleRequestModal" v-bind:userchallenges="userchallenges" />
   <div v-if="!loadingIndicator" class="mx-3 lg:mx-0">
-    <div v-if="!landing && challenges.length === 0" class="text-center">
-      <h3 class="text-xl lg:text-2xl mb-2">{{ $t('nochallenge') }}</h3>
-      <p class="text-xl text-gray-800">{{ $t('nochallengesupport') }}</p>
-    </div>
-    <div v-if="landing && challenges.length === 0">
-      <h3 class="text-xl lg:text-2xl mb-2">{{ landing.title }}</h3>
-      <div class="bg-white rounded-lg p-3">
-        <vue-markdown-plus class="markdown text-gray-800" :source="landing.content" />
-      </div>
-    </div>
     <div class="flex justify-between mb-3">
-      <h2 v-if="challenges.length > 0" class="text-xl lg:text-2xl lg:font-medium">Subscribed challenges</h2>
+      <h2 class="text-xl lg:text-2xl lg:font-medium">{{ challenges.length > 0 ? 'Subscribed challenges' : 'Finde den passenden Kurs!'}}</h2>
       <span>
         <button @click="toggleRequestModal" class="bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Other challenges</button>
       </span>
     </div>
-    <ul v-if="challenges.length > 0" class="container mx-auto flex flex-wrap">
+    <div v-if="challenges.length === 0" class="bg-white rounded p-3">
+      <p class="text-xl text-gray-800">Bitte wähle mindestens einen oder mehrere Kurse aus. Sobald Du mindestens einen Kurs ausgewählt hast wird der Support dich bei erfolgreicher Registrierung in den Kurs zuteilen.</p>
+    </div>
+    <ul v-if="challenges.length > 0" class="flex flex-wrap">
       <li v-for="challenge, key in challenges" :key="challenge._id" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3 border-r">
@@ -37,7 +30,7 @@
             </div>
           </div>
           <div class="w-full lg:w-2/3 p-4">
-            <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 0 : 1)}}</h2>
+            <h2 class="text-xl font-bold border-b pb-3 mb-4">{{ $tc('currentTasks', challenges.length > 1 ? 1 : 0)}}</h2>
             <ul>
               <li v-for="task in challenge.tasks" :key="task._id" class="lg:flex justify-between w-full odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
                 <div class="lg:flex justify-between mr-3 mb-3 lg:mb-0">
@@ -77,14 +70,14 @@ export default {
     return {
       user: {},
       tasks: [],
+      requests: [],
       challenges: [],
       modalChallenge: [],
       excerptLength: 165,
       progressChanged: false,
       showRequestModal: false,
       showModal: false,
-      landing: {},
-      requests: []
+      landing: {}
     }
   },
   created() {
@@ -94,8 +87,6 @@ export default {
       this.challenges = res.message
       this.$store.commit('updateLoadingIndicator', false)
     }).catch(error => {
-      this.fetchLandingPage()
-
       if (error.hasOwnProperty('response')) {
         console.log(error.response.data.message)
       } else {
@@ -165,12 +156,16 @@ export default {
     toggleRequestModal() {
       if (this.showRequestModal) {
         this.requests = []
+
         this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/request/list`).then(res => {
-          res.message.forEach(request => this.requests.push({
-            _id: request.cid
-          }))
+          res.message.forEach(request => {
+            this.requests.push({
+              _id: request.cid
+            })
+          })
         })
       }
+
       this.showRequestModal = !this.showRequestModal
     },
     showChallenge(key) {

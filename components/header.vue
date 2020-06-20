@@ -17,7 +17,7 @@
         </nuxt-link>
       </div>
 
-      <label v-on:click="toggleNav" class="cursor-pointer lg:hidden block py-2 pr-4">
+      <label @click="toggleNav" class="cursor-pointer lg:hidden block py-2 pr-4">
         <svg class="w-5 h-5 text-gray-500 hover:text-white focus:outline-none fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <title>Menu</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
@@ -26,46 +26,46 @@
 
       <div v-bind:class="[showNav ? 'block z-50' : 'hidden']" class="w-full border-t lg:border-0 border-gray-800 mt-2 lg:mt-0 lg:flex lg:items-center lg:w-auto">
         <ul class="lg:flex items-center justify-between text-base text-white pt-0 lg:pt-0">
-          <li v-if="!userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="!userId" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/signin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signin') }}</nuxt-link>
           </li>
-          <li v-if="!userId" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="!userId" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/signup')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signup') }}</nuxt-link>
           </li>
-          <li v-if="userId && hasUserRole && !hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="userId && hasUserRole && !hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/account')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.dashboard') }}</nuxt-link>
           </li>
-          <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/admin/forms')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Forms</nuxt-link>
           </li>
-          <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+          <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/admin/subscribtion')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.subscription') }}</nuxt-link>
           </li>
-          <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link :to="localePath('/admin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Challenges</nuxt-link>
+          <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+            <nuxt-link :to="localePath('/admin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Kurse verwalten</nuxt-link>
           </li>
 
           <li v-click-outside="hideDropdown" class="relative border-b lg:border-b-2 border-gray-800">
-            <button v-on:click="toggleDropdown" class="hidden lg:flex items-center cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">
+            <button @click="toggleDropdown" class="hidden lg:flex items-center cursor-pointer block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">
               <span class="pr-1 flex-1">More</span>
               <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
               </svg>
             </button>
             <ul v-bind:class="[showDropdown ? 'block z-50' : 'lg:hidden']" class="relative lg:absolute top right-0 lg:bg-gray-700 shadow w-full mr-4 lg:w-48">
-              <li v-on:click="toggleNav" v-for="locale in availableLocales" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+              <!--<li @click="toggleNav" v-for="locale in availableLocales" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ locale.name }}</a>
-              </li>
-              <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Users</nuxt-link>
-              </li>
-              <li v-if="userId && hasAdminRole" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+              </li>-->
+              <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <nuxt-link :to="localePath('/admin/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.settings') }}</nuxt-link>
               </li>
-              <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+              <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Manage Users</nuxt-link>
+              </li>
+              <li v-if="userId" @click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Manage Profile</nuxt-link>
               </li>
-              <li v-if="userId" v-on:click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
+              <li v-if="userId" @click="toggleNav" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.logout')}}</a>
               </li>
             </ul>

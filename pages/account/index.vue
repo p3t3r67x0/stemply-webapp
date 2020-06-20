@@ -103,7 +103,7 @@ export default {
       }
     })
 
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/request/list`).then(res => {
       res.message.forEach(request => {
         this.requests.push({
           _id: request.cid
@@ -165,7 +165,7 @@ export default {
     toggleRequestModal() {
       if (this.showRequestModal) {
         this.requests = []
-        this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requests`).then(res => {
+        this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/request/list`).then(res => {
           res.message.forEach(request => this.requests.push({
             _id: request.cid
           }))

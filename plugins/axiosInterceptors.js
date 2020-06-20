@@ -54,12 +54,11 @@ export default ({
             headers: {
               'Authorization': 'Bearer ' + refreshToken
             }
-          }).then(res => {
-            console.log(res)
-            store.commit('updateAccessToken', res.access_token)
-            Cookie.set('USER_ACCESS_TOKEN', res.access_token)
+          }).then(response => {
+            store.commit('updateAccessToken', response.data.access_token)
+            Cookie.set('USER_ACCESS_TOKEN', response.data.access_token)
 
-            error.config.headers.Authorization = 'Bearer ' + res.access_token
+            error.config.headers.Authorization = 'Bearer ' + response.data.access_token
             return app.$axios.$request(error.config)
           }).catch(error => {
             return Promise.reject(error)

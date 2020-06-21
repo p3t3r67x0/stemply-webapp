@@ -75,8 +75,10 @@ export default {
     },
     handleSubstring(title) {
       if (title.length > this.excerptLength) {
-        title.substring(0, this.excerptLength)
+        return title.substring(0, this.excerptLength)
       }
+
+      return title
     },
     matchChallenge(challengeId) {
       return this.subscriptions.filter(e => e.cid === challengeId).length > 0

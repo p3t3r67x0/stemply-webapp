@@ -56,7 +56,10 @@ export default ({
             }
           }).then((response) => {
             store.commit('updateAccessToken', response.access_token)
-            Cookie.set('USER_ACCESS_TOKEN', response.access_token)
+            Cookie.set('USER_ACCESS_TOKEN', response.access_token, {
+              samesite: 'Strict',
+              secure: true
+            })
 
             error.config.headers.Authorization = 'Bearer ' + response.access_token
             return app.$axios.request(error.config)

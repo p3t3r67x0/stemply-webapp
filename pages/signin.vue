@@ -7,8 +7,8 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
         {{ $t('email') }}
       </label>
-      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="email" type="text" placeholder="me@example.com">
+      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="text" placeholder="me@example.com">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('entervalidmail') }}</p>
     </div>
     <div class="w-full mb-6">
@@ -80,10 +80,26 @@ export default {
     loginSubmit() {
       const isValidForm = (currentValue) => currentValue !== true
 
-      Cookie.remove('USER_ID')
-      Cookie.remove('USER_ROLES')
-      Cookie.remove('USER_ACCESS_TOKEN')
-      Cookie.remove('USER_REFRESH_TOKEN')
+      Cookie.remove('USER_ID', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_ROLES', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_AVATAR_URL', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_ACCESS_TOKEN', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_REFRESH_TOKEN', {
+        samesite: 'Strict',
+        secure: true
+      })
 
       this.$store.commit('updateUserId', null)
       this.$store.commit('updateUserAvatar', null)
@@ -109,12 +125,30 @@ export default {
           this.$store.commit('updateUserAvatarUrl', res.avatar)
           this.$store.commit('updateAccessToken', res.access_token)
 
-          Cookie.set('USER_ID', res.id)
-          Cookie.set('USER_NAME', res.name)
-          Cookie.set('USER_AVATAR_URL', res.avatar)
-          Cookie.set('USER_ROLES', JSON.stringify(res.roles))
-          Cookie.set('USER_ACCESS_TOKEN', res.access_token)
-          Cookie.set('USER_REFRESH_TOKEN', res.refresh_token)
+          Cookie.set('USER_ID', res.id, {
+            samesite: 'Strict',
+            secure: true
+          })
+          Cookie.set('USER_NAME', res.name, {
+            samesite: 'Strict',
+            secure: true
+          })
+          Cookie.set('USER_ROLES', JSON.stringify(res.roles), {
+            samesite: 'Strict',
+            secure: true
+          })
+          Cookie.set('USER_AVATAR_URL', res.avatar, {
+            samesite: 'Strict',
+            secure: true
+          })
+          Cookie.set('USER_ACCESS_TOKEN', res.access_token, {
+            samesite: 'Strict',
+            secure: true
+          })
+          Cookie.set('USER_REFRESH_TOKEN', res.refresh_token, {
+            samesite: 'Strict',
+            secure: true
+          })
 
           const name = this.hasAdminRole ? 'admin' : 'account'
 

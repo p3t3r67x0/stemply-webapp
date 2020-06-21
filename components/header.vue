@@ -136,11 +136,26 @@ export default {
       this.$store.commit('updateRefreshToken', null)
       this.$store.commit('updateAccessToken', null)
 
-      Cookie.remove('USER_ID')
-      Cookie.remove('USER_ROLES')
-      Cookie.remove('USER_AVATAR_URL')
-      Cookie.remove('USER_ACCESS_TOKEN')
-      Cookie.remove('USER_REFRESH_TOKEN')
+      Cookie.remove('USER_ID', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_ROLES', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_AVATAR_URL', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_ACCESS_TOKEN', {
+        samesite: 'Strict',
+        secure: true
+      })
+      Cookie.remove('USER_REFRESH_TOKEN', {
+        samesite: 'Strict',
+        secure: true
+      })
 
       this.$router.push(this.localePath({
         name: 'signin'

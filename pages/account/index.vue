@@ -5,7 +5,7 @@
   <requestChallenge v-if="showRequestModal" @clicked="toggleRequestModal" v-bind:userchallenges="userchallenges" />
   <div v-if="!loadingIndicator" class="mx-3 lg:mx-0">
     <div class="flex justify-between mb-3">
-      <h2 class="text-xl lg:text-2xl lg:font-medium">{{ challenges.length > 0 ? 'Subscribed challenges' : 'Finde den passenden Kurs!'}}</h2>
+      <h2 class="text-xl lg:text-2xl lg:font-medium mr-3">{{ challenges.length > 0 ? 'Subscribed challenges' : 'Finde den passenden Kurs!'}}</h2>
       <span>
         <button @click="toggleRequestModal" class="bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Other challenges</button>
       </span>
@@ -87,6 +87,7 @@ export default {
       this.challenges = res.message
       this.$store.commit('updateLoadingIndicator', false)
     }).catch(error => {
+      this.$store.commit('updateLoadingIndicator', false)
       if (error.hasOwnProperty('response')) {
         console.log(error.response.data.message)
       } else {

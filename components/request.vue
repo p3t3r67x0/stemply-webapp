@@ -13,7 +13,9 @@
     <li v-for="challenge, index in challenges" :key="challenge._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
       <div class="flex justify-between mr-3 mb-3 lg:mb-0">
         <span>
-          {{ challenge.title }}
+          <span>
+            {{ handleSubstring(challenge.title) }}...
+          </span>
           <span class="lg:hidden text-gray-600">
             ({{ $t('duration') }}: {{ challenge.duration }} {{ $tc('days', challenge.duration != 1 ? 0 : 1)}})
           </span>
@@ -37,7 +39,8 @@ export default {
   data() {
     return {
       challenges: [],
-      subscriptions: []
+      subscriptions: [],
+      excerptLength: 165
     }
   },
   components: {
@@ -69,6 +72,11 @@ export default {
       }).catch(error => {
         console.log(error.response.data)
       })
+    },
+    handleSubstring(title) {
+      if (title.length > this.excerptLength)) {
+        title.substring(0, this.excerptLength)
+      }
     },
     matchChallenge(challengeId) {
       return this.subscriptions.filter(e => e.cid === challengeId).length > 0

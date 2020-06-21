@@ -11,21 +11,19 @@
   </div>
   <ul class="bg-white rounded p-3">
     <li v-for="challenge, index in challenges" :key="challenge._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
-      <div class="flex justify-between mr-3 mb-3 lg:mb-0">
+      <div class="lg:w-8/12 mb-3 lg:mb-0">
         <span>
-          <span>
-            {{ handleSubstring(challenge.title) }}...
-          </span>
-          <span class="lg:hidden text-gray-600">
-            ({{ $t('duration') }}: {{ challenge.duration }} {{ $tc('days', challenge.duration != 1 ? 0 : 1)}})
-          </span>
+          {{ handleSubstring(challenge.title) }}
+        </span>
+        <span class="lg:hidden text-gray-600">
+          ({{ $t('duration') }}: {{ challenge.duration }} {{ $tc('days', challenge.duration != 1 ? 0 : 1)}})
         </span>
       </div>
-      <div>
+      <div class="lg:w-4/12 text-right">
         <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ challenge.duration }}
           {{ $tc('days', challenge.duration != 1 ? 0 : 1)}}</span>
         <button type="button" @click="toggleSubscription(challenge._id)" :class="[matchChallenge(challenge._id) ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600']"
-          class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id) ? 'Request access' : 'Delete request'}}</button>
+          class="w-full sm:w-auto focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id) ? 'Request access' : 'Delete request'}}</button>
       </div>
     </li>
   </ul>
@@ -40,7 +38,7 @@ export default {
     return {
       challenges: [],
       subscriptions: [],
-      excerptLength: 165
+      excerptLength: 55
     }
   },
   components: {
@@ -48,7 +46,6 @@ export default {
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/api/v1/challenge`).then(res => {
-      console.log(res)
       this.challenges = res.message
     }).catch(error => {
       if (error.hasOwnProperty('response')) {
@@ -58,7 +55,6 @@ export default {
       }
     })
     this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requested/list`).then(res => {
-      console.log(res)
       this.subscriptions = res.message
     }).catch(error => {
       console.log(error.response.data)
@@ -67,7 +63,6 @@ export default {
   methods: {
     toggleSubscription(challengeId) {
       this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/request/${challengeId}`).then(res => {
-        console.log(res)
         this.subscriptions = res.data
       }).catch(error => {
         console.log(error.response.data)
@@ -75,7 +70,7 @@ export default {
     },
     handleSubstring(title) {
       if (title.length > this.excerptLength) {
-        return title.substring(0, this.excerptLength)
+        return `${title.substring(0, this.excerptLength)}...`
       }
 
       return title

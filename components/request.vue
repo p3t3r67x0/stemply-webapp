@@ -74,7 +74,7 @@ export default {
       })
     },
     handleSubstring(title) {
-      if (title.length > this.excerptLength)) {
+      if (title.length > this.excerptLength) {
         title.substring(0, this.excerptLength)
       }
     },

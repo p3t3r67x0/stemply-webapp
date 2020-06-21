@@ -29,7 +29,7 @@ export default ({
         const accessToken = Cookie.get('USER_ACCESS_TOKEN')
 
         if (accessToken) {
-          // store.commit('updateUserId', Cookie.get('USER_ID'))
+          store.commit('updateUserId', Cookie.get('USER_ID'))
           config.headers.Authorization = 'Bearer ' + accessToken
         }
       }
@@ -59,7 +59,7 @@ export default ({
             Cookie.set('USER_ACCESS_TOKEN', response.access_token)
 
             error.config.headers.Authorization = 'Bearer ' + response.access_token
-            return app.$axios.$request(error.config)
+            return app.$axios.request(error.config)
           }).catch((error) => {
             return Promise.reject(error)
           })

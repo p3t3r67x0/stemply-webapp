@@ -1,7 +1,7 @@
 <template>
-<div>
-  <h2 class="text-2xl mb-4">Requested Challenges</h2>
-  <ul>
+<div v-if="requests.length > 0">
+  <h2 class="text-2xl mb-4">My requested challenges</h2>
+  <ul class="bg-white rounded p-3">
     <li v-for="request, index in requests" :key="request._id" class="lg:flex justify-between width odd:bg-gray-100 even:bg-gray-200 px-2 py-3">
       <div class="flex justify-between mr-3 mb-3 lg:mb-0">
         <span>
@@ -31,7 +31,7 @@ export default {
   },
   components: {},
   created() {
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/request/list`).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requested/list`).then(res => {
       this.requests = res.message
     })
   },

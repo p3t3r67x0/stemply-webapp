@@ -22,9 +22,6 @@
             <li :class="{ 'bg-blue-500' : tabs.showPasswordTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
               <a :class="[ tabs.showPasswordTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showPasswordTab')" href="#" class="block p-4 hover:text-white">Reset Password</a>
             </li>
-            <li :class="{ 'bg-blue-500' : tabs.showChallengeRequestsTab }" class="cursor-pointer border-b border-white hover:bg-blue-500">
-              <a :class="[ tabs.showChallengeRequestsTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showChallengeRequestsTab')" href="#" class="block p-4 hover:text-white">Challenge Requests</a>
-            </li>
             <li :class="{ 'bg-red-500' : tabs.showAccountTab }" class="cursor-pointer border-b border-white hover:bg-red-500">
               <a :class="[ tabs.showAccountTab ? 'text-white' : 'text-gray-700' ]" @click="handleTabs('showAccountTab')" href="#" class="block p-4 hover:text-white">Delete Account</a>
             </li>
@@ -35,9 +32,8 @@
           <billing-component v-if="tabs.showBillingTab" />
           <account-component v-if="tabs.showAccountTab" />
           <lastseen-component v-if="tabs.showLastseenTab" />
-          <notifications-component v-if="tabs.showNotificationsTab" />
           <password-component v-if="tabs.showPasswordTab" />
-          <challenge-requests-component v-if="tabs.showChallengeRequestsTab" />
+          <notifications-component v-if="tabs.showNotificationsTab" />
         </div>
       </div>
     </div>
@@ -46,14 +42,13 @@
 </template>
 
 <script>
-import AvatarComponent from '@/components/settings/avatar.vue'
-import ProfileComponent from '@/components/settings/profile.vue'
-import BillingComponent from '@/components/settings/billing.vue'
-import AccountComponent from '@/components/settings/account.vue'
-import LastseenComponent from '@/components/settings/lastseen.vue'
-import NotificationsComponent from '@/components/settings/notifications.vue'
-import PasswordComponent from '@/components/settings/password.vue'
-import ChallengeRequestsComponent from '@/components/settings/challengerequests.vue'
+import AvatarComponent from '@/components/settings/avatar'
+import ProfileComponent from '@/components/settings/profile'
+import BillingComponent from '@/components/settings/billing'
+import AccountComponent from '@/components/settings/account'
+import LastseenComponent from '@/components/settings/lastseen'
+import PasswordComponent from '@/components/settings/password'
+import NotificationsComponent from '@/components/settings/notifications'
 
 export default {
   data() {
@@ -62,9 +57,8 @@ export default {
         showProfileTab: true,
         showBillingTab: false,
         showLastseenTab: false,
-        showNotificationsTab: false,
         showPasswordTab: false,
-        showChallengeRequestsTab: false
+        showNotificationsTab: false
       }
     }
   },
@@ -74,9 +68,8 @@ export default {
     BillingComponent,
     AccountComponent,
     LastseenComponent,
-    NotificationsComponent,
     PasswordComponent,
-    ChallengeRequestsComponent
+    NotificationsComponent
   },
   middleware: 'auth',
   methods: {

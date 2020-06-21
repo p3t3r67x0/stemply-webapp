@@ -1,23 +1,23 @@
 <template>
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
-    tbd.
+    <request-component />
   </div>
 </div>
 </template>
 
 <script>
+import RequestComponent from '@/components/request'
+
 export default {
   data() {
     return {}
   },
-  created() {},
-  computed: {
-    userId() {
-      return this.$store.state.userId
-    }
+  components: {
+    RequestComponent
   },
   middleware: 'auth',
   methods: {}
 }
+
 </script>

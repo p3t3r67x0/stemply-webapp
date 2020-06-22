@@ -23,8 +23,8 @@
         <div class="lg:w-4/12 text-right">
           <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ challenge.duration }}
             {{ $tc('days', challenge.duration != 1 ? 0 : 1)}}</span>
-          <button type="button" @click="toggleSubscription(challenge._id)" :class="[matchChallenge(challenge._id) ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600']"
-            class="w-full sm:w-auto focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id) ? 'Request access' : 'Delete request'}}</button>
+          <button type="button" @click="toggleSubscription(challenge._id)" :class="matchChallengeClass(challenge.user)"
+            class="w-full sm:w-auto focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge.user) }}</button>
         </div>
       </li>
     </ul>
@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       challenges: [],
-      subscriptions: [],
       excerptLength: 55
     }
   },
@@ -47,7 +46,7 @@ export default {
     VueMarkdownPlus
   },
   created() {
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/list`).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/request/list`).then(res => {
       this.challenges = res.message
     }).catch(error => {
       if (error.hasOwnProperty('response')) {
@@ -56,17 +55,12 @@ export default {
         console.log(error)
       }
     })
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/requested/list`).then(res => {
-      this.subscriptions = res.message
-    }).catch(error => {
-      console.log(error.response.data)
-    })
   },
   middleware: 'auth',
   methods: {
     toggleSubscription(challengeId) {
       this.$axios.$post(`${process.env.API_URL}/api/v1/challenge/request/${challengeId}`).then(res => {
-        this.subscriptions = res.data
+        this.challenges = res.data
       }).catch(error => {
         console.log(error.response.data)
       })
@@ -78,8 +72,31 @@ export default {
 
       return title
     },
-    matchChallenge(challengeId) {
-      return this.subscriptions.filter(e => e.cid === challengeId).length > 0
+    matchChallenge(user) {
+      if (!user.subscribed && !user.requested) {
+        return 'Request access'
+      }
+
+      if (user.requested) {
+        return 'Delete request'
+      }
+
+      if (user.subscribed) {
+        return 'Unsuscribe'
+      }
+    },
+    matchChallengeClass(user) {
+      if (!user.subscribed && !user.requested) {
+        return 'bg-green-500 hover:bg-green-600'
+      }
+
+      if (user.requested) {
+        return 'bg-red-500 hover:bg-red-600'
+      }
+
+      if (user.subscribed) {
+        return 'bg-indigo-500 hover:bg-indigo-600'
+      }
     }
   }
 }

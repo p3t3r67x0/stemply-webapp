@@ -6,14 +6,14 @@
       <li v-for="challenge in challenges" class="bg-white rounded-lg p-3 mb-6">
         <h3 class="w-full md:w-8/12 text-lg lg:text-xl font-semibold mb-3">{{ challenge.title }}</h3>
         <ul>
-          <li v-for="user in users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
+          <li v-for="user in challenge.users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
             <div class="lg:flex justify-between">
               <div class="break-all mb-2 lg:mb-0">
-                {{ user.email }}
+                {{ user.email }} <span class="text-gray-500">({{ user.name }})</span>
               </div>
               <div class="lg:text-right">
-                <button type="button" @click="toggleSubscribe(challenge._id, user._id)" :class="[matchChallenge(challenge._id, user) ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600']"
-                  class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge._id, user) ? 'Unsubscribe' : 'Subscribe'}}</button>
+                <button type="button" @click="toggleSubscribe(challenge._id, user._id)" :class="matchChallengeClass(user)"
+                  class="focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(user) }}</button>
               </div>
             </div>
           </li>
@@ -33,13 +33,11 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/list`).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/subscription/list`).then(res => {
       this.challenges = res.message
     }).catch(error => {
-      console.log(error.response.data)
+      console.log(error)
     })
-
-    this.fetchUsers()
   },
   computed: {
     userId() {
@@ -53,24 +51,36 @@ export default {
         cid: challengeId,
         uid: userId
       }).then(res => {
-        this.fetchUsers()
+        this.challenges = res.data
       }).catch(error => {
-        console.log(error.response.data)
+        console.log(error)
       })
     },
-    fetchUsers() {
-      this.$axios.$get(`${process.env.API_URL}/api/v1/user/list`).then(res => {
-        this.users = res.message
-      }).catch(error => {
-        console.log(error.response.data)
-      })
-    },
-    matchChallenge(challengeId, user) {
-      if (!user.hasOwnProperty('challenges')) {
-        return false
+    matchChallenge(user) {
+      if (!user.subscribed && !user.requested) {
+        return 'Subscribe'
       }
 
-      return user.challenges.includes(challengeId)
+      if (user.requested) {
+        return 'Approve'
+      }
+
+      if (user.subscribed) {
+        return 'Unsubscribe'
+      }
+    },
+    matchChallengeClass(user) {
+      if (!user.subscribed && !user.requested) {
+        return 'bg-green-500 hover:bg-green-600'
+      }
+
+      if (user.requested) {
+        return 'bg-indigo-500 hover:bg-indigo-600'
+      }
+
+      if (user.subscribed) {
+        return 'bg-red-500 hover:bg-red-600'
+      }
     }
   }
 }

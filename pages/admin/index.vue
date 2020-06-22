@@ -2,7 +2,7 @@
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
     <div class="flex justify-between">
-      <h1 class="text-2xl font-medium mb-3">Challenges</h1>
+      <h1 class="text-xl lg:text-2xl font-medium mb-3">Challenges</h1>
       <span>
         <nuxt-link to="/admin/challenge" class="inline-block bg-green-500 hover:bg-green-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">New challenge</nuxt-link>
       </span>
@@ -10,7 +10,7 @@
     <ul>
       <li v-for="(challenge, indexChallenge) in challenges" class="bg-white rounded-lg p-3 mb-6">
         <div class="flex justify-between">
-          <h2 class="text-xl font-semibold mb-3">{{ $t('challenge') }}</h2>
+          <h2 class="text-xl font-medium mb-3">{{ $t('challenge') }}</h2>
           <p>
             <nuxt-link :to="generateTaskAddLink(challenge._id)" class="inline-block bg-orange-500 hover:bg-orange-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">Add task</nuxt-link>
           </p>
@@ -29,7 +29,7 @@
           </span>
           <vue-markdown-plus class="markdown" :source="challenge.content" />
         </div>
-        <h2 v-if="challenge.tasks.length > 0" class="text-xl font-semibold mt-6">{{ $t('tasks') }}</h2>
+        <h2 v-if="challenge.tasks.length > 0" class="text-xl font-medium mt-6">{{ $t('tasks') }}</h2>
         <ul v-if="challenge.tasks.length > 0">
           <li v-for="(task, indexTask) in challenge.tasks" :key="task._id" class="bg-gray-200 rounded-lg p-2 mt-3">
             <span class="flex justify-betweeen mb-1">

@@ -62,7 +62,6 @@
 <script>
 import VueMarkdownPlus from 'vue-markdown-plus'
 import LoadingComponent from '@/components/loading'
-import RequestComponent from '@/components/request'
 import challengeModal from '@/components/challengeModal'
 
 export default {
@@ -95,7 +94,6 @@ export default {
   },
   components: {
     VueMarkdownPlus,
-    RequestComponent,
     LoadingComponent,
     challengeModal
   },

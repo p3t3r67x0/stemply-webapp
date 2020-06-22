@@ -1,11 +1,10 @@
 <template>
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
-    <h1 class="text-xl lg:text-2xl font-semibold mb-4">{{ $t('navigation.subscription') }}</h1>
+    <h1 class="text-xl lg:text-2xl font-medium mb-4">{{ $t('navigation.subscription') }}</h1>
     <ul>
       <li v-for="challenge in challenges" class="bg-white rounded-lg p-3 mb-6">
-        <h3 class="w-full md:w-8/12 text-lg lg:text-xl font-bold mb-2">{{ challenge.title }}</h3>
-        <h4 class="w-full md:w-8/12 text-lg lg:text-xl mb-1">Manage user subscription</h4>
+        <h3 class="w-full md:w-8/12 text-lg lg:text-xl font-semibold mb-3">{{ challenge.title }}</h3>
         <ul>
           <li v-for="user in users" class="odd:bg-gray-200 even:bg-gray-100 p-2">
             <div class="lg:flex justify-between">
@@ -34,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge`).then(res => {
+    this.$axios.$get(`${process.env.API_URL}/api/v1/challenge/list`).then(res => {
       this.challenges = res.message
     }).catch(error => {
       console.log(error.response.data)
@@ -51,8 +50,8 @@ export default {
   methods: {
     toggleSubscribe(challengeId, userId) {
       this.$axios.$put(`${process.env.API_URL}/api/v1/challenge/subscription`, {
-        challenge_id: challengeId,
-        user_id: userId
+        cid: challengeId,
+        uid: userId
       }).then(res => {
         this.fetchUsers()
       }).catch(error => {

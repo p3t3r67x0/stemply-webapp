@@ -1,5 +1,5 @@
 <template>
-<div class="container mx-auto mt-3">
+<div class="container mx-auto">
   <form-component :formId="formId" />
 </div>
 </template>

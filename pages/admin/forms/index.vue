@@ -1,5 +1,5 @@
 <template>
-<div class="container mx-auto mt-3">
+<div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
     <div class="flex justify-between">
       <h1 class="text-xl lg:text-2xl font-medium mb-3">Forms</h1>

@@ -36,6 +36,12 @@
             <nuxt-link :to="localePath('/account')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.dashboard') }}</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+            <nuxt-link :to="localePath('/admin/wiki')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Wiki</nuxt-link>
+          </li>
+          <li v-if="userId && hasUserRole && !hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
+            <nuxt-link :to="localePath('/account/wiki')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Wiki</nuxt-link>
+          </li>
+          <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/admin/forms')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Forms</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">

@@ -4,7 +4,8 @@
     <div class="lg:flex justify-between mb-3">
       <h1 class="text-xl lg:text-2xl font-medium mb-3">Wiki entries</h1>
       <form @submit.prevent="searchWikiEntries" class="relative w-wull lg:w-1/2">
-        <input v-model="query" @focusout="searchWikiEntries" type="search" name="search" placeholder="online marketing" class="w-full appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white rounded pr-12">
+        <input v-model="query" @focusout="searchWikiEntries" type="search" name="search" placeholder="online marketing"
+          class="w-full appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white rounded pr-12">
         <button type="submit" class="absolute right-0 top-0 mt-4 mr-4 focus:outline-none">
           <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 56.966 56.966">
             <path
@@ -18,7 +19,7 @@
         <h3 class="w-full lg:w-10/12 text-xl font-semibold mb-2">{{ entry.title }}</h3>
         <ul v-if="entry.tags" class="mb-3">
           <li v-for="tag in entry.tags" class="inline-flex bg-gray-300 text-blue-600 font-medium rounded-lg px-2 mr-3">
-            {{ tag.toLowerCase() }}
+            <nuxt-link :to="generateTagNameLink(tag.toLowerCase())">{{ tag.toLowerCase() }}</nuxt-link>
           </li>
         </ul>
         {{ entry.content }}
@@ -37,18 +38,40 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(`${process.env.API_URL}/api/v1/wiki/entry/list`).then(res => {
-      this.entries = res.message
-    }).catch(error => {
-      if (error.hasOwnProperty('response')) {
-        console.log(error.response.data.message)
-      } else {
-        console.log(error.message)
-      }
-    })
+    if (this.tagName) {
+      this.$axios.$post(`${process.env.API_URL}/api/v1/wiki/entry/tag`, {
+        tag: this.tagName
+      }).then(res => {
+        this.entries = res.message
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error)
+        }
+      })
+    } else {
+      this.$axios.$get(`${process.env.API_URL}/api/v1/wiki/entry/list`).then(res => {
+        this.entries = res.message
+      }).catch(error => {
+        if (error.hasOwnProperty('response')) {
+          console.log(error.response.data.message)
+        } else {
+          console.log(error)
+        }
+      })
+    }
+  },
+  computed: {
+    tagName() {
+      return this.$route.params.id
+    }
   },
   middleware: 'auth',
   methods: {
+    generateTagNameLink(tagName) {
+      return `/account/wiki/${tagName}`
+    },
     searchWikiEntries() {
       this.$axios.$post(`${process.env.API_URL}/api/v1/wiki/entry/search`, {
         query: this.query
@@ -58,7 +81,7 @@ export default {
         if (error.hasOwnProperty('response')) {
           console.log(error.response.data.message)
         } else {
-          console.log(error.message)
+          console.log(error)
         }
       })
     }

@@ -22,7 +22,7 @@
             <nuxt-link :to="generateTagNameLink(tag.toLowerCase())">{{ tag.toLowerCase() }}</nuxt-link>
           </li>
         </ul>
-        {{ entry.content }}
+        <vue-markdown-plus class="markdown" :source="entry.content" />
       </li>
     </ul>
   </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import VueMarkdownPlus from 'vue-markdown-plus'
+
 export default {
   data() {
     return {
@@ -61,6 +63,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    VueMarkdownPlus
   },
   computed: {
     tagName() {

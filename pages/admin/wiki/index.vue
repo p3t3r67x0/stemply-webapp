@@ -21,7 +21,7 @@
             {{ tag.toLowerCase() }}
           </li>
         </ul>
-        {{ entry.content }}
+        <vue-markdown-plus class="markdown" :source="entry.content" />
       </li>
     </ul>
   </div>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import VueMarkdownPlus from 'vue-markdown-plus'
+
 export default {
   data() {
     return {
@@ -45,6 +47,9 @@ export default {
         console.log(error.message)
       }
     })
+  },
+  components: {
+    VueMarkdownPlus
   },
   middleware: 'auth',
   methods: {

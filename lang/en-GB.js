@@ -1,4 +1,7 @@
 export default {
+  welcome: 'Welcome to ZackigOnline',
+  herotext: 'Our interactive courses can help you to establish your business in the online world.',
+  registernow: 'Register Now',
   test: 'test en-GB',
   email: 'Email',
   name: 'Name',

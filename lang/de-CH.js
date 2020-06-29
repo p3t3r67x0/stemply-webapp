@@ -1,4 +1,7 @@
 export default {
+  welcome: 'Willkommen bei ZackigOnline',
+  herotext: 'Unsere interaktiven Kurse helfen Ihnen, Ihr Unternehmen in der digitalen Welt zu etablieren.',
+  registernow: 'Jetzt registrieren',
   test: 'test de-CH',
   email: 'E-Mail',
   nochallenge: 'Ihnen wurde noch keine Challenge zugeordnet',

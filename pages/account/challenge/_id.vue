@@ -4,7 +4,7 @@
     <div class="bg-white rounded-lg p-3">
       <div class="flex justify-between mb-3">
         <h1 class="text-2xl font-bold">{{ challenge.title }}</h1>
-          <span v-on:click="back" class="inline-block bg-gray-600 hover:bg-gray-700 cursor-pointer focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Back</span>
+          <span v-on:click="back" class="inline-block bg-gray-600 hover:bg-gray-700 cursor-pointer focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">{{ $t('back') }}</span>
         </div>
         <div class="xl:flex" v-if="challenge">
           <div v-if="challenge" class="w-auto border-r-2 p-4 m-4 overflow-scroll" :class="[showtasks ? 'modal-text-small' : 'modal-text']">
@@ -12,7 +12,7 @@
           </div>
           <div v-if="challenge && challenge.tasks" class="w-full p-4 m-4 w-2/3 p-4">
             <div class="pb-3">
-              <h3 class="text-xl"><fa :icon="['fas', showtasks ? 'angle-up' : 'angle-down']" @click="toggleShowTasks" class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3 md:hidden" /> Tasks</h3>
+              <h3 class="text-xl"><fa :icon="['fas', showtasks ? 'angle-up' : 'angle-down']" @click="toggleShowTasks" class="inline-block cursor-pointer text-xl lg:text-2xl w-5 mr-3 md:hidden" /> {{ $t('tasks') }}</h3>
               <hr>
             </div>
             <div class="overflow-scroll md:block" :class="[ showtasks ? 'block-modal modal-text' : 'hidden modal-text-small']">

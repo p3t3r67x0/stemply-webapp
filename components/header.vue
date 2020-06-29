@@ -53,7 +53,7 @@
 
           <li v-click-outside="hideDropdown" v-if="userId" class="relative border-b lg:border-b-2 border-gray-800">
             <button @click="toggleDropdown" class="hidden lg:flex items-center cursor-pointer block py-3 px-3 lg:py-4 lg:pl-4 lg:pr-0 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">
-              <span class="pr-1 flex-1">More</span>
+              <span class="pr-1 flex-1">{{ $t('more') }}</span>
               <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
               </svg>
@@ -66,10 +66,10 @@
                 <nuxt-link :to="localePath('/admin/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.settings') }}</nuxt-link>
               </li>
               <li v-if="userId && hasAdminRole" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Manage Users</nuxt-link>
+                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('manageusers') }}</nuxt-link>
               </li>
               <li v-if="userId" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Manage Profile</nuxt-link>
+                <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('manageprofile') }}</nuxt-link>
               </li>
               <li v-if="userId" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.logout')}}</a>

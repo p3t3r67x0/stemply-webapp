@@ -5,15 +5,15 @@
       <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">
         <nuxt-link v-if="!userId" :to="localePath('/')" class="flex justify-between focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline-block text-gray-300 text-3xl w-10 mr-3" />
-          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
+          <span class="text-2xl text-gray-300 hover:text-white font-light">ZackigOnline</span>
         </nuxt-link>
         <nuxt-link v-if="userId && hasUserRole && !hasAdminRole" :to="localePath('/account')" class="flex justify-between focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline-block text-green-400 text-3xl w-10 mr-3" />
-          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
+          <span class="text-2xl text-gray-300 hover:text-white font-light">ZackigOnline</span>
         </nuxt-link>
         <nuxt-link v-if="userId && hasAdminRole" :to="localePath('/admin')" class="flex justify-between focus:outline-none text-lg font-bold">
           <fa :icon="['fas', 'graduation-cap']" class="inline-block text-orange-400 text-3xl w-10 mr-3" />
-          <span class="text-2xl text-gray-300 hover:text-white font-light">Education</span>
+          <span class="text-2xl text-gray-300 hover:text-white font-light">ZackigOnline</span>
         </nuxt-link>
       </div>
 
@@ -33,7 +33,7 @@
             <nuxt-link :to="localePath('/signup')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.signup') }}</nuxt-link>
           </li>
           <li v-if="userId && hasUserRole && !hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link :to="localePath('/account')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.dashboard') }}</nuxt-link>
+            <nuxt-link :to="localePath('/account')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Meine Challenges</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/admin/wiki')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Wiki</nuxt-link>
@@ -42,10 +42,10 @@
             <nuxt-link :to="localePath('/account/wiki')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Wiki</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link :to="localePath('/admin/forms')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Forms</nuxt-link>
+            <nuxt-link :to="localePath('/admin/forms')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Formulare</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
-            <nuxt-link :to="localePath('/admin/subscribtions')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">{{ $t('navigation.subscription') }}</nuxt-link>
+            <nuxt-link :to="localePath('/admin/subscribtions')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Mitglieder</nuxt-link>
           </li>
           <li v-if="userId && hasAdminRole" @click="toggleNav" class="border-b lg:border-b-2 border-gray-800 lg:border-transparent lg:hover:border-white">
             <nuxt-link :to="localePath('/admin')" class="block py-3 px-3 lg:p-4 focus:outline-none hover:bg-gray-800 lg:hover:bg-transparent">Kurse verwalten</nuxt-link>
@@ -63,13 +63,13 @@
                 <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ locale.name }}</a>
               </li>-->
               <li v-if="userId && hasAdminRole" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/admin/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.settings') }}</nuxt-link>
+                <nuxt-link :to="localePath('/admin/templates')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Templates</nuxt-link>
               </li>
               <li v-if="userId && hasAdminRole" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('manageusers') }}</nuxt-link>
+                <nuxt-link :to="localePath('/admin/users')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Nutzerverwaltung</nuxt-link>
               </li>
               <li v-if="userId" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
-                <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('manageprofile') }}</nuxt-link>
+                <nuxt-link :to="localePath('/account/settings')" class="block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">Einstellungen</nuxt-link>
               </li>
               <li v-if="userId" @click="toggleDropdown" class="border-b lg:border-b-0 border-gray-800 lg:border-transparent lg:hover:border-white">
                 <a @click="logoutSubmit" class="cursor-pointer block py-3 px-3 lg:p-3 focus:outline-none hover:bg-gray-800 lg:hover:bg-gray-200 lg:hover:text-gray-700">{{ $t('navigation.logout')}}</a>

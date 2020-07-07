@@ -8,7 +8,7 @@
         <label for="name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Display name</label>
         <input v-model="settings.name" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="name"
           placeholder="Jane Doe" title="Enter your real name">
-        <p v-if="errors.name" class="text-red-500 text-xs italic">Please fill out this field.</p>
+        <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
       </div>
       <div class="mb-3 md:w-3/6 md:ml-2">
         <label for="username" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Username</label>
@@ -20,7 +20,7 @@
       <label for="email" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
       <input v-model="settings.email" type="email" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email"
         placeholder="me@example.com" title="Enter your email">
-      <p v-if="errors.email" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
     </div>
     <div class="mb-3">
       <label for="location" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Location</label>

@@ -1,8 +1,7 @@
 <template>
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
-    <h1 class="text-xl lg:text-2xl font-semibold mb-1">Settings</h1>
-    <p class="text-lg mb-6">Here you will find some settings to change the theme colors and set logo</p>
+    <h1 class="text-xl lg:text-2xl font-semibold mb-6">Templates</h1>
     <div class="bg-white rounded-lg p-3 mb-6">
       <h2 class="text-xl font-bold mb-3">Landingpage</h2>
       <landing-component />

@@ -2,7 +2,7 @@
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0">
     <div class="lg:flex justify-between mb-3">
-      <h1 class="text-xl lg:text-2xl font-medium mb-3">Wiki entries</h1>
+      <h1 class="text-xl lg:text-2xl font-medium mb-3">Wiki Einträge</h1>
       <form @submit.prevent="searchWikiEntries" class="relative w-wull lg:w-1/2">
         <input v-model="query" @focusout="searchWikiEntries" type="search" name="search" placeholder="online marketing"
           class="w-full appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white rounded pr-12">

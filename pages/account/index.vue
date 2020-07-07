@@ -7,12 +7,15 @@
 
     <div>
       <div class="flex justify-between mb-3">
-        <h2 class="text-xl lg:text-2xl lg:font-medium mr-3">Subscribed challenges</h2>
+        <h2 class="text-xl lg:text-2xl lg:font-medium mr-3">Deine Challenges</h2>
         <span>
-          <nuxt-link :to="localePath('/account/subscriptions')" class="inline-block bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Other challenges</nuxt-link>
+          <nuxt-link :to="localePath('/account/subscriptions')" class="inline-block bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Weitere Challenges</nuxt-link>
         </span>
       </div>
-      <ul class="flex flex-wrap">
+      <p v-if="challenges.length === 0" class="text-lg">
+        Momentan bist Du für noch keine Challenge angemeldet, nutze den Button um dich anzumelden.
+      </p>
+      <ul v-if="challenges.length > 0" class="flex flex-wrap">
         <li v-for="challenge, key in challenges" :key="challenge._id" class="w-full bg-white rounded overflow-hidden shadow border mb-6">
           <nuxt-link :to="localePath('/account/challenge/'+challenge._id)">
             <div class="lg:flex">

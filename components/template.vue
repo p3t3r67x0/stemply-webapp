@@ -7,7 +7,7 @@
     </label>
     <input name="subject" v-model="template.subject" v-bind:class="{'border-red-500': errors.subject}" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white" id="subject"
       type="text" placeholder="Learn to use the new media">
-    <p v-if="errors.subject" class="text-red-500 text-xs italic">Please fill out this field.</p>
+    <p v-if="errors.subject" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
   </div>
   <div class="w-full mb-6">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="duration">
@@ -16,7 +16,7 @@
     <textarea name="duration" v-model="template.message" v-bind:class="{'border-red-500': errors.message}"
       class="h-64 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="message" type="message"
       placeholder="Describe your chalenge here"></textarea>
-    <p v-if="errors.message" class="text-red-500 text-xs italic">Please fill out this field.</p>
+    <p v-if="errors.message" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
   </div>
   <p class="text-right">
     <button class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2" type="submit">

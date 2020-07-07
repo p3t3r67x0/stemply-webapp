@@ -8,7 +8,7 @@
       </label>
       <input name="title" v-model="object.title" v-bind:class="{'border-red-500': errors.title}" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white" id="title"
         type="text" placeholder="Learn to use the new media">
-      <p v-if="errors.title" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      <p v-if="errors.title" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
     </div>
     <div class="sm:flex w-full mb-6">
       <div class="sm:w-1/2 md:w-1/3 lg:w-1/4 mb-6 md:mb-0 sm:mr-4">
@@ -18,7 +18,7 @@
         <client-only>
           <date-picker v-model="object.fromDate" format="DD-MM-YYYY" valueType="DD-MM-YYYY" :disabled-date="notBeforeToday" class="w-full focus:outline-none" placeholder="DD-MM-YYYY"></date-picker>
         </client-only>
-        <p v-if="errors.fromDate" class="text-red-500 text-xs italic">Please fill out this field.</p>
+        <p v-if="errors.fromDate" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
       </div>
       <div class="sm:w-1/2 md:w-1/3 lg:w-1/4">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="toDate">
@@ -27,7 +27,7 @@
         <client-only>
           <date-picker v-model="object.toDate" format="DD-MM-YYYY" valueType="DD-MM-YYYY" :disabled-date="notBeforeToday" class="w-full focus:outline-none" placeholder="DD-MM-YYYY"></date-picker>
         </client-only>
-        <p v-if="errors.toDate" class="text-red-500 text-xs italic">Please fill out this field.</p>
+        <p v-if="errors.toDate" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
       </div>
     </div>
     <div class="w-full mb-6">
@@ -37,7 +37,7 @@
       <textarea name="content" v-model="object.content" v-bind:class="{'border-red-500': errors.content}"
         class="h-64 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="content" type="content"
         placeholder="Describe your chalenge here"></textarea>
-      <p v-if="errors.content" class="text-red-500 text-xs italic">Please fill out this field.</p>
+      <p v-if="errors.content" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
     </div>
     <ul v-if="forms.length > 0" class="mb-6">
       <li v-for="form in forms">

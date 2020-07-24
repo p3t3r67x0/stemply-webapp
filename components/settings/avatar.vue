@@ -5,7 +5,7 @@
   <h1 class="text-md text-center mb-4">{{ userName }}</h1>
   <form enctype="multipart/form-data" class="flex justify-center items-center">
     <label class="w-48 h-12 flex flex-col items-center rounded bg-gray-700 hover:bg-gray-800 text-white cursor-pointer">
-      <span class="mt-3 text-base leading-normal">Upoad avatar</span>
+      <span class="mt-3 text-base leading-normal">{{ $t('profile.uploadavatar') }}</span>
       <input @change="setImage" ref="file" type="file" accept="image/*" class="hidden">
     </label>
   </form>

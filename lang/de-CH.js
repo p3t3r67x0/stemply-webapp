@@ -29,6 +29,7 @@ export default {
   next: 'Weiter',
   previous: 'Zurück',
   showall: 'Alle Aufgaben anzeigen',
+  backtochallenges: 'Zurück zu den Challenges',
   navigation: {
     dashboard: 'Dashboard',
     signin: 'Anmelden',
@@ -38,13 +39,33 @@ export default {
     logout: 'Abmelden',
     settings: 'Einstellungen',
   },
-
+  profile: {
+    profile: 'Profil',
+    displayname: 'Angezeigter Name',
+    username: 'Benutzername',
+    location: 'Ort',
+    website: 'Website',
+    phone: 'Telefonnummer',
+    bio: 'Steckbrief',
+    save: 'Profil speichern',
+    uploadavatar: 'Profilbild hochladen',
+    deleteaccount: 'Account löschen',
+    beforeyoudelete: 'Achtung!',
+    disclaimerdeletion: 'Das Löschen des Accounts lässt sich <b>nicht rückgängig machen</b>. Wir werden Dir nicht helfen können, den Account wiederherzustellen.<br> Durch das Löschen werden alle Challenges, Aufgaben, Tags und im Account gespeicherte Informationen gelöscht. Dein Benutzername wird zur Verwendung freigegeben.'
+  },
+  subscriptions: {
+    delete: 'Anfrage löschen',
+    request: 'Zugriff anfragen',
+    unsubscribe: 'Abmelden'
+  },
+  mychallenges: 'Meine Challenges',
+  mysubscriptions: 'Meine Abos',
 
   'Something went wrong application error': 'Etwas ist schiefgelaufen - Anwendungsfehler',
   'Requested resource was not found on server': 'Die angefragte Ressource ist auf dem Server nicht vorhanden',
   'Bad request the error has been reported': 'Bad Request: Fehlerhafte Anfrage - Der Fehler wurde gemeldet',
   'Bad gateway application is not reachable': 'Bad Gateway: Anwendung nicht erreichbar',
-  'The method is not allowed for resource': 'Diese Methode kann bei der angefragten Ressource nicht verwendet werdeb',
+  'The method is not allowed for resource': 'Diese Methode kann bei der angefragten Ressource nicht verwendet werden',
   'Something went wrong internal server error': 'Etwas ist schiefgelaufen - Interner Fehler',
   'File transmitted exceeds the capacity limit': 'Die übertragene Datei ist zu gross',
   'Token signature has expired': 'Das Token ist abgelaufen',

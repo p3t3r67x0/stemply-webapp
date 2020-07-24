@@ -33,4 +33,19 @@ export default {
     logout: 'Logout',
     settings: 'Settings',
   },
+  profile: {
+    profile: 'Profil',
+    displayname: 'Angezeigter Name',
+    username: 'Benutzername',
+    location: 'Ort',
+    website: 'Website',
+    phone: 'Telefonnummer',
+    bio: 'Steckbrief',
+    save: 'Profil speichern',
+    uploadavatar: 'Profilbild hochladen',
+    deleteaccount: 'Account löschen',
+    beforeyoudelete: 'Achtung!',
+    disclaimerdeletion: 'Please be aware that deleting your account is irreversible. We can’t help you recover your account after deletion. When you delete your account, you remove all of your challenges, tasks, and tags. Your username will be released for re-use.'
+
+  },
 }

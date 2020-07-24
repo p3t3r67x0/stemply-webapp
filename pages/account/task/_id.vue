@@ -7,7 +7,7 @@
       <div class="flex justify-between">
         <h1 class="text-xl lg:text-2xl font-bold mr-3">{{ task.title }}</h1>
         <span>
-          <nuxt-link :to="'/account'" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Back</nuxt-link>
+          <nuxt-link :to="'/account'" class="inline-block bg-gray-600 hover:bg-gray-700 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">{{ $t('back') }}</nuxt-link>
         </span>
       </div>
       <vue-markdown-plus class="markdown" :source="task.content" />
@@ -42,7 +42,7 @@
         </ul>
       </form>
       <div class="text-right">
-        <nuxt-link :to="'/account'" class="focus:outline-none rounded text-blue-600 hover:text-blue-800">Back to challenges</nuxt-link>
+        <nuxt-link :to="'/account'" class="focus:outline-none rounded text-blue-600 hover:text-blue-800">{{ $t('backtochallenges') }}</nuxt-link>
       </div>
     </div>
   </div>

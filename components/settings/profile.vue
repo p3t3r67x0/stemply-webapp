@@ -1,49 +1,49 @@
 <template>
 <div>
-  <h2 class="text-2xl mb-4">Profile</h2>
+  <h2 class="text-2xl mb-4">{{ $t('profile.profile') }}</h2>
   <form v-on:submit.prevent="updateUserSettings">
     <p v-if="showResponse" :class="[ responseError ? 'text-red-500' : 'text-green-500']" class="lg:text-lg mb-3">{{ response }}</p>
     <div class="block md:flex">
       <div class="mb-3 md:w-3/6 md:mr-2">
-        <label for="name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Display name</label>
+        <label for="name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.displayname') }}</label>
         <input v-model="settings.name" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="name"
           placeholder="Jane Doe" title="Enter your real name">
         <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
       </div>
       <div class="mb-3 md:w-3/6 md:ml-2">
-        <label for="username" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Username</label>
+        <label for="username" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.username') }}</label>
         <input v-model="settings.username" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="username"
           placeholder="jane.doe89" title="Enter your last name if any">
       </div>
     </div>
     <div class="mb-3">
-      <label for="email" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
+      <label for="email" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('email') }}</label>
       <input v-model="settings.email" type="email" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email"
         placeholder="me@example.com" title="Enter your email">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('fillfield') }}</p>
     </div>
     <div class="mb-3">
-      <label for="location" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Location</label>
+      <label for="location" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.location') }}</label>
       <input v-model="settings.location" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="location"
         placeholder="New York, USA" title="Enter a location">
     </div>
     <div class="mb-3">
-      <label for="website" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Website</label>
+      <label for="website" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.website') }}</label>
       <input v-model="settings.website" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="website"
         placeholder="example.com" title="Enter your website if any">
     </div>
     <div class="mb-3">
-      <label for="phone" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Phone</label>
+      <label for="phone" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.phone') }}</label>
       <input v-model="settings.phone" type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="phone"
         placeholder="+49 7067 2147" title="Enter your phone number if any">
     </div>
     <div class="mb-3">
-      <label for="bio" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Bio</label>
+      <label for="bio" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{{ $t('profile.bio') }}</label>
       <textarea v-model="settings.bio" class="h-64 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="bio"
         title="Enter your bio"></textarea>
     </div>
     <div class="text-right">
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Save Profile</button>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">{{ $t('profile.save') }}</button>
     </div>
   </form>
 </div>

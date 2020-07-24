@@ -9,7 +9,7 @@
           Neues Passwort
         </label>
         <input name="password" v-model="password" :class="{'border-red-500': errors.password}"
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password" type="password" placeholder="password">
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password" type="password" v-bind:placeholder="$t('password')">
         <p v-if="errors.password" class="text-red-500 text-xs italic">Trage ein gültiges Passwort ein.</p>
       </div>
       <div class="flex lg:block lg:w-2/5 text-gray-700 italic lg:not-italic lg:p-6 mb-6 lg:mb-0">
@@ -18,10 +18,10 @@
     </div>
     <div class="lg:w-3/5 mb-6">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="confirmPassword">
-        Passwort bestättigen
+        Passwort bestätigen
       </label>
       <input name="confirmPassword" v-model="confirmPassword" :class="{'border-red-500': errors.confirmPassword}"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="confirmPassword" type="password" placeholder="password">
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="confirmPassword" type="password" v-bind:placeholder="$t('password')">
       <p v-if="errors.confirmPassword" class="text-red-500 text-xs italic">Die Passwörter stimmen nicht überein.</p>
     </div>
     <p class="lg:w-3/5 text-right">

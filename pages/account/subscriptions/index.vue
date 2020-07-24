@@ -2,9 +2,9 @@
 <div class="container mx-auto">
   <div class="mx-3 lg:mx-0 mb-8">
     <div class="flex justify-between mb-3">
-      <h2 class="text-xl lg:text-2xl lg:font-medium">My challenge subscriptions</h2>
+      <h2 class="text-xl lg:text-2xl lg:font-medium">{{ $t('mysubscriptions')}}</h2>
       <div>
-        <nuxt-link :to="localePath('/account')" class="inline-block bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">Subscribed challenges</nuxt-link>
+        <nuxt-link :to="localePath('/account')" class="inline-block bg-indigo-500 hover:bg-indigo-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide px-3 py-2">{{ $t('mychallenges') }}</nuxt-link>
       </div>
     </div>
     <div v-if="challenges.length === 0" class="bg-white rounded p-3 mb-6">
@@ -24,7 +24,7 @@
           <span class="hidden lg:inline-block bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $t('duration') }}: {{ challenge.duration }}
             {{ $tc('days', challenge.duration != 1 ? 0 : 1)}}</span>
           <button type="button" @click="toggleSubscription(challenge._id)" :class="matchChallengeClass(challenge.user)"
-            class="w-full sm:w-auto focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ matchChallenge(challenge.user) }}</button>
+            class="w-full sm:w-auto focus:outline-none rounded text-white text-sm font-medium tracking-wide px-2 py-1">{{ $t(matchChallenge(challenge.user)) }}</button>
         </div>
       </li>
     </ul>
@@ -74,15 +74,15 @@ export default {
     },
     matchChallenge(user) {
       if (!user.subscribed && !user.requested) {
-        return 'Request access'
+        return 'subscriptions.request'
       }
 
       if (user.requested) {
-        return 'Delete request'
+        return 'subscriptions.delete'
       }
 
       if (user.subscribed) {
-        return 'Unsuscribe'
+        return 'subscriptions.unsubscribe'
       }
     },
     matchChallengeClass(user) {

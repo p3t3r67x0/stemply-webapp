@@ -1,0 +1,47 @@
+---
+
+- hosts: all
+  user: ubuntu
+  become: yes
+
+  tasks:
+    - name: ensure dependencies are installed
+      apt:
+        name: nginx, git, nodejs, npm
+        state: latest
+
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+
+    - name: clone git repository zackig-webapp
+      git:
+        repo: 'https://github.com/p3t3r67x0/zackig-webapp.git'
+        dest: /opt/zackig-webapp/
+
+    - name: Change ownership of a zackig-webapp
+      file:
+        path: /opt/zackig-webapp
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
+    - name: clone git repository zackig-backend
+      git:
+        repo: 'https://github.com/p3t3r67x0/zackig-backend.git'
+        dest: /opt/zackig-backend/
+
+    - name: Change ownership of a zackig-backend
+      file:
+        path: /opt/zackig-backend
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
+    - name: install packages based on package.json
+      npm:
+        path: /opt/zackig-webapp
+        state: present

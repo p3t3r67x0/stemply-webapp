@@ -4,23 +4,124 @@
   user: ubuntu
   become: yes
 
+  vars:
+    domain_webapp: zackig.production.opendatacoder.me
+    domain_backend: api.zackig.production.opendatacoder.me
+    letsencrypt_email: zackigonline@gmail.com
+
   tasks:
     - name: ensure dependencies are installed
       apt:
-        name: nginx, git, nodejs, npm
+        name: nginx, certbot, cron, git, nodejs, npm, vim
         state: latest
 
-    - name: start nginx
+    - name: create letsencrypt directory
+      file:
+        name: /var/www/letsencrypt
+        state: directory
+
+    - name: remove default nginx config from available sites
+      file:
+        name: /etc/nginx/sites-available/default
+        state: absent
+
+    - name: remove default nginx config from enabled sites
+      file:
+        name: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: add nginx config template
+      template:
+        src: templates/nginx.conf
+        dest: /etc/nginx/nginx.conf
+
+    - name: install nginx site for letsencrypt requests
+      template:
+        src: templates/default.conf
+        dest: /etc/nginx/sites-enabled/default.conf
+
+    - name: reload nginx to activate letsencrypt site
       service:
         name: nginx
-        state: started
+        state: restarted
+
+    - name: check that the letsencrypt webapp directory exists
+      stat:
+        path: /etc/letsencrypt/live/{{ domain_webapp }}
+      register: letsencrypt_webapp_result
+
+    - name: create letsencrypt certificate for webapp
+      shell: certbot certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_webapp }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_webapp }}
+      when: not letsencrypt_webapp_result.stat.exists
+
+    - name: check that the letsencrypt backend directory exists
+      stat:
+        path: /etc/letsencrypt/live/{{ domain_backend }}
+      register: letsencrypt_backend_result
+
+    - name: create letsencrypt certificate for backend
+      shell: certbot certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_backend }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_backend }}
+      when: not letsencrypt_webapp_result.stat.exists
+
+    - name: check that the diffie-hellman parameters exists
+      stat:
+        path: /etc/nginx/dhparams.pem
+      register: diffie_hellman_parameters_result
+
+    - name: generate diffie-hellman parameters
+      shell: openssl dhparam -out /etc/nginx/dhparams.pem 4096
+      args:
+        creates: /etc/nginx/dhparams.pem
+      when: not diffie_hellman_parameters_result.stat.exists
+
+    - name: add letsencrypt cronjob for certificates renewal
+      cron:
+        name: letsencrypt_renewal
+        special_time: weekly
+        job: certbot --renew-by-default certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_webapp }} -d {{ domain_backend }} && service nginx reload
+
+    - name: add webapp template to the nginx
+      template:
+        src: templates/webapp.conf
+        dest: /etc/nginx/sites-available/webapp.conf
+
+    - name: enable available sites to enabled sites
+      file:
+        src: /etc/nginx/sites-available/webapp.conf
+        dest: /etc/nginx/sites-enabled/webapp.conf
+        state: link
+
+    - name: add backend template to the nginx
+      template:
+        src: templates/backend.conf
+        dest: /etc/nginx/sites-available/backend.conf
+
+    - name: enable available sites to enabled sites
+      file:
+        src: /etc/nginx/sites-available/backend.conf
+        dest: /etc/nginx/sites-enabled/backend.conf
+        state: link
+
+    - name: remove default nginx config from enabled sites
+      file:
+        name: /etc/nginx/sites-enabled/default.conf
+        state: absent
+
+    - name: reload nginx to activate webapp and backend
+      service:
+        name: nginx
+        state: restarted
 
     - name: clone git repository zackig-webapp
       git:
         repo: 'https://github.com/p3t3r67x0/zackig-webapp.git'
         dest: /opt/zackig-webapp/
 
-    - name: Change ownership of a zackig-webapp
+    - name: change ownership of a zackig-webapp
       file:
         path: /opt/zackig-webapp
         state: directory
@@ -33,7 +134,7 @@
         repo: 'https://github.com/p3t3r67x0/zackig-backend.git'
         dest: /opt/zackig-backend/
 
-    - name: Change ownership of a zackig-backend
+    - name: change ownership of a zackig-backend
       file:
         path: /opt/zackig-backend
         state: directory

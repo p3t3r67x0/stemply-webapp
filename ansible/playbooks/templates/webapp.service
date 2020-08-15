@@ -1,0 +1,12 @@
+[Unit]
+Description=Nuxtjs instance to serve zackig-webapp
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/zackig-webapp
+ExecStart=/usr/bin/node /opt/zackig-webapp/node_modules/.bin/nuxt start --port 3000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

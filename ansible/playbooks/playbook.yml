@@ -44,6 +44,7 @@
       service:
         name: nginx
         state: restarted
+        enabled: yes
 
     - name: check that the letsencrypt webapp directory exists
       stat:
@@ -146,3 +147,32 @@
       npm:
         path: /opt/zackig-webapp
         state: present
+
+    - name: add a enviroment file for webapp
+      template:
+        src: templates/webapp.env
+        dest: /opt/zackig-webapp/.env
+
+    - name: build nuxtjs webapp based on package.json
+      command: npm run build
+      args:
+        chdir: /opt/zackig-webapp
+
+    - name: change ownership of webapp build directory
+      file:
+        path: /opt/zackig-backend/.nuxt
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
+    - name: add a service systemd file for webapp
+      template:
+        src: templates/webapp.service
+        dest: /etc/systemd/system/zackig-webapp.service
+
+    - name: enable and restart service webapp
+      service:
+        name: zackig-webapp
+        state: restarted
+        enabled: yes

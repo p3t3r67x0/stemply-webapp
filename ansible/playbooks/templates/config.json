@@ -1,0 +1,15 @@
+{
+  "SECRET_KEY": "{{ secret_key }}",
+  "SECRET_SALT": "{{ secret_salt }}",
+  "JWT_SECRET_KEY": "{{ jwt_secret_key }}",
+  "MONGO_URI": "mongodb://zackig:{{ pwd_mongodb_user }}@127.0.0.1:27017/zackig",
+  "MAIL_RECIPIENT": "MAIL_RECIPIENT_HERE",
+  "MAIL_SERVER": "smtp.gmail.com",
+  "MAIL_PORT": "465",
+  "MAIL_USERNAME": "YOUR_MAIL_USERNAME_HERE",
+  "MAIL_PASSWORD": "YOUR_SECURE_PASSWORD_HERE",
+  "MAIL_USE_TLS": false,
+  "MAIL_USE_SSL": true,
+  "PROPAGATE_EXCEPTIONS": true,
+  "APP_URL": "{{ domain_webapp }}"
+}

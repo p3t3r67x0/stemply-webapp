@@ -1,0 +1,45 @@
+---
+
+- hosts: all
+  user: ubuntu
+  become: yes
+
+  tasks:
+    - name: clone git repository zackig-webapp
+      git:
+        repo: 'https://github.com/p3t3r67x0/zackig-webapp.git'
+        dest: /opt/zackig-webapp/
+
+    - name: install packages based on package.json
+      npm:
+        path: /opt/zackig-webapp
+        state: present
+
+    - name: add a enviroment file for webapp
+      template:
+        src: templates/webapp.env
+        dest: /opt/zackig-webapp/.env
+
+    - name: build nuxtjs webapp based on package.json
+      command: npm run build
+      args:
+        chdir: /opt/zackig-webapp
+
+    - name: change ownership of a zackig-webapp
+      file:
+        path: /opt/zackig-webapp
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
+    - name: add a service systemd file for zackig-webapp
+      template:
+        src: templates/webapp.service
+        dest: /etc/systemd/system/zackig-webapp.service
+
+    - name: enable and restart service zackig-webapp
+      service:
+        name: zackig-webapp
+        state: restarted
+        enabled: yes

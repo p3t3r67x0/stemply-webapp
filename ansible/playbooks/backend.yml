@@ -1,0 +1,137 @@
+---
+
+- hosts: all
+  user: ubuntu
+  become: yes
+
+  tasks:
+    - name: ensure database dependencies are installed
+      apt:
+        name: mongodb, python3-pymongo
+        state: latest
+
+    - name: create mongodb user password
+      set_fact:
+        pwd_mongodb_user: "{{ lookup('password', '/dev/null length=22 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: output mongodb zackig password
+      debug:
+        msg: '{{ pwd_mongodb_user }}'
+
+    - name: create mongodb user admin
+      mongodb_user:
+        database: admin
+        name: admin
+        password: '{{ ansible_sudo_pass }}'
+        roles: userAdmin
+        state: present
+
+    - name: create mongodb user zackig
+      mongodb_user:
+        login_user: admin
+        login_password: '{{ ansible_sudo_pass }}'
+        database: zackig
+        name: zackig
+        password: '{{ pwd_mongodb_user }}'
+        roles: readWrite
+        state: present
+
+    - name: ensure application dependencies are installed
+      apt:
+        name: virtualenv, python3.8, python3.8-dev
+        state: latest
+
+    - name: clone git repository zackig-backend
+      git:
+        repo: 'https://github.com/p3t3r67x0/zackig-backend.git'
+        dest: /opt/zackig-backend/
+
+    - name: create secret key
+      set_fact:
+        secret_key: "{{ lookup('password', '/dev/null length=27 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: create secret salt
+      set_fact:
+        secret_salt: "{{ lookup('password', '/dev/null length=18 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: create json web token secret key
+      set_fact:
+        jwt_secret_key: "{{ lookup('password', '/dev/null length=31 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: output secret key
+      debug:
+        msg: '{{ secret_key }}'
+
+    - name: output secret salt
+      debug:
+        msg: '{{ secret_salt }}'
+
+    - name: output json web token secret key
+      debug:
+        msg: '{{ jwt_secret_key }}'
+
+    - name: output mongodb zackig password
+      debug:
+        msg: '{{ pwd_mongodb_user }}'
+
+    - name: add config.json to backend
+      template:
+        src: templates/config.json
+        dest: /opt/zackig-backend/config.json
+
+    - name: install wsgi webserver gunicorn with pip
+      pip:
+        name: gunicorn
+        virtualenv: /opt/zackig-backend/venv
+
+    - name: install python3 dependencies with pip
+      pip:
+        requirements: /opt/zackig-backend/requirements.txt
+        virtualenv: /opt/zackig-backend/venv
+
+    - name: Create static directory if it does not exist
+      file:
+        path: /opt/zackig-backend/static
+        state: directory
+        mode: '0755'
+
+    - name: change ownership of a zackig-backend
+      file:
+        path: /opt/zackig-backend
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
+    - name: add a service systemd file for zackig-backend
+      template:
+        src: templates/backend.service
+        dest: /etc/systemd/system/zackig-backend.service
+
+    - name: Create log directory if it does not exist
+      file:
+        path: /var/log/zackig-backend
+        state: directory
+        mode: '0755'
+
+    - name: create zackig backend access log file
+      file:
+        path: /var/log/zackig-backend/access.log
+        state: touch
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: create zackig backend error log file
+      file:
+        path: /var/log/zackig-backend/error.log
+        state: touch
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: enable and restart service zackig-backend
+      service:
+        name: zackig-backend
+        state: restarted
+        enabled: yes

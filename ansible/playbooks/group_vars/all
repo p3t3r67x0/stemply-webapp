@@ -1,0 +1,5 @@
+---
+
+domain_webapp: zackig.production.opendatacoder.me
+domain_backend: api.zackig.production.opendatacoder.me
+letsencrypt_email: zackigonline@gmail.com

@@ -4,11 +4,6 @@
   user: ubuntu
   become: yes
 
-  vars:
-    domain_webapp: zackig.production.opendatacoder.me
-    domain_backend: api.zackig.production.opendatacoder.me
-    letsencrypt_email: zackigonline@gmail.com
-
   tasks:
     - name: ensure dependencies are installed
       apt:
@@ -116,63 +111,3 @@
       service:
         name: nginx
         state: restarted
-
-    - name: clone git repository zackig-webapp
-      git:
-        repo: 'https://github.com/p3t3r67x0/zackig-webapp.git'
-        dest: /opt/zackig-webapp/
-
-    - name: change ownership of a zackig-webapp
-      file:
-        path: /opt/zackig-webapp
-        state: directory
-        recurse: yes
-        owner: ubuntu
-        group: ubuntu
-
-    - name: clone git repository zackig-backend
-      git:
-        repo: 'https://github.com/p3t3r67x0/zackig-backend.git'
-        dest: /opt/zackig-backend/
-
-    - name: change ownership of a zackig-backend
-      file:
-        path: /opt/zackig-backend
-        state: directory
-        recurse: yes
-        owner: ubuntu
-        group: ubuntu
-
-    - name: install packages based on package.json
-      npm:
-        path: /opt/zackig-webapp
-        state: present
-
-    - name: add a enviroment file for webapp
-      template:
-        src: templates/webapp.env
-        dest: /opt/zackig-webapp/.env
-
-    - name: build nuxtjs webapp based on package.json
-      command: npm run build
-      args:
-        chdir: /opt/zackig-webapp
-
-    - name: change ownership of webapp build directory
-      file:
-        path: /opt/zackig-backend/.nuxt
-        state: directory
-        recurse: yes
-        owner: ubuntu
-        group: ubuntu
-
-    - name: add a service systemd file for webapp
-      template:
-        src: templates/webapp.service
-        dest: /etc/systemd/system/zackig-webapp.service
-
-    - name: enable and restart service webapp
-      service:
-        name: zackig-webapp
-        state: restarted
-        enabled: yes

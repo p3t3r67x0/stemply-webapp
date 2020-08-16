@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn instance to serve zackig-backend
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/zackig-backend
+Environment="PATH=/opt/zackig-backend/venv/bin"
+ExecStart=/opt/zackig-backend/venv/bin/gunicorn --bind 127.0.0.1:5000 wsgi:app --workers 4 --threads 2 --access-logfile /var/log/zackig-backend/access.log --error-logfile /var/log/zackig-backend/error.log --log-level INFO
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target

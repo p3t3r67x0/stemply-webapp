@@ -19,6 +19,7 @@
         msg: '{{ pwd_mongodb_user }}'
 
     - name: create mongodb user admin
+      no_log: true
       mongodb_user:
         database: admin
         name: admin
@@ -27,6 +28,7 @@
         state: present
 
     - name: create mongodb user zackig
+      no_log: true
       mongodb_user:
         login_user: admin
         login_password: '{{ ansible_sudo_pass }}'
@@ -108,7 +110,7 @@
         src: templates/backend.service
         dest: /etc/systemd/system/zackig-backend.service
 
-    - name: Create log directory if it does not exist
+    - name: create log directory if it does not exist
       file:
         path: /var/log/zackig-backend
         state: directory
@@ -135,3 +137,51 @@
         name: zackig-backend
         state: restarted
         enabled: yes
+
+    - name: create bcrypt 12 password for admin user
+      shell: . /opt/zackig-backend/venv/bin/activate && python3 -c 'import bcrypt; print(bcrypt.hashpw("password".encode("utf-8"), bcrypt.gensalt(12)).decode())'
+      register: bcrypt_admin_password
+
+    - name: output bcrypt password for mongodb
+      debug:
+        msg: '{{ bcrypt_admin_password.stdout }}'
+
+    - name: create base64 password for admin user
+      command: "echo '{{ bcrypt_admin_password.stdout | b64encode }}'"
+      register: base64_admin_password
+
+    - name: ensure base64 admin password is set as fact
+      set_fact:
+        mongodb_admin_password: '{{ base64_admin_password.stdout }}'
+
+    - name: output admin password for mongodb
+      debug:
+        msg: '{{ mongodb_admin_password }}'
+
+    - name: create mongodb collection users
+      command: mongo zackig --eval "db.createCollection('users')"
+
+    - name: remove admin user from collection users
+      command: mongo zackig --eval "db.users.remove({'email':'{{ admin_mail_address }}'})"
+
+    - name: create admin user in users collection
+      command: mongo zackig --eval "db.users.insertOne({'name':'{{ admin_user_name }}','email':'{{ admin_mail_address }}','password':new BinData(0,'{{ mongodb_admin_password }}'),'roles':['user','admin']})"
+
+    - name: send mail with the admin credentials
+      mail:
+        port: '{{ mail_port }}'
+        host: '{{ mail_server }}'
+        username: '{{ mail_username }}'
+        password: '{{ mail_password }}'
+        to: '{{ admin_mail_address }}'
+        subject: Created ZackigOnline admin account
+        body: |
+          Hello {{ admin_user_name }},
+
+          system has been successfully provisioned.
+
+          Your password: password
+          https://{{ domain_webapp }}/signin
+
+          Best regards,
+          ZackigOnline

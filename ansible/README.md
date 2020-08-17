@@ -21,7 +21,11 @@ Create a `secrets.json` file in `ansible` directory
   "mail_password": "XXX",
   "ansible_sudo_pass": "XXX",
   "admin_user_name": "XXX",
-  "admin_mail_address": "XXX"
+  "admin_mail_address": "XXX",
+  "letsencrypt_email": "XXX",
+  "domain_backend": "XXX",
+  "domain_webapp": "XXX",
+  "ssh_pubkey_path": "XXX"
 }
 ```
 

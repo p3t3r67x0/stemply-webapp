@@ -5,9 +5,19 @@
   become: yes
 
   tasks:
+    - name: output system distribution release
+      debug:
+        msg: '{{ ansible_distribution_release }}'
+
+    - name: install certbot from ppa on ubuntu 18.04
+      apt_repository:
+        repo: ppa:certbot/certbot
+        mode: '0644'
+      when: ansible_distribution_release == 'bionic'
+
     - name: ensure dependencies are installed
       apt:
-        name: nginx, certbot, cron, git, nodejs, npm, vim
+        name: nginx, certbot, cron
         state: latest
 
     - name: create letsencrypt directory
@@ -29,11 +39,13 @@
       template:
         src: templates/nginx.conf
         dest: /etc/nginx/nginx.conf
+        mode: '0644'
 
     - name: install nginx site for letsencrypt requests
       template:
         src: templates/default.conf
         dest: /etc/nginx/sites-enabled/default.conf
+        mode: '0644'
 
     - name: reload nginx to activate letsencrypt site
       service:
@@ -69,7 +81,7 @@
       register: diffie_hellman_parameters_result
 
     - name: generate diffie-hellman parameters
-      shell: openssl dhparam -out /etc/nginx/dhparams.pem 4096
+      shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
       args:
         creates: /etc/nginx/dhparams.pem
       when: not diffie_hellman_parameters_result.stat.exists
@@ -84,6 +96,7 @@
       template:
         src: templates/webapp.conf
         dest: /etc/nginx/sites-available/webapp.conf
+        mode: '0644'
 
     - name: enable available sites to enabled sites
       file:
@@ -95,6 +108,7 @@
       template:
         src: templates/backend.conf
         dest: /etc/nginx/sites-available/backend.conf
+        mode: '0644'
 
     - name: enable available sites to enabled sites
       file:

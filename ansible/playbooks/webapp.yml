@@ -5,12 +5,36 @@
   become: yes
 
   tasks:
+    - name: download specific nodejs version 14x
+      get_url:
+        force: yes
+        url: https://deb.nodesource.com/setup_14.x
+        dest: /tmp/node_setup.sh
+        mode: '0755'
+
+    - name: install specific nodejs version 14x
+      command: bash /tmp/node_setup.sh
+
+    - name: ensure dependencies are installed
+      apt:
+        name: nodejs
+        state: latest
+
     - name: clone git repository zackig-webapp
       git:
         repo: 'https://github.com/p3t3r67x0/zackig-webapp.git'
         dest: /opt/zackig-webapp/
 
+    - name: change ownership of a zackig-webapp
+      file:
+        path: /opt/zackig-webapp
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+
     - name: install packages based on package.json
+      become_user: ubuntu
       npm:
         path: /opt/zackig-webapp
         state: present
@@ -19,6 +43,7 @@
       template:
         src: templates/webapp.env
         dest: /opt/zackig-webapp/.env
+        mode: '0644'
 
     - name: build nuxtjs webapp based on package.json
       command: npm run build
@@ -37,6 +62,7 @@
       template:
         src: templates/webapp.service
         dest: /etc/systemd/system/zackig-webapp.service
+        mode: '0644'
 
     - name: enable and restart service zackig-webapp
       service:

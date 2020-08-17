@@ -80,6 +80,7 @@
       template:
         src: templates/config.json
         dest: /opt/zackig-backend/config.json
+        mode: '0644'
 
     - name: install wsgi webserver gunicorn with pip
       pip:
@@ -109,6 +110,7 @@
       template:
         src: templates/backend.service
         dest: /etc/systemd/system/zackig-backend.service
+        mode: '0644'
 
     - name: create log directory if it does not exist
       file:

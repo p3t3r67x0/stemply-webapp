@@ -1,0 +1,57 @@
+---
+
+- hosts: all
+  user: root
+  become: yes
+
+  tasks:
+    - name: ensure dependencies are installed
+      apt:
+        name: git, vim
+        state: latest
+
+    - name: create ubuntu user password
+      set_fact:
+        ubuntu_password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: output ubuntu user password
+      debug:
+        msg: '{{ ubuntu_password }}'
+
+    - name: add a new user named ubuntu
+      user:
+        name: ubuntu
+        shell: /bin/bash
+        password: '{{ ubuntu_password }}'
+
+    - name: add ubuntu user to the sudoers
+      copy:
+        dest: '/etc/sudoers.d/ubuntu'
+        content: 'ubuntu  ALL=(ALL)  NOPASSWD: ALL'
+
+    - name: deploy default user ssh key
+      authorized_key:
+        user: ubuntu
+        key: "{{ lookup('file', '{{ ssh_pubkey_path }}') }}"
+        state: present
+
+    - name: disable password authentication
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+        state: present
+        backup: yes
+
+    - name: disable root login
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+        state: present
+        backup: yes
+
+    - name: restart service sshd
+      service:
+        name: sshd
+        state: restarted

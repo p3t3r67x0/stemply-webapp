@@ -140,8 +140,16 @@
         state: restarted
         enabled: yes
 
+    - name: create plaintext password for admin user
+      set_fact:
+        plaintext_admin_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters,digits,hexdigits') }}"
+
+    - name: output plaintext password for admin user
+      debug:
+        msg: '{{ plaintext_admin_password }}'
+
     - name: create bcrypt 12 password for admin user
-      shell: . /opt/zackig-backend/venv/bin/activate && python3 -c 'import bcrypt; print(bcrypt.hashpw("password".encode("utf-8"), bcrypt.gensalt(12)).decode())'
+      shell: . /opt/zackig-backend/venv/bin/activate && python3 -c 'import bcrypt; print(bcrypt.hashpw("{{ plaintext_admin_password }}".encode("utf-8"), bcrypt.gensalt(12)).decode())'
       register: bcrypt_admin_password
 
     - name: output bcrypt password for mongodb
@@ -182,7 +190,7 @@
 
           system has been successfully provisioned.
 
-          Your password: password
+          Your password: {{ plaintext_admin_password }}
           https://{{ domain_webapp }}/signin
 
           Best regards,
